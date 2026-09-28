@@ -109,16 +109,31 @@ class PairingStudio {
 
             <div class="sensory-bars">
               <div class="sensory-item">
-                <span class="s-label">Afinidad Tánica & Acidez</span>
-                <div class="s-track"><div class="s-fill" style="width: 88%;"></div></div>
+                <div class="sensory-header-row">
+                  <span class="s-label">🍋 Nivel Real de Acidez:</span>
+                  <strong class="s-val-text">${currentPairing.acidityLabel || (currentPairing.acidity + '%')}</strong>
+                </div>
+                <div class="s-track">
+                  <div class="s-fill s-bar-animated s-acidity" data-target="${currentPairing.acidity}" style="width: 0%;"></div>
+                </div>
               </div>
               <div class="sensory-item">
-                <span class="s-label">Equilibrio Graso en Boca</span>
-                <div class="s-track"><div class="s-fill" style="width: 94%;"></div></div>
+                <div class="sensory-header-row">
+                  <span class="s-label">🧈 Equilibrio Graso en Boca:</span>
+                  <strong class="s-val-text">${currentPairing.fatBalanceLabel || (currentPairing.fatBalance + '%')}</strong>
+                </div>
+                <div class="s-track">
+                  <div class="s-fill s-bar-animated s-fat" data-target="${currentPairing.fatBalance}" style="width: 0%;"></div>
+                </div>
               </div>
               <div class="sensory-item">
-                <span class="s-label">Persistencia Umami</span>
-                <div class="s-track"><div class="s-fill" style="width: 90%;"></div></div>
+                <div class="sensory-header-row">
+                  <span class="s-label">✨ Persistencia Gustativa & Umami:</span>
+                  <strong class="s-val-text">${currentPairing.persistenceLabel || (currentPairing.persistence + '%')}</strong>
+                </div>
+                <div class="s-track">
+                  <div class="s-fill s-bar-animated s-persistence" data-target="${currentPairing.persistence}" style="width: 0%;"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -146,13 +161,22 @@ class PairingStudio {
                     <p class="cheese-palate">${cheese.tastingNotes.palate}</p>
                     <div class="card-footer-row">
                       <span class="cheese-price">${formatCLP(cheese.price)}</span>
-                      <button 
-                        class="btn-add-matched" 
-                        onclick="event.stopPropagation(); window.CartManager.addItemById('${cheese.id}');"
-                        title="Añadir a la bolsa"
-                      >
-                        + Añadir al Carrito
-                      </button>
+                      <div class="matched-card-btns">
+                        <button 
+                          class="btn-view-matched" 
+                          onclick="event.stopPropagation(); window.ProductCatalog.openProductModal('${cheese.id}');"
+                          title="Ver ficha completa"
+                        >
+                          Ver Ficha
+                        </button>
+                        <button 
+                          class="btn-add-matched" 
+                          onclick="event.stopPropagation(); window.CartManager.addItemById('${cheese.id}');"
+                          title="Añadir a la bolsa"
+                        >
+                          + Carrito
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -162,6 +186,18 @@ class PairingStudio {
         </div>
       </div>
     `;
+
+    // Disparar animación suave de llenado progresivo hacia el punto real
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        container.querySelectorAll(".s-bar-animated").forEach(bar => {
+          const target = bar.getAttribute("data-target");
+          if (target) {
+            bar.style.width = `${target}%`;
+          }
+        });
+      }, 50);
+    });
   }
 }
 

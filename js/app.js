@@ -638,14 +638,14 @@ class ProductCatalog {
             </button>
           </div>
           <div class="modal-cold-guarantee">
-            <span>❄️ Despacho a 4°C con empaque isotérmico en todo Chile</span>
+            <span>❄️ Despacho a 4°C garantizado en caja térmica con Blue Express</span>
           </div>
         </div>
 
         <div class="modal-details">
           <div class="modal-badge-row">
             <span class="modal-badge-gold">${product.badge || "D.O.P. Reserva"}</span>
-            <span class="modal-appellation">${product.appellation}</span>
+            <span class="modal-appellation">${product.origin} • ${product.categoryLabel}</span>
           </div>
 
           <h2 class="modal-title">${product.name}</h2>
@@ -656,24 +656,64 @@ class ProductCatalog {
             <span class="price-weight">${product.weight}</span>
           </div>
 
-          <p class="modal-description">${product.description}</p>
+          <!-- Cuadro de Explicación Práctica para Todo Público -->
+          <div class="cheese-easy-box">
+            <div class="easy-box-header">
+              <span class="easy-icon">🧀</span>
+              <strong>En Palabras Simples (Guía Rápida):</strong>
+            </div>
+            <p class="easy-text">${product.easyGuide || product.description}</p>
+          </div>
 
-          <div class="tasting-wheel-notes">
-            <h4 class="notes-heading">Ficha de Cata del Maestro Afinador</h4>
-            <div class="note-row">
-              <span class="n-title">👃 Aroma:</span>
-              <span class="n-desc">${product.tastingNotes.aroma}</span>
+          <!-- Gráfico Dinámico Animado de Acidez y Sensorial -->
+          <div class="cheese-visual-chart">
+            <div class="chart-header">
+              <span class="chart-title">📊 Perfil Sensorial & Acidez (Punto Real de Afinación):</span>
             </div>
-            <div class="note-row">
-              <span class="n-title">👅 Paladar:</span>
-              <span class="n-desc">${product.tastingNotes.palate}</span>
-            </div>
-            <div class="note-row">
-              <span class="n-title">🧈 Textura:</span>
-              <span class="n-desc">${product.tastingNotes.texture}</span>
+            <div class="chart-bars-list">
+              <div class="chart-bar-item">
+                <div class="chart-bar-labels">
+                  <span class="bar-name">🍋 Nivel Real de Acidez:</span>
+                  <strong class="bar-score text-gold">${product.acidityLabel || (product.acidity + '%')}</strong>
+                </div>
+                <div class="chart-track">
+                  <div class="chart-fill chart-fill-acidity chart-anim" data-target="${product.acidity}" style="width: 0%;"></div>
+                </div>
+              </div>
+
+              <div class="chart-bar-item">
+                <div class="chart-bar-labels">
+                  <span class="bar-name">⭐ Intensidad de Sabor:</span>
+                  <strong class="bar-score">${product.intensityScoreLabel || (product.intensityScore + '%')}</strong>
+                </div>
+                <div class="chart-track">
+                  <div class="chart-fill chart-fill-intensity chart-anim" data-target="${product.intensityScore}" style="width: 0%;"></div>
+                </div>
+              </div>
+
+              <div class="chart-bar-item">
+                <div class="chart-bar-labels">
+                  <span class="bar-name">🧈 Nivel de Cremosidad:</span>
+                  <strong class="bar-score">${product.creaminessLabel || (product.creaminess + '%')}</strong>
+                </div>
+                <div class="chart-track">
+                  <div class="chart-fill chart-fill-creaminess chart-anim" data-target="${product.creaminess}" style="width: 0%;"></div>
+                </div>
+              </div>
+
+              <div class="chart-bar-item">
+                <div class="chart-bar-labels">
+                  <span class="bar-name">🧂 Punto Salino:</span>
+                  <strong class="bar-score">${product.salinityLabel || (product.salinity + '%')}</strong>
+                </div>
+                <div class="chart-track">
+                  <div class="chart-fill chart-fill-salinity chart-anim" data-target="${product.salinity}" style="width: 0%;"></div>
+                </div>
+              </div>
             </div>
           </div>
 
+          <!-- Datos Básicos y Maridaje -->
           <div class="specs-grid">
             <div class="spec-cell">
               <span class="s-label">Maduración</span>
@@ -684,31 +724,28 @@ class ProductCatalog {
               <strong class="s-val">${product.milkType}</strong>
             </div>
             <div class="spec-cell">
-              <span class="s-label">Temperatura de Servicio</span>
+              <span class="s-label">Temperatura Óptima</span>
               <strong class="s-val">${product.serviceTemp}</strong>
-            </div>
-            <div class="spec-cell">
-              <span class="s-label">Intensidad</span>
-              <strong class="s-val">${'★'.repeat(product.intensity)}${'☆'.repeat(5 - product.intensity)}</strong>
             </div>
           </div>
 
           <div class="modal-pairing-card">
-            <strong>🍷 Maridaje Recomendado:</strong>
+            <strong>🍷 Con qué disfrutarlo:</strong>
             <p>${product.pairing}</p>
           </div>
 
+          <!-- Botones de Acción Accesibles y Claros -->
           <div class="modal-actions-row">
-            <button class="btn-modal-add" onclick="window.CartManager.addItemById('${product.id}'); window.ProductCatalog.closeProductModal(); window.CartManager.openDrawer();">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <button class="btn-modal-add" onclick="window.CartManager.addItemById('${product.id}'); window.ProductCatalog.closeProductModal(); window.CartManager.openDrawer();" title="Agregar al carrito de compras">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="9" cy="21" r="1"></circle>
                 <circle cx="20" cy="21" r="1"></circle>
                 <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
               </svg>
-              <span>Añadir a la Bolsa (${formatCLP(product.price)})</span>
+              <span>🛒 Agregar al Carrito (${formatCLP(product.price)})</span>
             </button>
-            <button class="btn-modal-ask-bot" onclick="window.ProductCatalog.closeProductModal(); window.SommelierBot.openChat(); window.SommelierBot.handleUserMessage('Cuéntame más sobre el ${product.name} y cómo maridarlo');">
-              <span>Preguntar al Sommelier IA</span>
+            <button class="btn-modal-ask-bot" onclick="window.ProductCatalog.closeProductModal(); window.SommelierBot.openChat(); window.SommelierBot.handleUserMessage('Hola Jean-Pierre, cuéntame sobre el queso ${product.name} y cómo disfrutarlo.');" title="Hablar con el Asistente Virtual">
+              <span>💬 Hablar con Asistente Virtual</span>
             </button>
           </div>
         </div>
@@ -718,6 +755,18 @@ class ProductCatalog {
     modalEl.classList.add("open");
     modalEl.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
+
+    // Animación suave de llenado hacia el punto exacto de acidez y notas
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        contentEl.querySelectorAll(".chart-anim").forEach(bar => {
+          const target = bar.getAttribute("data-target");
+          if (target) {
+            bar.style.width = `${target}%`;
+          }
+        });
+      }, 70);
+    });
   }
 
   closeProductModal() {
@@ -778,20 +827,23 @@ class ProductCatalog {
           </div>
 
           <h3 class="card-title">${item.name}</h3>
-          <p class="card-desc">${item.description.substring(0, 110)}...</p>
-
-          <div class="card-tasting-preview">
-            <span class="tasting-icon">👃</span>
-            <span class="tasting-snippet">${item.tastingNotes.aroma}</span>
+          
+          <!-- Mini Indicadores Clave Prácticos -->
+          <div class="card-quick-metrics">
+            <span class="quick-metric" title="Acidez del queso">🍋 Acidez: <strong>${item.acidity}%</strong></span>
+            <span class="quick-metric" title="Intensidad">⭐ Sabor: <strong>${item.intensityScore}%</strong></span>
+            <span class="quick-metric" title="Cremosidad">🧈 Crema: <strong>${item.creaminess}%</strong></span>
           </div>
+
+          <p class="card-desc">${item.easyGuide ? item.easyGuide.substring(0, 115) + '...' : item.description.substring(0, 110) + '...'}</p>
 
           <div class="card-footer">
             <div class="price-group">
               <span class="price-val">${formatCLP(item.price)}</span>
               <span class="price-weight">${item.weight}</span>
             </div>
-            <button class="btn-view-details">
-              <span>Cata</span>
+            <button class="btn-view-details" onclick="event.stopPropagation(); window.ProductCatalog.openProductModal('${item.id}');">
+              <span>Ver Ficha</span>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
                 <polyline points="12 5 19 12 12 19"></polyline>

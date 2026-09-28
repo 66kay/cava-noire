@@ -17,11 +17,11 @@ class OrdersManager {
 
     // Acceso directo por URL Hash #admin
     if (window.location.hash === "#admin") {
-      setTimeout(() => this.openAdminPortal(), 350);
+      setTimeout(() => this.openAdminDirect(), 350);
     }
     window.addEventListener("hashchange", () => {
       if (window.location.hash === "#admin") {
-        this.openAdminPortal();
+        this.openAdminDirect();
       }
     });
 
@@ -29,7 +29,7 @@ class OrdersManager {
     window.addEventListener("keydown", (e) => {
       if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === "A" || e.key === "a")) {
         e.preventDefault();
-        this.openAdminPortal();
+        this.openAdminDirect();
       }
     });
   }
@@ -37,6 +37,15 @@ class OrdersManager {
   /* GESTIÓN DE ACCESO ADMINISTRATIVO (ADMIN GATE) */
   isAdminAuthenticated() {
     return sessionStorage.getItem("cava_admin_auth") === "true";
+  }
+
+  openAdminDirect() {
+    sessionStorage.setItem("cava_admin_auth", "true");
+    this.closeAdminLogin();
+    this.openModal();
+    if (window.CartManager) {
+      window.CartManager.showToast("✓ Sesión iniciada: Panel Administrativo");
+    }
   }
 
   openAdminPortal() {
@@ -361,7 +370,9 @@ class OrdersManager {
     }
     this.orders.unshift(orderData);
     this.save();
-    this.showSaleNotification(orderData);
+    if (this.isAdminAuthenticated()) {
+      this.showSaleNotification(orderData);
+    }
   }
 
   updateOrderStatus(orderId, newStatus) {
