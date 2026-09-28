@@ -11,9 +11,9 @@ class BoardBuilder {
     this.selectedExtras = ["crackers-romero-artesanal"];
 
     this.boardPricing = {
-      "pizarra-negra": { name: "Pizarra Negra Natural de Cantera", price: 14990, image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&auto=format&fit=crop&q=80" },
-      "madera-nogal": { name: "Madera de Nogal Noble Curada", price: 19990, image: "https://images.unsplash.com/photo-1528751014936-863e6e7a319c?w=600&auto=format&fit=crop&q=80" },
-      "marmol-marquina": { name: "Mármol Nero Marquina Pulido", price: 29990, image: "https://images.unsplash.com/photo-1452195100486-9cc805987862?w=600&auto=format&fit=crop&q=80" }
+      "pizarra-negra": { name: "Pizarra Negra Natural de Cantera", price: 14990, image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=450&auto=format&fit=crop&q=72" },
+      "madera-nogal": { name: "Madera de Nogal Noble Curada", price: 19990, image: "https://images.unsplash.com/photo-1528751014936-863e6e7a319c?w=450&auto=format&fit=crop&q=72" },
+      "marmol-marquina": { name: "Mármol Nero Marquina Pulido", price: 29990, image: "https://images.unsplash.com/photo-1452195100486-9cc805987862?w=450&auto=format&fit=crop&q=72" }
     };
 
     this.initDOM();

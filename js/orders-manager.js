@@ -45,14 +45,14 @@ class OrdersManager {
             weight: "250g",
             price: 29990,
             quantity: 1,
-            image: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=800&auto=format&fit=crop&q=80"
+            image: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=160&auto=format&fit=crop&q=70"
           },
           {
             name: "Pecorino al Tartufo Nero Riserva",
             weight: "220g",
             price: 34990,
             quantity: 1,
-            image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=800&auto=format&fit=crop&q=80"
+            image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=160&auto=format&fit=crop&q=70"
           }
         ],
         subtotal: 64980,
@@ -82,7 +82,7 @@ class OrdersManager {
             weight: "1.250g con maridajes",
             price: 89990,
             quantity: 1,
-            image: "https://images.unsplash.com/photo-1452195100486-9cc805987862?w=800&auto=format&fit=crop&q=80"
+            image: "https://images.unsplash.com/photo-1452195100486-9cc805987862?w=160&auto=format&fit=crop&q=70"
           }
         ],
         subtotal: 89990,

@@ -177,11 +177,10 @@ h3, h4, h5, h6 {
   position: sticky;
   top: 0;
   z-index: 90;
-  background: var(--bg-glass);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(7, 7, 7, 0.96);
   border-bottom: 1px solid var(--border-subtle);
-  transition: background var(--transition-normal);
+  transition: background var(--transition-fast);
+  will-change: transform;
 }
 
 .header-container {
@@ -403,12 +402,11 @@ h3, h4, h5, h6 {
 
 .hero-ambient-glow {
   position: absolute;
-  top: 15%;
-  left: 25%;
-  width: 450px;
-  height: 450px;
-  background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, transparent 70%);
-  filter: blur(80px);
+  top: 10%;
+  left: 20%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.11) 0%, rgba(212, 175, 55, 0.04) 35%, transparent 70%);
   z-index: 2;
   pointer-events: none;
 }
@@ -484,8 +482,7 @@ h3, h4, h5, h6 {
   align-items: center;
   gap: 0.7rem;
   padding: 1rem 2.2rem;
-  background: rgba(20, 20, 20, 0.75);
-  backdrop-filter: blur(10px);
+  background: rgba(18, 18, 18, 0.92);
   color: var(--text-primary);
   border: 1px solid var(--border-gold);
   font-weight: 600;
@@ -792,13 +789,12 @@ h3, h4, h5, h6 {
   position: absolute;
   bottom: 8px;
   left: 8px;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(6px);
+  background: rgba(7, 7, 7, 0.9);
   font-size: 0.65rem;
   padding: 0.2rem 0.5rem;
   border-radius: var(--radius-sm);
   color: var(--text-primary);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .card-body {
@@ -956,11 +952,12 @@ h3, h4, h5, h6 {
   display: flex;
   flex-direction: column;
   cursor: pointer;
-  transition: border-color var(--transition-normal), box-shadow var(--transition-normal);
-  transform-style: preserve-3d;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.22s ease, box-shadow 0.22s ease;
+  will-change: transform;
 }
 
 .cheese-card:hover {
+  transform: translateY(-6px);
   border-color: var(--border-gold-strong);
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7), 0 0 20px var(--gold-glow);
 }
@@ -980,7 +977,8 @@ h3, h4, h5, h6 {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: opacity 0.55s ease, transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.4s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
 
 .card-media .img-hover {
@@ -989,7 +987,7 @@ h3, h4, h5, h6 {
 
 .cheese-card:hover .card-media .img-hover {
   opacity: 1;
-  transform: scale(1.06);
+  transform: scale(1.05);
 }
 
 .cheese-card:hover .card-media .img-primary {
@@ -1007,8 +1005,7 @@ h3, h4, h5, h6 {
 }
 
 .badge-status {
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.92);
   border: 1px solid var(--border-gold);
   color: var(--gold-light);
   font-size: 0.68rem;
@@ -1020,7 +1017,7 @@ h3, h4, h5, h6 {
 }
 
 .badge-aging {
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.85);
   font-size: 0.68rem;
   color: var(--text-primary);
   padding: 0.25rem 0.65rem;
@@ -1031,8 +1028,7 @@ h3, h4, h5, h6 {
   position: absolute;
   bottom: 12px;
   right: 12px;
-  background: rgba(7, 7, 7, 0.88);
-  backdrop-filter: blur(8px);
+  background: rgba(7, 7, 7, 0.94);
   border: 1px solid var(--border-gold);
   color: var(--gold-light);
   font-size: 0.75rem;
@@ -1041,7 +1037,8 @@ h3, h4, h5, h6 {
   border-radius: var(--radius-sm);
   opacity: 0;
   transform: translateY(6px);
-  transition: all var(--transition-fast);
+  transition: opacity var(--transition-fast), transform var(--transition-fast), background var(--transition-fast);
+  will-change: transform, opacity;
 }
 
 .cheese-card:hover .btn-quick-add {
@@ -2349,12 +2346,11 @@ h3, h4, h5, h6 {
 .cart-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.85);
   z-index: 1050;
   opacity: 0;
   pointer-events: none;
-  transition: opacity var(--transition-normal);
+  transition: opacity var(--transition-fast);
 }
 
 .cart-overlay.open {
@@ -2692,8 +2688,7 @@ h3, h4, h5, h6 {
 .tasting-modal-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.88);
 }
 
 .tasting-modal-card {
@@ -2973,8 +2968,7 @@ h3, h4, h5, h6 {
 .webpay-modal-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.88);
 }
 
 .webpay-card-container {
@@ -3588,8 +3582,7 @@ h3, h4, h5, h6 {
 .orders-modal-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.88);
 }
 
 .orders-modal-card {
@@ -4106,7 +4099,6 @@ h3, h4, h5, h6 {
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.88);
-  backdrop-filter: blur(8px);
 }
 
 .bluex-card {
@@ -4386,7 +4378,6 @@ h3, h4, h5, h6 {
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.88);
-  backdrop-filter: blur(8px);
 }
 
 .receipt-card {
@@ -4646,4 +4637,44 @@ h3, h4, h5, h6 {
     display: none !important;
   }
 }
+
+/* ==========================================================================
+   OPTIMIZACIONES DE RENDIMIENTO & RENDERIZADO ULTRA-RÁPIDO (60-120 FPS)
+   ========================================================================== */
+
+/* Omite el cálculo y renderizado de secciones pesadas fuera de pantalla hasta el scroll */
+#catalogo,
+#maridaje,
+#atelier,
+#cadena-frio,
+#filosofia {
+  content-visibility: auto;
+  contain-intrinsic-size: 800px;
+}
+
+/* Promoción limpia a la GPU para elementos interactivos y fijos */
+.site-header,
+.sommelier-toggle-btn,
+.sommelier-window,
+.cart-drawer,
+.cheese-card {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Suavizado de fuente óptimo para renderizado en pantalla de alta resolución */
+body {
+  text-rendering: optimizeLegibility;
+}
+
+/* Respeto a usuarios con preferencia de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 

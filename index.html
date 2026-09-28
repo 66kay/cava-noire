@@ -6,10 +6,16 @@
   <title>LA CAVA NOIRE // Quesos de Autor, Afinación Exclusiva & Sommelier IA</title>
   <meta name="description" content="Fromagerie y cava de quesos exclusivos en Chile. Denominaciones de origen AOP/DOP, maduración de hasta 60 meses, maridaje con Sommelier IA y pago seguro con Webpay Plus.">
   
-  <!-- Tipografías de Alta Gama: Cormorant Garamond (Elegante & Sutil para Títulos) y Plus Jakarta Sans (Limpia & Normal para Interfaz) -->
+  <!-- Preconexión rápida a fuentes y CDN de imágenes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+  
+  <!-- Tipografías optimizadas (pesos esenciales con font-display: swap) -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Preload prioritario de la imagen Hero para eliminar parpadeo inicial -->
+  <link rel="preload" as="image" href="https://images.unsplash.com/photo-1527515862127-a4fc05baf7a5?w=1200&auto=format&fit=crop&q=75" fetchpriority="high">
   
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -111,7 +117,7 @@
     <section class="hero-section">
       <div class="hero-ambient-glow"></div>
       <div class="hero-background-media">
-        <img src="https://images.unsplash.com/photo-1527515862127-a4fc05baf7a5?w=1600&auto=format&fit=crop&q=85" alt="Cava subterránea de maduración de quesos">
+        <img src="https://images.unsplash.com/photo-1527515862127-a4fc05baf7a5?w=1200&auto=format&fit=crop&q=75" alt="Cava subterránea de maduración de quesos" fetchpriority="high" decoding="async" width="1200" height="750">
         <div class="hero-overlay-gradient"></div>
       </div>
 
@@ -296,7 +302,7 @@
 
         <div class="philosophy-visual">
           <div class="visual-stack">
-            <img class="img-front" src="https://images.unsplash.com/photo-1544025162-d76694265947?w=800&auto=format&fit=crop&q=80" alt="Tabla de quesos y vino reserva">
+            <img class="img-front" src="https://images.unsplash.com/photo-1544025162-d76694265947?w=600&auto=format&fit=crop&q=72" alt="Tabla de quesos y vino reserva" loading="lazy" decoding="async" width="600" height="400">
             <div class="visual-badge-overlay">
               <span class="badge-num">100%</span>
               <span class="badge-txt">Trazabilidad de Cava</span>
@@ -445,12 +451,12 @@
     </div>
   </footer>
 
-  <!-- Scripts Modulares -->
-  <script src="js/products.js"></script>
-  <script src="js/orders-manager.js"></script>
-  <script src="js/sommelier-ai.js"></script>
-  <script src="js/pairing-wheel.js"></script>
-  <script src="js/board-builder.js"></script>
-  <script src="js/app.js"></script>
+  <!-- Scripts Modulares (Carga diferida no bloqueante) -->
+  <script src="js/products.js" defer></script>
+  <script src="js/orders-manager.js" defer></script>
+  <script src="js/sommelier-ai.js" defer></script>
+  <script src="js/pairing-wheel.js" defer></script>
+  <script src="js/board-builder.js" defer></script>
+  <script src="js/app.js" defer></script>
 </body>
 </html>
