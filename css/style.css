@@ -25,7 +25,7 @@
   --border-gold: rgba(212, 175, 55, 0.45);
   --border-gold-strong: #d4af37;
 
-  --font-serif: 'Cinzel', Georgia, serif;
+  --font-serif: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
   --radius-sm: 4px;
@@ -87,11 +87,24 @@ a {
   text-decoration: none;
 }
 
-/* Typography Utilities */
-h1, h2, h3, h4, .brand-title, .section-title, .modal-title {
+/* Typography Utilities: Elegancia Sutil para Títulos & Limpieza para UI */
+h1, h2, .section-title, .hero-title, .brand-title, .modal-title, .cold-title, .voucher-title {
   font-family: var(--font-serif);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.01em;
   font-weight: 600;
+}
+
+h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Nombres de quesos y marcas en elegante Cormorant Garamond */
+.card-title, .cheese-title, .wine-name, .logo-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: 0.01em;
 }
 
 .gold-gradient-text {
@@ -196,10 +209,12 @@ h1, h2, h3, h4, .brand-title, .section-title, .modal-title {
 }
 
 .brand-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
   color: var(--text-primary);
+  text-transform: uppercase;
 }
 
 .brand-subtitle {
@@ -409,9 +424,11 @@ h1, h2, h3, h4, .brand-title, .section-title, .modal-title {
 }
 
 .hero-title {
-  font-size: clamp(2.4rem, 5.5vw, 4.4rem);
-  line-height: 1.12;
-  font-weight: 700;
+  font-family: var(--font-serif);
+  font-size: clamp(2.8rem, 6.2vw, 4.8rem);
+  line-height: 1.1;
+  font-weight: 500;
+  letter-spacing: -0.01em;
   margin-bottom: 1.5rem;
 }
 
@@ -486,9 +503,10 @@ h1, h2, h3, h4, .brand-title, .section-title, .modal-title {
 }
 
 .stat-num {
-  font-family: var(--font-serif);
-  font-size: 1.6rem;
+  font-family: var(--font-sans);
+  font-size: 1.55rem;
   font-weight: 700;
+  letter-spacing: -0.01em;
   color: var(--gold-primary);
 }
 
@@ -509,8 +527,10 @@ h1, h2, h3, h4, .brand-title, .section-title, .modal-title {
 }
 
 .section-title {
-  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
-  font-weight: 700;
+  font-family: var(--font-serif);
+  font-size: clamp(2.1rem, 3.6vw, 3rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
   color: var(--text-primary);
   margin-bottom: 0.75rem;
 }
@@ -649,8 +669,10 @@ h1, h2, h3, h4, .brand-title, .section-title, .modal-title {
 }
 
 .quote-text {
+  font-family: var(--font-serif);
   font-style: italic;
-  font-size: 0.88rem;
+  font-size: 1.05rem;
+  line-height: 1.5;
   color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
@@ -808,9 +830,10 @@ h1, h2, h3, h4, .brand-title, .section-title, .modal-title {
 }
 
 .cheese-price {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 1.15rem;
   font-weight: 700;
+  letter-spacing: -0.01em;
   color: var(--gold-primary);
 }
 
@@ -1087,9 +1110,10 @@ h1, h2, h3, h4, .brand-title, .section-title, .modal-title {
 }
 
 .price-group .price-val {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 1.35rem;
   font-weight: 700;
+  letter-spacing: -0.01em;
   color: var(--gold-primary);
 }
 
@@ -1430,9 +1454,10 @@ h1, h2, h3, h4, .brand-title, .section-title, .modal-title {
 }
 
 .toggle-price {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 0.88rem;
   font-weight: 700;
+  letter-spacing: -0.01em;
   color: var(--gold-primary);
 }
 
@@ -1495,9 +1520,10 @@ h1, h2, h3, h4, .brand-title, .section-title, .modal-title {
 }
 
 .receipt-total-clp {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 1.5rem;
   font-weight: 700;
+  letter-spacing: -0.02em;
   color: var(--gold-primary);
 }
 
@@ -1623,8 +1649,10 @@ h1, h2, h3, h4, .brand-title, .section-title, .modal-title {
 }
 
 .philosophy-quote p {
+  font-family: var(--font-serif);
   font-style: italic;
-  font-size: 1.1rem;
+  font-size: 1.35rem;
+  line-height: 1.4;
   color: var(--gold-light);
   margin-bottom: 0.5rem;
 }
@@ -1661,9 +1689,10 @@ h1, h2, h3, h4, .brand-title, .section-title, .modal-title {
 }
 
 .visual-badge-overlay .badge-num {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 1.8rem;
   font-weight: 700;
+  letter-spacing: -0.01em;
   color: var(--gold-primary);
 }
 
@@ -2028,9 +2057,10 @@ h1, h2, h3, h4, .brand-title, .section-title, .modal-title {
 }
 
 .price-row .price {
-  font-family: var(--font-serif);
-  font-size: 0.88rem;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
   font-weight: 700;
+  letter-spacing: -0.01em;
   color: var(--gold-primary);
 }
 
@@ -2132,8 +2162,9 @@ h1, h2, h3, h4, .brand-title, .section-title, .modal-title {
 }
 
 .chat-checkout-item .item-price {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-weight: 700;
+  letter-spacing: -0.01em;
   color: var(--gold-primary);
 }
 
@@ -2167,7 +2198,9 @@ h1, h2, h3, h4, .brand-title, .section-title, .modal-title {
 }
 
 .total-amount {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: -0.01em;
   color: var(--gold-primary);
 }
 
@@ -2450,9 +2483,10 @@ h1, h2, h3, h4, .brand-title, .section-title, .modal-title {
 }
 
 .cart-item-price {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 0.95rem;
   font-weight: 700;
+  letter-spacing: -0.01em;
   color: var(--gold-primary);
   margin-top: 0.35rem;
 }
@@ -2780,9 +2814,10 @@ h1, h2, h3, h4, .brand-title, .section-title, .modal-title {
 }
 
 .modal-price-box .price-val {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 1.8rem;
   font-weight: 700;
+  letter-spacing: -0.02em;
   color: var(--gold-primary);
 }
 
