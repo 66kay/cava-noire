@@ -619,7 +619,7 @@ class PaymentGateway {
         : [
             {
               name: "Cofre Degustación 'Grand Affineur' (5 Quesos)",
-              weight: "1.250g con maridajes",
+              weight: "1.250g con acompañamientos",
               price: this.currentSubtotal,
               quantity: 1,
               image: "https://images.unsplash.com/photo-1452195100486-9cc805987862?w=480&auto=format&fit=crop&q=72"
@@ -939,7 +939,7 @@ class ProductCatalog {
             </div>
           </div>
 
-          <!-- Datos Básicos y Maridaje -->
+          <!-- Datos Básicos y Acompañamiento -->
           <div class="specs-grid">
             <div class="spec-cell">
               <span class="s-label">Maduración</span>
@@ -956,8 +956,8 @@ class ProductCatalog {
           </div>
 
           <div class="modal-pairing-card">
-            <strong>🍷 Con qué disfrutarlo:</strong>
-            <p>${product.pairing}</p>
+            <strong>🥖 Acompañamiento sugerido en mesa:</strong>
+            <p>${product.accompaniment || product.pairing}</p>
           </div>
 
           <!-- Botones de Acción Accesibles y Claros -->
@@ -970,8 +970,8 @@ class ProductCatalog {
               </svg>
               <span>🛒 Agregar al Carrito (${formatCLP(product.price)})</span>
             </button>
-            <button class="btn-modal-ask-bot" onclick="window.ProductCatalog.closeProductModal(); window.SommelierBot.openChat(); window.SommelierBot.handleUserMessage('Hola Jean-Pierre, cuéntame sobre el queso ${product.name} y cómo disfrutarlo.');" title="Hablar con el Asistente Virtual">
-              <span>💬 Hablar con Asistente Virtual</span>
+            <button class="btn-modal-ask-bot" onclick="window.ProductCatalog.closeProductModal(); (window.FromagerBot || window.SommelierBot).openChat(); (window.FromagerBot || window.SommelierBot).handleUserMessage('Hola Jean-Pierre, cuéntame sobre el queso ${product.name} y cómo servirlo.');" title="Consultar al Maestro Quesero">
+              <span>🧀 Consultar al Maestro Quesero</span>
             </button>
           </div>
         </div>
@@ -1103,7 +1103,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Desplazamiento suave y sutil hacia las secciones (+Afinaciones, Cata & Maridaje, Cadena de Frío, Nuestra Cava)
+  // Desplazamiento suave y sutil hacia las secciones (Afinaciones de Autor, Cadena de Frío, Nuestra Cava)
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener("click", function(e) {
       const targetId = this.getAttribute("href");
@@ -1138,7 +1138,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // ScrollSpy sutil: ilumina el enlace de navegación correspondiente a la sección visible
   const trackedSections = [
     { id: "catalogo", link: document.querySelector('.desktop-nav a[href="#catalogo"]') },
-    { id: "maridaje", link: document.querySelector('.desktop-nav a[href="#maridaje"]') },
     { id: "cadena-frio", link: document.querySelector('.desktop-nav a[href="#cadena-frio"]') },
     { id: "filosofia", link: document.querySelector('.desktop-nav a[href="#filosofia"]') }
   ];

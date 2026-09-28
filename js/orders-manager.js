@@ -274,7 +274,7 @@ class OrdersManager {
         items: [
           {
             name: "Cofre Degustación 'Grand Affineur' (5 Quesos)",
-            weight: "1.250g con maridajes",
+            weight: "1.250g con acompañamientos",
             price: 89990,
             quantity: 1,
             image: "https://images.unsplash.com/photo-1452195100486-9cc805987862?w=160&auto=format&fit=crop&q=70"
@@ -412,14 +412,34 @@ class OrdersManager {
 
     document.body.appendChild(notif);
 
-    if (window.PairingApp && window.PairingApp.playCrystalClink) {
-      window.PairingApp.playCrystalClink();
-    }
+    this.playSuccessChime();
 
     setTimeout(() => {
       notif.classList.add("fade-out");
       setTimeout(() => notif.remove(), 400);
     }, 6000);
+  }
+
+  playSuccessChime() {
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(1046.50, now); // C6
+      osc.frequency.exponentialRampToValueAtTime(1318.51, now + 0.15); // E6
+      gain.gain.setValueAtTime(0.06, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.4);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.45);
+    } catch (e) {
+      // Silencioso si el navegador restringe audio
+    }
   }
 
   initDOM() {

@@ -33,7 +33,7 @@ const CHEESE_PRODUCTS = [
       palate: "Umami profundo, acidez láctica noble y dulzor de caramelo salino",
       texture: "Untuosa con cristales crujientes de aminoácidos"
     },
-    pairing: "Vino blanco Arbois (Jura) o Carménère Reserva chileno con guarda en barrica de roble francés.",
+    accompaniment: "Nueces tostadas, uvas blancas frescas, higos secos y pan crujiente de masa madre horneado en leña.",
     serviceTemp: "16°C - 18°C",
     image: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=480&auto=format&fit=crop&q=72",
     imageHover: "https://images.unsplash.com/photo-1528751014936-863e6e7a319c?w=480&auto=format&fit=crop&q=72",
@@ -61,14 +61,14 @@ const CHEESE_PRODUCTS = [
     weight: "220g (Corte en cuña sellada al vacío)",
     price: 34990,
     badge: "Colección Privada",
-    easyGuide: "Queso italiano de pura oveja con auténtica trufa negra rallada en su interior. Tiene un aroma intenso y un sabor sabroso que llena toda la boca. Ideal para acompañar con un buen vino tinto o pan caliente.",
+    easyGuide: "Queso italiano de pura oveja con auténtica trufa negra rallada en su interior. Tiene un aroma intenso y un sabor sabroso que llena toda la boca. Exquisito con una cucharadita de miel o pan caliente.",
     description: "Obra maestra italiana que fusiona la leche grasa de ovejas sienesas con auténtica trufa negra recolectada a mano. La pasta es compacta, marfilada y generosamente veteada con finas lascas de trufa que inundan el paladar de elegancia terrosa y notas boscosas.",
     tastingNotes: {
       aroma: "Trufa negra salvaje, tierra húmeda y cuero fino",
       palate: "Intenso, sápido, con un final prolongado y untuoso",
       texture: "Firme pero mantecosa al fundirse en boca"
     },
-    pairing: "Brunello di Montalcino, Cabernet Sauvignon de Maipo o un Syrah especiado.",
+    accompaniment: "Miel con trufa blanca, peras maduras laminadas y pan de centeno campesino.",
     serviceTemp: "18°C",
     image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=480&auto=format&fit=crop&q=72",
     imageHover: "https://images.unsplash.com/photo-1452195100486-9cc805987862?w=480&auto=format&fit=crop&q=72",
@@ -103,7 +103,7 @@ const CHEESE_PRODUCTS = [
       palate: "Explosión mineral, sapidez perfectamente equilibrada sin asperezas",
       texture: "Granulosa, crujiente y soluble"
     },
-    pairing: "Champagne Blanc de Blancs, Espumante del Valle de Leyda o gotas de Vinagre Balsámico Tradicional.",
+    accompaniment: "Gotas de vinagre balsámico tradicional de Módena, nueces tostadas o higos maduros.",
     serviceTemp: "17°C",
     image: "https://images.unsplash.com/photo-1624806992066-5ffcf7ca186b?w=480&auto=format&fit=crop&q=72",
     imageHover: "https://images.unsplash.com/photo-1559561853-08451507cbe7?w=480&auto=format&fit=crop&q=72",
@@ -138,7 +138,7 @@ const CHEESE_PRODUCTS = [
       palate: "Suntuoso, fundente, con balance cítrico ligero",
       texture: "Aterciopelada, sedosa y untuosa"
     },
-    pairing: "Champagne Brut, Sauvignon Blanc del Valle de Casablanca o sidra de manzana artesanal.",
+    accompaniment: "Frutos rojos frescos (frambuesas o fresas), tostadas finas y mermelada artesanal de higos.",
     serviceTemp: "14°C - 16°C",
     image: "https://images.unsplash.com/photo-1552767059-ce182ead6c1b?w=480&auto=format&fit=crop&q=72",
     imageHover: "https://images.unsplash.com/photo-1506354666786-959d6d497f1a?w=480&auto=format&fit=crop&q=72",
@@ -173,7 +173,7 @@ const CHEESE_PRODUCTS = [
       palate: "Punzante mineralidad marina, final cálido y láctico persistente",
       texture: "Quebradiza y compacta con grasa noble de oveja"
     },
-    pairing: "Pinot Noir de Malleco, Chardonnay con paso por barrica o Cerveza Porter artesanal de Valdivia.",
+    accompaniment: "Dulce de membrillo artesanal chileno, manzanas verdes en láminas y frutos secos del sur.",
     serviceTemp: "17°C",
     image: "https://images.unsplash.com/photo-1598514983318-2f64f8f4796c?w=480&auto=format&fit=crop&q=72",
     imageHover: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=480&auto=format&fit=crop&q=72",
@@ -208,7 +208,7 @@ const CHEESE_PRODUCTS = [
       palate: "Intenso, salado, picante refinado con dulzor cárnico",
       texture: "Cremosa, húmeda y granulada en vetas"
     },
-    pairing: "Vino Late Harvest chileno, Sauternes, Oporto Tawny o miel pura de ulmo.",
+    accompaniment: "Miel pura de ulmo chilena, peras asadas, damascos deshidratados y crackers de avena.",
     serviceTemp: "15°C",
     image: "https://images.unsplash.com/photo-1631379578550-7038263db699?w=480&auto=format&fit=crop&q=72",
     imageHover: "https://images.unsplash.com/photo-1559561853-08451507cbe7?w=480&auto=format&fit=crop&q=72",
@@ -237,13 +237,13 @@ const CHEESE_PRODUCTS = [
     price: 33990,
     badge: "Afinación Centenaria",
     easyGuide: "Un Gouda holandés de 5 años de curación. Por fuera parece una piedra ámbar dorada. Al comerlo cruje como caramelo salado con notas a toffee y frutos secos. No es ácido ni amargo, es una delicia para picar.",
-    description: "Una experiencia gastronómica que rivaliza con los mejores destilados. Cinco años de evaporación y cristalización confieren a este queso una tonalidad ámbar oscura casi translúcida. Cada bocado estalla en cristales crujientes de tirosina con recuerdos a caramelo quemado, toffee y whisky de malta.",
+    description: "Una experiencia gastronómica que rivaliza con los mejores destilados. Cinco años de evaporación y cristalización confieren a este queso una tonalidad ámbar oscura casi translúcida. Cada bocado estalla en cristales crujientes de tirosina con recuerdos a caramelo quemado, toffee y frutos secos.",
     tastingNotes: {
       aroma: "Bourbon, melaza, nuez moscada y cuero curtido",
       palate: "Dulzura licorosa, umami arrollador y final mineral profundo",
       texture: "Dura, quebradiza y densamente cristalizada"
     },
-    pairing: "Whisky Single Malt, Cerveza Barley Wine o Cabernet Franc de Colchagua.",
+    accompaniment: "Manzanas crujientes, almendras tostadas con sal de mar o higos negros caramelizados.",
     serviceTemp: "18°C",
     image: "https://images.unsplash.com/photo-1589881133595-a3c085cb731d?w=480&auto=format&fit=crop&q=72",
     imageHover: "https://images.unsplash.com/photo-1528751014936-863e6e7a319c?w=480&auto=format&fit=crop&q=72",
@@ -278,7 +278,7 @@ const CHEESE_PRODUCTS = [
       palate: "Láctico, mantecoso, con ligero amargor elegante de avellana",
       texture: "Elástica, suave y fundente en boca"
     },
-    pairing: "Chardonnay joven del Valle de Limarí o Merlot Reserva.",
+    accompaniment: "Pepinillos encurtidos agridulces, pan campesino rústico y nueces.",
     serviceTemp: "16°C",
     image: "https://images.unsplash.com/photo-1598514983318-2f64f8f4796c?w=480&auto=format&fit=crop&q=72",
     imageHover: "https://images.unsplash.com/photo-1552767059-ce182ead6c1b?w=480&auto=format&fit=crop&q=72",
@@ -303,7 +303,7 @@ const CHEESE_PRODUCTS = [
     creaminessLabel: "70% (Variedad de texturas cremosas y duras)",
     salinity: 65,
     salinityLabel: "65% (Degustación guiada completa)",
-    weight: "1.250g en total (5 quesos seleccionados + Maridajes)",
+    weight: "1.250g en total (5 quesos seleccionados + Acompañamientos)",
     price: 89990,
     badge: "Best Seller Exclusivo",
     easyGuide: "Caja de regalo de madera con 5 tipos de quesos de autor ya cortados y seleccionados, más miel de trufa, nueces y galletas. Es la opción más práctica si tienes invitados en casa: solo abrir y disfrutar.",
@@ -313,7 +313,7 @@ const CHEESE_PRODUCTS = [
       palate: "Recorrido armónico de menor a mayor intensidad gustativa",
       texture: "Desde la mousse sedosa hasta el cristal crujiente milenario"
     },
-    pairing: "Perfecto para acompañar una botella de Cabernet Sauvignon Icono y un espumante método tradicional.",
+    accompaniment: "Tabla lista para servir con miel con trufa blanca, nueces pecanas y crackers de masa madre al romero.",
     serviceTemp: "Retirar del refrigerador 45 min antes de servir",
     image: "https://images.unsplash.com/photo-1452195100486-9cc805987862?w=480&auto=format&fit=crop&q=72",
     imageHover: "https://images.unsplash.com/photo-1544025162-d76694265947?w=480&auto=format&fit=crop&q=72",
@@ -346,80 +346,6 @@ const DELICATESSEN_ITEMS = [
     category: "accesorios",
     image: "https://images.unsplash.com/photo-1528751014936-863e6e7a319c?w=400&auto=format&fit=crop&q=72",
     desc: "Acero forjado francés Sandvik 12C27 con mango en madera de nogal noble para corte perfecto."
-  }
-];
-
-// Maridajes recomendados por tipo de cepa o licor con valores sensoriales dinámicos
-const WINE_PAIRING_MATRIX = [
-  {
-    wine: "carmenere",
-    shortName: "Carménère",
-    name: "Carménère (Tinto Suave)",
-    profile: "Aromas a frutos negros, pimiento dulce y notas tostadas. Taninos amables y redondos.",
-    recommendedCheeses: ["comte-36m", "chiloe-oveja-niebla"],
-    reasoning: "El cuerpo suave del Carménère acompaña de maravilla la manteca noble del Comté y el toque marino de la oveja chilena.",
-    acidity: 58,
-    acidityLabel: "58% (Acidez Media Envolvente)",
-    fatBalance: 90,
-    fatBalanceLabel: "90% (Excelente balance graso)",
-    persistence: 88,
-    persistenceLabel: "88% (Final largo y sedoso)"
-  },
-  {
-    wine: "cabernet-sauvignon",
-    shortName: "Cabernet Sauvignon",
-    name: "Cabernet Sauvignon (Tinto con Cuerpo)",
-    profile: "Tinto con carácter y presencia, notas a cassis maduro y suave toque a madera de roble.",
-    recommendedCheeses: ["pecorino-tartufo", "gouda-vintage-5a"],
-    reasoning: "Ideal para quesos curados intensos con gran sabor como el Pecorino trufado y el Gouda añejo.",
-    acidity: 72,
-    acidityLabel: "72% (Acidez Estructurada & Viva)",
-    fatBalance: 96,
-    fatBalanceLabel: "96% (Potencia tánica para quesos curados)",
-    persistence: 94,
-    persistenceLabel: "94% (Persistencia prolongada en boca)"
-  },
-  {
-    wine: "espumante-champagne",
-    shortName: "Espumante Brut",
-    name: "Espumante Brut (Burbujas Frescas)",
-    profile: "Burbujas finas, frescor cítrico y notas a pan tostado. Muy vivaz y refrescante.",
-    recommendedCheeses: ["brillat-savarin-creme", "parmigiano-vacche-rosse"],
-    reasoning: "Las burbujas y su frescura limpian el paladar tras cada bocado de queso cremoso o parmesano.",
-    acidity: 92,
-    acidityLabel: "92% (Acidez Cítrica Refrescante)",
-    fatBalance: 94,
-    fatBalanceLabel: "94% (Corta grasa y limpia el paladar)",
-    persistence: 80,
-    persistenceLabel: "80% (Frescor cítrico continuo)"
-  },
-  {
-    wine: "late-harvest-oporto",
-    shortName: "Late Harvest",
-    name: "Late Harvest (Vino Dulce)",
-    profile: "Notas melosas a damascos secos y flores blancas. Dulzor licoroso muy suave.",
-    recommendedCheeses: ["roquefort-societe"],
-    reasoning: "El maridaje más famoso del mundo: el dulzor amielado del vino equilibra perfecto la salinidad del queso azul.",
-    acidity: 42,
-    acidityLabel: "42% (Acidez Suave, predomina dulzor)",
-    fatBalance: 88,
-    fatBalanceLabel: "88% (Contraste sublime con el salado)",
-    persistence: 95,
-    persistenceLabel: "95% (Persistencia melosa excepcional)"
-  },
-  {
-    wine: "pinot-noir",
-    shortName: "Pinot Noir",
-    name: "Pinot Noir (Tinto Ligero)",
-    profile: "Tinto ligero con notas a frutilla silvestre, cerezas y taninos sedosos que no saturan.",
-    recommendedCheeses: ["morbier-ceniza-aop", "chiloe-oveja-niebla"],
-    reasoning: "Su ligereza y frescor frutal respetan la delicadeza del queso Morbier sin tapar su sabor.",
-    acidity: 82,
-    acidityLabel: "82% (Acidez Frutal & Fresca)",
-    fatBalance: 78,
-    fatBalanceLabel: "78% (Equilibrio delicado)",
-    persistence: 82,
-    persistenceLabel: "82% (Final elegante de frutos rojos)"
   }
 ];
 
