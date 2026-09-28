@@ -3597,7 +3597,7 @@ h3, h4, h5, h6 {
   width: 100%;
   max-width: 1100px;
   max-height: 90vh;
-  overflow-y: auto;
+  overflow: hidden; /* FIX: Evita que el contenedor scrollee y tape el footer */
   background: var(--bg-surface);
   border: 1px solid var(--border-gold);
   border-radius: var(--radius-lg);
@@ -3605,6 +3605,12 @@ h3, h4, h5, h6 {
   z-index: 2;
   display: flex;
   flex-direction: column;
+}
+
+.orders-scroll-wrapper {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 0;
 }
 
 .orders-panel-header {
@@ -3756,11 +3762,15 @@ h3, h4, h5, h6 {
 
 /* Lista de Pedidos */
 .orders-list-body {
-  padding: 1.5rem 2rem;
+  padding: 1.5rem 2rem 3rem 2rem;
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
   min-height: 250px;
+}
+
+.order-card-row:last-child {
+  margin-bottom: 2rem;
 }
 
 .order-card-row {
@@ -4019,3 +4029,621 @@ h3, h4, h5, h6 {
   .order-card-row { grid-template-columns: 1fr; gap: 1rem; }
   .orders-metrics-row { grid-template-columns: 1fr 1fr; }
 }
+
+/* ==========================================================================
+   BOTONES DE ACCIONES EN CADA PEDIDO (TRACKING & BOLETA)
+   ========================================================================== */
+.order-row-action-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-top: 0.6rem;
+}
+
+.btn-order-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: center;
+  border: 1px solid transparent;
+}
+
+.btn-bluex-track {
+  background: rgba(56, 189, 248, 0.12);
+  border-color: rgba(56, 189, 248, 0.35);
+  color: #7dd3fc;
+}
+
+.btn-bluex-track:hover {
+  background: rgba(56, 189, 248, 0.25);
+  border-color: #38bdf8;
+  color: #fff;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+}
+
+.btn-view-receipt {
+  background: rgba(212, 175, 55, 0.1);
+  border-color: var(--border-gold);
+  color: var(--gold-light);
+}
+
+.btn-view-receipt:hover {
+  background: rgba(212, 175, 55, 0.22);
+  border-color: var(--gold-primary);
+  color: #fff;
+  box-shadow: 0 0 12px var(--gold-glow);
+}
+
+/* ==========================================================================
+   MODAL DE SEGUIMIENTO EN VIVO BLUE EXPRESS (CADENA DE FRÍO)
+   ========================================================================== */
+.bluex-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.bluex-modal.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.bluex-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(8px);
+}
+
+.bluex-card {
+  position: relative;
+  width: 100%;
+  max-width: 620px;
+  background: #0d0d0f;
+  border: 1px solid #0284c7;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95), 0 0 30px rgba(2, 132, 199, 0.25);
+  z-index: 2;
+  overflow: hidden;
+  animation: modalScaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bluex-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  background: #001a38;
+  border-bottom: 1px solid rgba(2, 132, 199, 0.4);
+}
+
+.bluex-logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.bluex-logo-brand {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #38bdf8;
+  text-transform: uppercase;
+}
+
+.bluex-logo-tag {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid #38bdf8;
+  border-radius: var(--radius-full);
+  color: #bae6fd;
+}
+
+.bluex-close-btn {
+  font-size: 1.7rem;
+  color: var(--text-muted);
+  line-height: 1;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.bluex-close-btn:hover {
+  color: #fff;
+}
+
+.bluex-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.tracking-summary-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-sm);
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.t-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.t-sub {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+}
+
+.t-main {
+  font-size: 1.05rem;
+  color: #38bdf8;
+  font-family: monospace;
+  font-weight: 700;
+}
+
+.t-status {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.tracking-cold-badge {
+  padding: 0.65rem 1rem;
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px dashed rgba(56, 189, 248, 0.4);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  color: #bae6fd;
+  text-align: center;
+}
+
+/* Stepper de 4 etapas */
+.tracking-stepper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  position: relative;
+  padding: 1rem 0;
+}
+
+.tracking-stepper::before {
+  content: "";
+  position: absolute;
+  top: 24px;
+  left: 12%;
+  right: 12%;
+  height: 2px;
+  background: var(--border-subtle);
+  z-index: 1;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.step-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--bg-surface);
+  border: 2px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 0.4rem;
+  transition: all var(--transition-fast);
+}
+
+.step.completed .step-dot {
+  background: #0284c7;
+  border-color: #38bdf8;
+  color: #fff;
+}
+
+.step.active .step-dot {
+  background: #38bdf8;
+  border-color: #fff;
+  color: #000;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.6);
+  animation: pulse 1.8s infinite;
+}
+
+.step-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.15rem;
+}
+
+.step.active .step-title {
+  color: #38bdf8;
+}
+
+.step-desc {
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  line-height: 1.2;
+}
+
+.tracking-details-box {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.t-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  gap: 1rem;
+}
+
+.t-detail-row span {
+  color: var(--text-muted);
+}
+
+.t-detail-row strong {
+  color: var(--text-primary);
+  text-align: right;
+}
+
+.tracking-actions-row {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btn-copy-tracking {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  background: #0284c7;
+  color: #fff;
+  border: 1px solid #38bdf8;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-copy-tracking:hover {
+  background: #0369a1;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+}
+
+.btn-close-tracking {
+  padding: 0.75rem 1.25rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-hairline);
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.btn-close-tracking:hover {
+  color: #fff;
+  border-color: var(--border-gold);
+}
+
+/* ==========================================================================
+   MODAL DE BOLETA ELECTRÓNICA TRIBUTARIA (FORMATO OFICIAL SII)
+   ========================================================================== */
+.receipt-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.receipt-modal.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.receipt-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(8px);
+}
+
+.receipt-card {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #fbfbfa;
+  color: #111;
+  border-radius: var(--radius-md);
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.95);
+  z-index: 2;
+  animation: modalScaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.receipt-close-btn {
+  position: absolute;
+  top: 15px;
+  right: 18px;
+  font-size: 1.8rem;
+  color: #666;
+  line-height: 1;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.receipt-close-btn:hover {
+  color: #000;
+}
+
+.receipt-paper {
+  padding: 2.2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  font-family: var(--font-sans);
+}
+
+.receipt-top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  border-bottom: 2px solid #222;
+  padding-bottom: 1.25rem;
+}
+
+.receipt-seller-info {
+  flex: 1;
+}
+
+.r-seller-name {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #000;
+  margin-bottom: 0.35rem;
+}
+
+.receipt-seller-info p {
+  font-size: 0.68rem;
+  color: #555;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.receipt-box-sii {
+  border: 2px solid #b91c1c;
+  padding: 0.65rem 1rem;
+  text-align: center;
+  border-radius: 4px;
+  min-width: 190px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.sii-title {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #b91c1c;
+  letter-spacing: 0.05em;
+}
+
+.sii-number {
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: #b91c1c;
+  font-family: monospace;
+}
+
+.sii-office {
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #b91c1c;
+  letter-spacing: 0.05em;
+}
+
+.receipt-customer-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.45rem 1rem;
+  background: #f0f0ed;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.85rem 1rem;
+  font-size: 0.72rem;
+  color: #333;
+}
+
+.receipt-customer-strip span {
+  font-weight: 600;
+  color: #777;
+}
+
+.receipt-customer-strip strong {
+  color: #111;
+}
+
+.receipt-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.75rem;
+}
+
+.receipt-table th {
+  background: #222;
+  color: #fff;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.receipt-table th:last-child,
+.receipt-table td:last-child,
+.receipt-table th:nth-child(2),
+.receipt-table td:nth-child(2),
+.receipt-table th:nth-child(3),
+.receipt-table td:nth-child(3) {
+  text-align: right;
+}
+
+.receipt-table td {
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid #e5e5e5;
+  color: #222;
+}
+
+.receipt-totals-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed #ccc;
+  font-size: 0.8rem;
+}
+
+.receipt-totals-grid div {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: space-between;
+  min-width: 220px;
+}
+
+.receipt-totals-grid span {
+  color: #666;
+}
+
+.receipt-totals-grid strong {
+  color: #111;
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+.receipt-totals-grid .r-total-highlight {
+  border-top: 2px solid #222;
+  padding-top: 0.35rem;
+  font-size: 1rem;
+}
+
+.receipt-totals-grid .r-total-highlight strong {
+  font-size: 1.15rem;
+  color: #000;
+}
+
+.receipt-cold-chain-stamp {
+  padding: 0.65rem 1rem;
+  background: #e0f2fe;
+  border: 1px solid #38bdf8;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  color: #0369a1;
+  text-align: center;
+  font-weight: 600;
+}
+
+.receipt-actions-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.btn-print-receipt {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-print-receipt:hover {
+  background: #333;
+}
+
+.btn-close-receipt {
+  padding: 0.75rem 1.25rem;
+  background: #e5e5e5;
+  color: #333;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-close-receipt:hover {
+  background: #d4d4d4;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .receipt-card, .receipt-card * {
+    visibility: visible;
+  }
+  .receipt-card {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    box-shadow: none;
+  }
+  .receipt-actions-row, .receipt-close-btn {
+    display: none !important;
+  }
+}
+
