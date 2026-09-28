@@ -55,15 +55,34 @@ class CartManager {
   }
 
   openDrawer() {
-    document.getElementById("cart-drawer")?.classList.add("open");
-    document.getElementById("cart-overlay")?.classList.add("open");
+    const drawer = document.getElementById("cart-drawer");
+    const overlay = document.getElementById("cart-overlay");
+    if (drawer) drawer.classList.add("open");
+    if (overlay) overlay.classList.add("open");
     document.body.style.overflow = "hidden";
   }
 
   closeDrawer() {
-    document.getElementById("cart-drawer")?.classList.remove("open");
-    document.getElementById("cart-overlay")?.classList.remove("open");
+    const drawer = document.getElementById("cart-drawer");
+    const overlay = document.getElementById("cart-overlay");
+    if (drawer) drawer.classList.remove("open");
+    if (overlay) overlay.classList.remove("open");
     document.body.style.overflow = "";
+  }
+
+  exploreCatalog() {
+    this.closeDrawer();
+    const catalog = document.getElementById("catalogo");
+    if (catalog) {
+      catalog.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+
+  askSommelier() {
+    this.closeDrawer();
+    if (window.SommelierBot) {
+      window.SommelierBot.openChat();
+    }
   }
 
   addItem(product) {
@@ -83,7 +102,7 @@ class CartManager {
     }
     this.save();
     this.render();
-    this.showToast(`Añadido a la bolsa: ${product.name}`);
+    this.showToast(`Añadido al carrito: ${product.name}`);
   }
 
   addItemById(id) {
