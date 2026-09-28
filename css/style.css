@@ -310,8 +310,13 @@ h3, h4, h5, h6 {
   transition: width var(--transition-fast);
 }
 
-.nav-link:hover::after {
+.nav-link:hover::after,
+.nav-link.active::after {
   width: 100%;
+}
+
+.nav-link.active {
+  color: var(--gold-light);
 }
 
 .header-actions {
@@ -401,6 +406,20 @@ h3, h4, h5, h6 {
 
 .mobile-nav-menu.open {
   display: flex;
+}
+
+.mobile-nav-menu a {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+  padding: 0.25rem 0;
+}
+
+.mobile-nav-menu a:hover,
+.mobile-nav-menu a.active {
+  color: var(--gold-light);
+  transform: translateX(4px);
 }
 
 .btn-mobile-sommelier {
@@ -5129,14 +5148,12 @@ h3, h4, h5, h6 {
    OPTIMIZACIONES DE RENDIMIENTO & RENDERIZADO ULTRA-RÁPIDO (60-120 FPS)
    ========================================================================== */
 
-/* Omite el cálculo y renderizado de secciones pesadas fuera de pantalla hasta el scroll */
+/* Compensación de cabecera fija y anclaje suave para todas las secciones de la cava */
 #catalogo,
 #maridaje,
-#atelier,
 #cadena-frio,
 #filosofia {
-  content-visibility: auto;
-  contain-intrinsic-size: 800px;
+  scroll-margin-top: 90px;
 }
 
 /* Promoción limpia a la GPU para elementos interactivos y fijos */

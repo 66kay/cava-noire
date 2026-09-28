@@ -74,7 +74,12 @@ class CartManager {
     this.closeDrawer();
     const catalog = document.getElementById("catalogo");
     if (catalog) {
-      catalog.scrollIntoView({ behavior: "smooth", block: "start" });
+      const headerOffset = 85;
+      const targetY = catalog.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+      window.scrollTo({
+        top: targetY,
+        behavior: "smooth"
+      });
     }
   }
 
@@ -1098,18 +1103,60 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Smooth scroll
+  // Desplazamiento suave y sutil hacia las secciones (+Afinaciones, Cata & Maridaje, Cadena de Frío, Nuestra Cava)
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener("click", function(e) {
       const targetId = this.getAttribute("href");
-      if (targetId && targetId !== "#") {
-        const target = document.querySelector(targetId);
-        if (target) {
-          e.preventDefault();
-          target.scrollIntoView({ behavior: "smooth", block: "start" });
-          mobileMenu?.classList.remove("open");
+      if (!targetId || targetId === "#" || targetId.startsWith("#admin")) return;
+
+      const target = document.querySelector(targetId);
+      if (target) {
+        e.preventDefault();
+
+        // Compensación perfecta de la barra de navegación fija superior (82px)
+        const headerOffset = 82;
+        const elementPosition = target.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        });
+
+        // Actualizar clase activa en los enlaces
+        document.querySelectorAll(".desktop-nav .nav-link, .mobile-nav-menu a").forEach(l => l.classList.remove("active"));
+        this.classList.add("active");
+
+        // Cerrar menú móvil si está desplegado
+        if (mobileMenu && mobileMenu.classList.contains("open")) {
+          mobileMenu.classList.remove("open");
         }
       }
     });
   });
+
+  // ScrollSpy sutil: ilumina el enlace de navegación correspondiente a la sección visible
+  const trackedSections = [
+    { id: "catalogo", link: document.querySelector('.desktop-nav a[href="#catalogo"]') },
+    { id: "maridaje", link: document.querySelector('.desktop-nav a[href="#maridaje"]') },
+    { id: "cadena-frio", link: document.querySelector('.desktop-nav a[href="#cadena-frio"]') },
+    { id: "filosofia", link: document.querySelector('.desktop-nav a[href="#filosofia"]') }
+  ];
+
+  window.addEventListener("scroll", () => {
+    const scrollY = window.pageYOffset;
+    const headerHeight = 90;
+
+    trackedSections.forEach(sec => {
+      const el = document.getElementById(sec.id);
+      if (el && sec.link) {
+        const top = el.offsetTop - headerHeight - 40;
+        const bottom = top + el.offsetHeight;
+        if (scrollY >= top && scrollY < bottom) {
+          document.querySelectorAll(".desktop-nav .nav-link").forEach(l => l.classList.remove("active"));
+          sec.link.classList.add("active");
+        }
+      }
+    });
+  }, { passive: true });
 });
