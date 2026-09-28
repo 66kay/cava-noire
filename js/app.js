@@ -281,6 +281,14 @@ class CartManager {
     }
   }
 
+  getCart() {
+    return this.cart;
+  }
+
+  getSubtotal() {
+    return this.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  }
+
   clear() {
     this.cart = [];
     this.save();
@@ -288,16 +296,18 @@ class CartManager {
   }
 }
 
-// --- 2. PASARELA WEBPAY PLUS TRANSBANK ---
+// --- 2. PASARELA WEBPAY PLUS TRANSBANK & CHECKOUT DE CLIENTE ---
 class PaymentGateway {
   constructor() {
-    this.selectedBank = "banco-chile";
-    this.selectedMethod = "debito"; // debito o credito
+    this.deliveryMethod = "delivery"; // "delivery" o "pickup"
+    this.currentSubtotal = 0;
+    this.shippingCost = 4990;
+    this.currentTotal = 0;
+    this.lastCreatedOrder = null;
     this.initDOM();
   }
 
   initDOM() {
-    // Si no existe el modal en el DOM, crearlo
     if (document.getElementById("webpay-modal")) return;
 
     const modalHTML = `
@@ -308,10 +318,10 @@ class PaymentGateway {
           <div class="tbk-portal-header">
             <div class="tbk-brand">
               <span class="tbk-logo-text">Webpay Plus</span>
-              <span class="tbk-corp">Transbank Chile</span>
+              <span class="tbk-corp">Transbank Chile • Checkout Seguro</span>
             </div>
             <div class="cava-merchant-info">
-              <span class="merchant-badge">COMERCIO CERTIFICADO</span>
+              <span class="merchant-badge">COMERCIO OFICIAL</span>
               <span class="merchant-name">La Cava Noire Gourmet SpA</span>
             </div>
             <button class="tbk-close-btn" onclick="window.PaymentGateway.closeWebpayModal()">×</button>
@@ -319,124 +329,151 @@ class PaymentGateway {
 
           <!-- Contenido del Checkout Webpay -->
           <div id="webpay-modal-body" class="webpay-modal-body">
-            <!-- Paso 1: Selección de Medio de Pago -->
+            <!-- Paso 1: Formulario de Datos del Cliente y Despacho -->
             <div id="webpay-step-1" class="webpay-step active">
-              <div class="order-summary-strip">
-                <div class="order-code">Orden: <strong>ORD-${Math.floor(100000 + Math.random() * 900000)}</strong></div>
-                <div class="order-amount">Total: <strong id="tbk-display-amount">$0 CLP</strong></div>
+              <div class="checkout-intro-banner">
+                <span class="checkout-badge">Finalizar Pedido</span>
+                <h3 class="checkout-title">Datos del Cliente y Despacho</h3>
+                <p class="checkout-sub">Ingrese sus datos para emitir su boleta electrónica y procesar el pago vía Webpay Plus.</p>
               </div>
 
-              <div class="tbk-tabs">
-                <button class="tbk-tab active" id="tab-debito" onclick="window.PaymentGateway.setMethod('debito')">
-                  <span class="tab-icon">💳</span> Redcompra / Débito
-                </button>
-                <button class="tbk-tab" id="tab-credito" onclick="window.PaymentGateway.setMethod('credito')">
-                  <span class="tab-icon">💳</span> Tarjetas de Crédito
-                </button>
-              </div>
-
-              <!-- Selector de Bancos Chilenos -->
-              <div class="bank-selector-wrap">
-                <label class="tbk-label">Seleccione su Institución Financiera:</label>
-                <div class="banks-grid">
-                  <button class="bank-card active" data-bank="Banco de Chile" onclick="window.PaymentGateway.selectBank(this)">
-                    <span class="bank-flag">🇨🇱</span>
-                    <span class="b-name">Banco de Chile / Edwards</span>
-                  </button>
-                  <button class="bank-card" data-bank="Santander Chile" onclick="window.PaymentGateway.selectBank(this)">
-                    <span class="bank-flag">🇨🇱</span>
-                    <span class="b-name">Banco Santander</span>
-                  </button>
-                  <button class="bank-card" data-bank="BCI" onclick="window.PaymentGateway.selectBank(this)">
-                    <span class="bank-flag">🇨🇱</span>
-                    <span class="b-name">BCI / MACH</span>
-                  </button>
-                  <button class="bank-card" data-bank="BancoEstado" onclick="window.PaymentGateway.selectBank(this)">
-                    <span class="bank-flag">🇨🇱</span>
-                    <span class="b-name">BancoEstado / CuentaRUT</span>
-                  </button>
-                  <button class="bank-card" data-bank="Scotiabank" onclick="window.PaymentGateway.selectBank(this)">
-                    <span class="bank-flag">🇨🇱</span>
-                    <span class="b-name">Scotiabank Azul</span>
-                  </button>
-                  <button class="bank-card" data-bank="Itaú" onclick="window.PaymentGateway.selectBank(this)">
-                    <span class="bank-flag">🇨🇱</span>
-                    <span class="b-name">Itaú Corpbanca</span>
-                  </button>
-                </div>
-              </div>
-
-              <!-- Formulario de Tarjeta y RUT -->
-              <div class="tbk-form">
-                <div class="tbk-input-group">
-                  <label for="tbk-rut">RUT del Titular (ej: 12.345.678-9):</label>
-                  <input type="text" id="tbk-rut" value="18.942.315-K" placeholder="12.345.678-9">
-                </div>
-                <div class="tbk-input-group">
-                  <label for="tbk-card-num">Número de Tarjeta:</label>
-                  <input type="text" id="tbk-card-num" value="•••• •••• •••• 9821" placeholder="4521 0000 0000 0000">
-                </div>
-                <div class="tbk-input-row">
-                  <div class="tbk-input-group">
-                    <label for="tbk-exp">Vencimiento:</label>
-                    <input type="text" id="tbk-exp" value="09/29" placeholder="MM/AA">
+              <form id="checkout-customer-form" class="checkout-real-form" onsubmit="window.PaymentGateway.handleCheckoutSubmit(event)">
+                <!-- Sección 1: Datos Personales -->
+                <div class="form-section-group">
+                  <div class="section-title-tag">
+                    <span class="step-num">1</span>
+                    <span>DATOS PERSONALES</span>
                   </div>
-                  <div class="tbk-input-group">
-                    <label for="tbk-cvv">CVV / Clave:</label>
-                    <input type="password" id="tbk-cvv" value="921" placeholder="CVV">
+
+                  <div class="checkout-grid-2col">
+                    <div class="c-input-wrap">
+                      <label for="c-name">Nombre y Apellido *</label>
+                      <input type="text" id="c-name" class="c-text-input" placeholder="Ej: Marcela González" required autocomplete="name">
+                    </div>
+                    <div class="c-input-wrap">
+                      <label for="c-phone">Teléfono de Contacto *</label>
+                      <input type="tel" id="c-phone" class="c-text-input" placeholder="+56 9 8123 4567" required autocomplete="tel">
+                    </div>
+                  </div>
+
+                  <div class="c-input-wrap">
+                    <label for="c-email">Correo Electrónico (Para recibir boleta y comprobante)</label>
+                    <input type="email" id="c-email" class="c-text-input" placeholder="nombre@correo.cl (Opcional)" autocomplete="email">
                   </div>
                 </div>
-              </div>
 
-              <div class="cold-chain-banner">
-                <span class="snow-icon">❄️</span>
-                <p>Despacho en caja isotérmica con gel a 4°C garantizado por <strong>Blue Express Frío</strong> y <strong>Chilexpress Priority</strong>.</p>
-              </div>
+                <!-- Sección 2: Método de Recepción -->
+                <div class="form-section-group">
+                  <div class="section-title-tag">
+                    <span class="step-num">2</span>
+                    <span>OPCIÓN DE ENTREGA</span>
+                  </div>
 
-              <button class="btn-tbk-pay" onclick="window.PaymentGateway.processPayment()">
-                <span>Continuar en Webpay Plus</span>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                  <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-              </button>
+                  <div class="delivery-options-grid">
+                    <div class="delivery-card-option active" id="opt-delivery" onclick="window.PaymentGateway.setDeliveryMethod('delivery')">
+                      <div class="del-card-header">
+                        <span class="del-icon">🚚</span>
+                        <div class="del-info">
+                          <strong>Despacho Refrigerado a Domicilio</strong>
+                          <span class="del-sub">Caja isotérmica 4°C • Blue Express Frío</span>
+                        </div>
+                      </div>
+                      <span class="del-price-tag" id="label-shipping-cost">$4.990 CLP</span>
+                    </div>
+
+                    <div class="delivery-card-option" id="opt-pickup" onclick="window.PaymentGateway.setDeliveryMethod('pickup')">
+                      <div class="del-card-header">
+                        <span class="del-icon">🏪</span>
+                        <div class="del-info">
+                          <strong>Retiro en Tienda / Cava Central</strong>
+                          <span class="del-sub">Av. Vitacura 3565, Santiago • Sin costo</span>
+                        </div>
+                      </div>
+                      <span class="del-price-tag text-green">GRATIS</span>
+                    </div>
+                  </div>
+
+                  <!-- Campos de Dirección si es Delivery -->
+                  <div id="address-fields-box" class="address-fields-box">
+                    <div class="c-input-wrap">
+                      <label for="c-address">Dirección de Envío (Calle, Número, Depto) *</label>
+                      <input type="text" id="c-address" class="c-text-input" placeholder="Ej: Av. Las Condes 12461, Depto 502" autocomplete="street-address">
+                    </div>
+
+                    <div class="checkout-grid-2col">
+                      <div class="c-input-wrap">
+                        <label for="c-commune">Comuna / Ciudad *</label>
+                        <select id="c-commune" class="c-text-input c-select">
+                          <option value="Las Condes, Región Metropolitana">Las Condes (Santiago)</option>
+                          <option value="Vitacura, Región Metropolitana">Vitacura (Santiago)</option>
+                          <option value="Lo Barnechea, Región Metropolitana">Lo Barnechea (Santiago)</option>
+                          <option value="Providencia, Región Metropolitana">Providencia (Santiago)</option>
+                          <option value="Ñuñoa, Región Metropolitana">Ñuñoa (Santiago)</option>
+                          <option value="Santiago Centro, Región Metropolitana">Santiago Centro</option>
+                          <option value="La Reina, Región Metropolitana">La Reina (Santiago)</option>
+                          <option value="Colina / Chicureo, Región Metropolitana">Colina / Chicureo</option>
+                          <option value="Viña del Mar, Región de Valparaíso">Viña del Mar (V Región)</option>
+                          <option value="Concepción, Región del Biobío">Concepción (VIII Región)</option>
+                          <option value="Otra Comuna de Chile">Otra Comuna (Envíos a todo Chile)</option>
+                        </select>
+                      </div>
+                      <div class="c-input-wrap">
+                        <label for="c-notes">Indicaciones de Entrega (Opcional)</label>
+                        <input type="text" id="c-notes" class="c-text-input" placeholder="Ej: Dejar con conserje">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Resumen de Costos y Pago -->
+                <div class="checkout-totals-summary">
+                  <div class="c-total-row">
+                    <span>Subtotal Afinaciones:</span>
+                    <strong id="chk-subtotal-val">$0 CLP</strong>
+                  </div>
+                  <div class="c-total-row">
+                    <span>Costo de Despacho:</span>
+                    <strong id="chk-shipping-val">$4.990 CLP</strong>
+                  </div>
+                  <div class="c-total-row c-final-row">
+                    <span>Total a Pagar:</span>
+                    <strong id="chk-total-val" class="gold-text">$0 CLP</strong>
+                  </div>
+                </div>
+
+                <div id="checkout-form-error" class="checkout-error-msg" style="display: none;"></div>
+
+                <button type="submit" class="btn-checkout-webpay">
+                  <div class="btn-webpay-flex">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                      <line x1="1" y1="10" x2="23" y2="10"></line>
+                    </svg>
+                    <span>Pagar con Webpay Plus</span>
+                  </div>
+                  <span class="webpay-subtext">Débito Redcompra • Tarjetas de Crédito • Prepago • MACH</span>
+                </button>
+
+                <div class="tbk-trust-strip">
+                  <span>🔒 Pasarela Oficial Transbank • Certificación SSL 256-bit • Protocolo 3D-Secure</span>
+                </div>
+              </form>
             </div>
 
             <!-- Paso 2: Procesamiento y Conexión Bancaria 3D Secure -->
             <div id="webpay-step-2" class="webpay-step">
               <div class="tbk-processing-box">
                 <div class="tbk-spinner"></div>
-                <h4>Conectando con Servidor Seguro Bancario...</h4>
-                <p>Verificando fondos y token de autenticación 3D-Secure con Transbank.</p>
-                <div class="secure-token-tag">Token de Sesión: 01ab8f72c3d09a241</div>
+                <h4>Conectando con Servidor Seguro Webpay Plus...</h4>
+                <p>Validando transacción con Transbank y autorizando la orden con su banco emisor.</p>
+                <div class="secure-token-tag">Token de Sesión Transbank: TBK-${Math.floor(10000000 + Math.random() * 90000000)}</div>
               </div>
             </div>
 
-            <!-- Paso 3: Voucher Oficial de Transbank Autorizado -->
+            <!-- Paso 3: Transacción Aprobada & Boleta Electrónica Oficial -->
             <div id="webpay-step-3" class="webpay-step">
-              <div class="tbk-success-voucher">
-                <div class="voucher-seal">✓ TRANSACCIÓN APROBADA</div>
-                <h3 class="voucher-title">Comprobante de Pago Webpay Plus</h3>
-                <p class="voucher-sub">Transbank S.A. • Redcompra</p>
-
-                <div class="voucher-receipt-grid">
-                  <div class="v-row"><span>Comercio:</span><strong>LA CAVA NOIRE GOURMET SPA</strong></div>
-                  <div class="v-row"><span>Código de Autorización:</span><strong id="v-auth-code">TBK-784912</strong></div>
-                  <div class="v-row"><span>Orden de Compra:</span><strong id="v-order-num">ORD-941824</strong></div>
-                  <div class="v-row"><span>Medio de Pago:</span><strong id="v-method">Redcompra Débito</strong></div>
-                  <div class="v-row"><span>Banco Emisor:</span><strong id="v-bank">Banco de Chile</strong></div>
-                  <div class="v-row"><span>Fecha / Hora:</span><strong id="v-date">28/09/2026 12:45</strong></div>
-                  <div class="v-row v-total-row"><span>Monto Total Pagado:</span><strong id="v-amount" class="gold-text">$0 CLP</strong></div>
-                </div>
-
-                <div class="dispatch-cold-confirmation">
-                  <h5>📦 Seguimiento de Cadena de Frío:</h5>
-                  <p>Su pedido de quesos de autor ha ingresado a la cava de preparación. Será empacado a 4°C y despachado con guía prioritaria Blue Express para entrega en 24-48 horas.</p>
-                </div>
-
-                <button class="btn-tbk-done" onclick="window.PaymentGateway.finishOrder()">
-                  <span>Volver a la Cava de Quesos</span>
-                </button>
+              <div id="checkout-receipt-container" class="checkout-receipt-wrap">
+                <!-- Se inyecta la Boleta Electrónica dinámica -->
               </div>
             </div>
           </div>
@@ -447,21 +484,50 @@ class PaymentGateway {
     document.body.insertAdjacentHTML("beforeend", modalHTML);
   }
 
-  setMethod(method) {
-    this.selectedMethod = method;
-    document.querySelectorAll(".tbk-tab").forEach(t => t.classList.remove("active"));
-    const activeTab = document.getElementById(`tab-${method}`);
-    if (activeTab) activeTab.classList.add("active");
+  setDeliveryMethod(method) {
+    this.deliveryMethod = method;
+    const optDelivery = document.getElementById("opt-delivery");
+    const optPickup = document.getElementById("opt-pickup");
+    const addressBox = document.getElementById("address-fields-box");
+
+    if (method === "pickup") {
+      optPickup?.classList.add("active");
+      optDelivery?.classList.remove("active");
+      if (addressBox) addressBox.style.display = "none";
+      this.shippingCost = 0;
+    } else {
+      optDelivery?.classList.add("active");
+      optPickup?.classList.remove("active");
+      if (addressBox) addressBox.style.display = "block";
+      this.shippingCost = this.currentSubtotal >= 60000 ? 0 : 4990;
+    }
+
+    this.updateTotals();
   }
 
-  selectBank(btn) {
-    document.querySelectorAll(".bank-card").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    this.selectedBank = btn.getAttribute("data-bank");
+  updateTotals() {
+    this.currentTotal = this.currentSubtotal + this.shippingCost;
+
+    const subEl = document.getElementById("chk-subtotal-val");
+    const shipEl = document.getElementById("chk-shipping-val");
+    const totEl = document.getElementById("chk-total-val");
+    const shipLabelEl = document.getElementById("label-shipping-cost");
+
+    if (subEl) subEl.textContent = formatCLP(this.currentSubtotal);
+    if (shipEl) {
+      shipEl.innerHTML = this.shippingCost === 0 ? `<span class="gold-text">GRATIS</span>` : formatCLP(this.shippingCost);
+    }
+    if (shipLabelEl) {
+      shipLabelEl.innerHTML = (this.currentSubtotal >= 60000) ? `<span class="gold-text">GRATIS</span>` : `$4.990 CLP`;
+    }
+    if (totEl) totEl.textContent = formatCLP(this.currentTotal);
   }
 
   openWebpayModal(amount) {
-    this.currentAmount = amount;
+    this.currentSubtotal = amount || (window.CartManager ? window.CartManager.getSubtotal() : 0);
+    this.shippingCost = this.deliveryMethod === "pickup" ? 0 : (this.currentSubtotal >= 60000 ? 0 : 4990);
+    this.currentTotal = this.currentSubtotal + this.shippingCost;
+
     const modal = document.getElementById("webpay-modal");
     if (!modal) return;
 
@@ -469,12 +535,15 @@ class PaymentGateway {
     modal.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
 
-    document.getElementById("tbk-display-amount").textContent = formatCLP(amount);
-
     // Resetear a paso 1
     document.getElementById("webpay-step-1")?.classList.add("active");
     document.getElementById("webpay-step-2")?.classList.remove("active");
     document.getElementById("webpay-step-3")?.classList.remove("active");
+
+    const err = document.getElementById("checkout-form-error");
+    if (err) err.style.display = "none";
+
+    this.updateTotals();
   }
 
   closeWebpayModal() {
@@ -486,7 +555,47 @@ class PaymentGateway {
     }
   }
 
-  processPayment() {
+  handleCheckoutSubmit(e) {
+    if (e) e.preventDefault();
+
+    const name = (document.getElementById("c-name")?.value || "").trim();
+    const phone = (document.getElementById("c-phone")?.value || "").trim();
+    const email = (document.getElementById("c-email")?.value || "").trim();
+    const address = (document.getElementById("c-address")?.value || "").trim();
+    const commune = document.getElementById("c-commune")?.value || "Santiago";
+    const notes = (document.getElementById("c-notes")?.value || "").trim();
+    const errorEl = document.getElementById("checkout-form-error");
+
+    if (!name || !phone) {
+      if (errorEl) {
+        errorEl.textContent = "Por favor ingrese su Nombre y Teléfono de contacto.";
+        errorEl.style.display = "block";
+      }
+      return;
+    }
+
+    if (this.deliveryMethod === "delivery" && !address) {
+      if (errorEl) {
+        errorEl.textContent = "Por favor ingrese la dirección completa de entrega.";
+        errorEl.style.display = "block";
+      }
+      return;
+    }
+
+    if (errorEl) errorEl.style.display = "none";
+
+    this.processPayment({
+      name,
+      phone,
+      email,
+      method: this.deliveryMethod,
+      address: this.deliveryMethod === "pickup" ? "Retiro en Cava Central (Av. Vitacura 3565)" : address,
+      commune: this.deliveryMethod === "pickup" ? "Vitacura, Santiago" : commune,
+      notes
+    });
+  }
+
+  processPayment(customerData) {
     // Pasar a paso 2 (simulación de autorización bancaria)
     document.getElementById("webpay-step-1")?.classList.remove("active");
     document.getElementById("webpay-step-2")?.classList.add("active");
@@ -495,53 +604,53 @@ class PaymentGateway {
       document.getElementById("webpay-step-2")?.classList.remove("active");
       document.getElementById("webpay-step-3")?.classList.add("active");
 
-      // Rellenar datos del voucher
       const authCode = "TBK-" + Math.floor(100000 + Math.random() * 900000);
       const orderNum = "ORD-" + Math.floor(100000 + Math.random() * 900000);
+      const trackingCode = customerData.method === "delivery" ? "BLX-" + Math.floor(10000000 + Math.random() * 90000000) : "";
       const now = new Date().toLocaleString("es-CL");
 
-      document.getElementById("v-auth-code").textContent = authCode;
-      document.getElementById("v-order-num").textContent = orderNum;
-      document.getElementById("v-method").textContent = this.selectedMethod === "debito" ? "Redcompra Débito" : "Crédito Visa/Mastercard";
-      document.getElementById("v-bank").textContent = this.selectedBank;
-      document.getElementById("v-date").textContent = now;
-      document.getElementById("v-amount").textContent = formatCLP(this.currentAmount);
-
-      // Capturar items y registrar la venta en el Panel de Pedidos
       const cartItems = (window.CartManager && window.CartManager.getCart().length > 0)
         ? [...window.CartManager.getCart()]
         : [
             {
               name: "Cofre Degustación 'Grand Affineur' (5 Quesos)",
               weight: "1.250g con maridajes",
-              price: this.currentAmount,
+              price: this.currentSubtotal,
               quantity: 1,
               image: "https://images.unsplash.com/photo-1452195100486-9cc805987862?w=480&auto=format&fit=crop&q=72"
             }
           ];
 
+      const newOrder = {
+        id: orderNum,
+        authCode: authCode,
+        date: now,
+        timestamp: Date.now(),
+        customer: {
+          name: customerData.name,
+          email: customerData.email || "No especificado",
+          phone: customerData.phone,
+          address: customerData.address,
+          commune: customerData.commune,
+          deliveryType: customerData.method === "pickup" ? "Retiro en Cava" : "Despacho Refrigerado Blue Express",
+          notes: customerData.notes || ""
+        },
+        items: cartItems,
+        subtotal: this.currentSubtotal,
+        shipping: this.shippingCost,
+        total: this.currentTotal,
+        paymentMethod: "Webpay Plus Débito / Crédito Transbank",
+        bank: "Transbank Webpay Plus",
+        status: customerData.method === "pickup" ? "Listo para Retiro en Cava" : "En Cava (Preparación Fría)",
+        trackingCode: trackingCode,
+        trackingUrl: trackingCode ? `https://www.bluex.cl/seguimiento?n=${trackingCode}` : ""
+      };
+
+      this.lastCreatedOrder = newOrder;
+
+      // Registrar venta en el Panel de Administración de Pedidos
       if (window.OrdersApp) {
-        window.OrdersApp.addOrder({
-          id: orderNum,
-          authCode: authCode,
-          date: now,
-          timestamp: Date.now(),
-          customer: {
-            name: "Cliente Tienda Webpay",
-            email: "cliente.webpay@gmail.com",
-            phone: "+56 9 8123 4567",
-            address: "Av. Vitacura 5400",
-            commune: "Vitacura, Región Metropolitana"
-          },
-          items: cartItems,
-          subtotal: this.currentAmount,
-          shipping: 0,
-          total: this.currentAmount,
-          paymentMethod: this.selectedMethod === "debito" ? `Webpay Plus Débito (${this.selectedBank})` : `Webpay Plus Crédito (${this.selectedBank})`,
-          bank: this.selectedBank,
-          status: "En Cava (Preparación Fría)",
-          trackingCode: "BLX-" + Math.floor(10000000 + Math.random() * 90000000)
-        });
+        window.OrdersApp.addOrder(newOrder);
       }
 
       // Vaciar carrito
@@ -549,13 +658,125 @@ class PaymentGateway {
         window.CartManager.clear();
       }
 
+      // Renderizar Boleta Electrónica Oficial y botones de descarga/envío
+      this.renderReceipt(newOrder);
+
       // Notificar al chatbot
       if (window.SommelierBot) {
         window.SommelierBot.addBotMessage(
-          `¡Excelente noticia! Transbank ha confirmado el pago de su orden **${orderNum}** por **${formatCLP(this.currentAmount)}** con código de autorización **${authCode}**. El pedido ha ingresado a nuestro panel de cava para preparación y despacho refrigerado.`
+          `¡Enhorabuena! Transbank ha confirmado el pago de su orden **${orderNum}** por **${formatCLP(newOrder.total)}** con código de autorización **${authCode}**. Su boleta electrónica ha sido generada y el pedido ingresó al panel de cava.`
         );
       }
     }, 1800);
+  }
+
+  renderReceipt(order) {
+    const container = document.getElementById("checkout-receipt-container");
+    if (!container) return;
+
+    const netAmount = Math.round(order.total / 1.19);
+    const ivaAmount = order.total - netAmount;
+
+    container.innerHTML = `
+      <div class="chk-success-badge">
+        <span class="chk-badge-dot">✓</span>
+        <span>TRANSACCIÓN AUTORIZADA EXITOSAMENTE</span>
+      </div>
+
+      <div class="receipt-paper chk-paper-shadow">
+        <div class="receipt-top-header">
+          <div class="receipt-seller-info">
+            <h2 class="r-seller-name">LA CAVA NOIRE GOURMET SPA</h2>
+            <p>RUT: 77.892.410-8 • GIRO: VENTA Y AFINACIÓN DE QUESOS</p>
+            <p>AV. ALONSO DE CÓRDOVA 3940, VITACURA, SANTIAGO</p>
+            <p>DOCUMENTO ELECTRÓNICO TRIBUTARIO</p>
+          </div>
+          <div class="receipt-box-sii">
+            <span class="sii-title">BOLETA ELECTRÓNICA</span>
+            <span class="sii-number">N° ${order.id.replace('ORD-', '')}</span>
+            <span class="sii-office">S.I.I. - SANTIAGO ORIENTE</span>
+          </div>
+        </div>
+
+        <div class="receipt-customer-strip">
+          <div><span>SEÑOR(A):</span> <strong>${order.customer.name.toUpperCase()}</strong></div>
+          <div><span>ENTREGA:</span> <strong>${order.customer.address.toUpperCase()} (${order.customer.commune.toUpperCase()})</strong></div>
+          <div><span>CONTACTO:</span> <strong>${order.customer.phone} ${order.customer.email ? '• ' + order.customer.email : ''}</strong></div>
+          <div><span>FECHA EMISIÓN:</span> <strong>${order.date}</strong></div>
+          <div><span>PAGO:</span> <strong>WEBPAY PLUS TRANSBANK</strong> (AUTH: ${order.authCode})</div>
+        </div>
+
+        <table class="receipt-table">
+          <thead>
+            <tr>
+              <th>DETALLE PRODUCTO</th>
+              <th>CANT.</th>
+              <th>UNITARIO</th>
+              <th>TOTAL</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${order.items.map(it => `
+              <tr>
+                <td>${it.name} (${it.weight || 'Pieza'})</td>
+                <td>${it.quantity}</td>
+                <td>${formatCLP(it.price)}</td>
+                <td>${formatCLP(it.price * it.quantity)}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+
+        <div class="receipt-totals-grid">
+          <div><span>MONTO NETO:</span> <strong>${formatCLP(netAmount)}</strong></div>
+          <div><span>I.V.A. (19%):</span> <strong>${formatCLP(ivaAmount)}</strong></div>
+          <div><span>DESPACHO:</span> <strong>${order.shipping === 0 ? 'GRATIS' : formatCLP(order.shipping)}</strong></div>
+          <div class="r-total-highlight"><span>TOTAL PAGADO:</span> <strong>${formatCLP(order.total)}</strong></div>
+        </div>
+
+        <div class="receipt-cold-chain-stamp">
+          <span>❄️ CERTIFICADO DE CADENA DE FRÍO 4°C: Lote empacado bajo atmósfera termocontrolada con gel criogénico.</span>
+        </div>
+
+        <!-- Botones de Acción de Boleta -->
+        <div class="chk-receipt-actions">
+          <button class="btn-chk-print" onclick="window.print()">
+            <span>🖨️ Descargar Boleta (PDF / Imprimir)</span>
+          </button>
+          <button class="btn-chk-email" onclick="window.PaymentGateway.sendReceiptEmail()">
+            <span>✉️ Enviar a mi Correo</span>
+          </button>
+          ${order.trackingCode ? `
+            <button class="btn-chk-track" onclick="window.PaymentGateway.closeWebpayModal(); window.OrdersApp.trackBlueExpress('${order.trackingCode}', '${order.id}')">
+              <span>🚚 Ver Seguimiento Blue Express</span>
+            </button>
+          ` : ''}
+          <button class="btn-chk-done" onclick="window.PaymentGateway.finishOrder()">
+            <span>Volver a la Cava de Quesos</span>
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  sendReceiptEmail() {
+    if (!this.lastCreatedOrder) return;
+    let email = this.lastCreatedOrder.customer.email;
+    if (!email || email === "No especificado") {
+      email = prompt("Por favor ingrese su correo electrónico para enviarle la boleta:");
+      if (!email || !email.includes("@")) {
+        alert("Correo electrónico no válido.");
+        return;
+      }
+      this.lastCreatedOrder.customer.email = email;
+      if (window.OrdersApp) window.OrdersApp.save();
+    }
+
+    if (window.CartManager) {
+      window.CartManager.showToast(`✓ Boleta electrónica N° ${this.lastCreatedOrder.id.replace('ORD-', '')} enviada con éxito a ${email}`);
+    } else {
+      alert(`✓ Boleta electrónica N° ${this.lastCreatedOrder.id.replace('ORD-', '')} enviada con éxito a ${email}`);
+    }
   }
 
   finishOrder() {

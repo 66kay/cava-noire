@@ -58,9 +58,19 @@ class PairingStudio {
   }
 
   selectWine(wineKey) {
+    if (this.currentWine === wineKey) return;
     this.currentWine = wineKey;
     this.playCrystalClink();
-    this.render();
+
+    const stage = document.querySelector(".pairing-stage");
+    if (stage) {
+      stage.classList.add("stage-shifting-out");
+      setTimeout(() => {
+        this.render();
+      }, 150);
+    } else {
+      this.render();
+    }
   }
 
   render() {
@@ -83,16 +93,17 @@ class PairingStudio {
               <button 
                 class="wine-pill-btn ${item.wine === this.currentWine ? 'active' : ''}" 
                 onclick="window.PairingApp.selectWine('${item.wine}')"
+                title="Armonizar con ${item.name}"
               >
                 <span class="wine-icon">${item.wine.includes('espumante') ? '🥂' : item.wine.includes('late') ? '🍯' : '🍷'}</span>
-                <span class="wine-title">${item.name.split('/')[0]}</span>
+                <span class="wine-title">${item.shortName || item.name}</span>
               </button>
             `).join("")}
           </div>
         </div>
 
         <!-- Escaparate Principal del Maridaje -->
-        <div class="pairing-stage">
+        <div class="pairing-stage animate-stage-in">
           <!-- Tarjeta de Notas de la Cepa -->
           <div class="wine-profile-card">
             <div class="profile-header">

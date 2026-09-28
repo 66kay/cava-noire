@@ -53,7 +53,6 @@
       <nav class="desktop-nav">
         <a href="#catalogo" class="nav-link">Afinaciones de Autor</a>
         <a href="#maridaje" class="nav-link">Cata & Maridaje</a>
-        <a href="#atelier" class="nav-link">Atelier de la Tabla</a>
         <a href="#cadena-frio" class="nav-link">Cadena de Frío</a>
         <a href="#filosofia" class="nav-link">Nuestra Cava</a>
       </nav>
@@ -90,7 +89,6 @@
     <div id="mobile-nav-menu" class="mobile-nav-menu">
       <a href="#catalogo">Afinaciones de Autor</a>
       <a href="#maridaje">Cata & Maridajes</a>
-      <a href="#atelier">Atelier de la Tabla</a>
       <a href="#cadena-frio">Cadena de Frío</a>
       <a href="#filosofia">Nuestra Cava</a>
       <button class="btn-mobile-sommelier" onclick="window.SommelierBot.openChat()">
@@ -212,23 +210,7 @@
       </div>
     </section>
 
-    <!-- SECCIÓN 3: ATELIER DE LA TABLA (DISEÑA TU TABLA DE DEGUSTACIÓN) -->
-    <section id="atelier" class="section-padding atelier-section">
-      <div class="container">
-        <div class="section-header text-center">
-          <span class="gold-tag">COMPOSICIÓN A MEDIDA</span>
-          <h2 class="section-title">Atelier de la Tabla: Diseña tu Pizarra Gourmet</h2>
-          <p class="section-subtitle">
-            Configure la experiencia ideal para sus invitados. Elija la base noble, determine el gramaje según comensales y combine sus afinaciones preferidas en tiempo real.
-          </p>
-        </div>
-
-        <!-- Montaje del Board Builder -->
-        <div id="board-builder-mount"></div>
-      </div>
-    </section>
-
-    <!-- SECCIÓN 4: CADENA DE FRÍO & LOGÍSTICA CHILENA -->
+    <!-- SECCIÓN 3: CADENA DE FRÍO & LOGÍSTICA CHILENA -->
     <section id="cadena-frio" class="section-padding cold-chain-section">
       <div class="container">
         <div class="cold-chain-card">
@@ -411,7 +393,6 @@
         <h4 class="footer-heading">Experiencias</h4>
         <ul class="footer-links">
           <li><a href="#maridaje">Cata & Maridaje Interactivo</a></li>
-          <li><a href="#atelier">Atelier de la Tabla Personalizada</a></li>
           <li><a href="#" onclick="window.SommelierBot.openChat(); return false;">Chatbot Sommelier IA</a></li>
           <li><a href="#cadena-frio">Protocolo de Cadena de Frío (4°C)</a></li>
         </ul>
@@ -438,14 +419,14 @@
           <a href="#">Términos del Servicio</a>
           <a href="#">Garantía de Cadena de Frío</a>
           <a href="#">Privacidad</a>
-          <a href="#admin" onclick="window.OrdersApp.openAdminDirect(); return false;" class="footer-admin-link">🔒 Acceso Administrativo</a>
+          <a href="#admin" onclick="window.OrdersApp.openAdminPortal(); return false;" class="footer-admin-link">🔒 Acceso Administrativo</a>
         </div>
       </div>
     </div>
   </footer>
 
-  <!-- Botón Flotante Discreto de Acceso Administrativo Directo (Solo visible en esquina inferior) -->
-  <button id="admin-direct-trigger" class="admin-direct-trigger" onclick="window.OrdersApp.openAdminDirect()" title="Acceso Directo al Panel Administrativo de Ventas y Despachos">
+  <!-- Botón Flotante Discreto de Acceso Administrativo Exclusivo -->
+  <button id="admin-direct-trigger" class="admin-direct-trigger" onclick="window.OrdersApp.openAdminPortal()" title="Acceso al Panel Administrativo de Control">
     <span class="admin-float-icon">⚙️</span>
     <span class="admin-float-label">Panel Admin</span>
   </button>
@@ -455,7 +436,6 @@
   <script src="js/orders-manager.js" defer></script>
   <script src="js/sommelier-ai.js" defer></script>
   <script src="js/pairing-wheel.js" defer></script>
-  <script src="js/board-builder.js" defer></script>
   <script src="js/app.js" defer></script>
 </body>
 </html>

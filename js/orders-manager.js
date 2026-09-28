@@ -17,11 +17,11 @@ class OrdersManager {
 
     // Acceso directo por URL Hash #admin
     if (window.location.hash === "#admin") {
-      setTimeout(() => this.openAdminDirect(), 350);
+      setTimeout(() => this.openAdminPortal(), 350);
     }
     window.addEventListener("hashchange", () => {
       if (window.location.hash === "#admin") {
-        this.openAdminDirect();
+        this.openAdminPortal();
       }
     });
 
@@ -29,7 +29,7 @@ class OrdersManager {
     window.addEventListener("keydown", (e) => {
       if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === "A" || e.key === "a")) {
         e.preventDefault();
-        this.openAdminDirect();
+        this.openAdminPortal();
       }
     });
   }
@@ -37,15 +37,6 @@ class OrdersManager {
   /* GESTIÓN DE ACCESO ADMINISTRATIVO (ADMIN GATE) */
   isAdminAuthenticated() {
     return sessionStorage.getItem("cava_admin_auth") === "true";
-  }
-
-  openAdminDirect() {
-    sessionStorage.setItem("cava_admin_auth", "true");
-    this.closeAdminLogin();
-    this.openModal();
-    if (window.CartManager) {
-      window.CartManager.showToast("✓ Sesión iniciada: Panel Administrativo");
-    }
   }
 
   openAdminPortal() {
@@ -64,7 +55,7 @@ class OrdersManager {
       const err = document.getElementById("admin-login-error");
       if (err) err.style.display = "none";
       setTimeout(() => {
-        document.getElementById("admin-pass-input")?.focus();
+        document.getElementById("admin-user-input")?.focus();
       }, 100);
     }
   }
@@ -79,11 +70,13 @@ class OrdersManager {
 
   handleAdminLogin(e) {
     if (e) e.preventDefault();
+    const userInput = document.getElementById("admin-user-input");
     const passInput = document.getElementById("admin-pass-input");
     const errorEl = document.getElementById("admin-login-error");
-    const val = (passInput?.value || "").trim().toLowerCase();
+    const userVal = (userInput?.value || "").trim().toLowerCase();
+    const passVal = (passInput?.value || "").trim();
 
-    if (val === "cavanoire2026" || val === "1810" || val === "admin") {
+    if (userVal === "admin" && passVal === "admin") {
       sessionStorage.setItem("cava_admin_auth", "true");
       this.closeAdminLogin();
       this.openModal();
@@ -92,18 +85,9 @@ class OrdersManager {
       }
     } else {
       if (errorEl) {
-        errorEl.textContent = "Clave de acceso incorrecta. Use 'cavanoire2026' o el PIN '1810'.";
+        errorEl.textContent = "Credenciales incorrectas. Verifique usuario y contraseña.";
         errorEl.style.display = "block";
       }
-    }
-  }
-
-  fastLogin() {
-    sessionStorage.setItem("cava_admin_auth", "true");
-    this.closeAdminLogin();
-    this.openModal();
-    if (window.CartManager) {
-      window.CartManager.showToast("✓ Acceso concedido como Administrador");
     }
   }
 
@@ -136,44 +120,40 @@ class OrdersManager {
 
           <form class="admin-login-form" onsubmit="window.OrdersApp.handleAdminLogin(event)">
             <div class="admin-form-group">
-              <label for="admin-user-input" class="admin-input-label">Identificador Administrativo</label>
+              <label for="admin-user-input" class="admin-input-label">Usuario Administrador</label>
               <div class="admin-input-wrap">
                 <span class="admin-input-icon">👤</span>
                 <input 
                   type="text" 
                   id="admin-user-input" 
                   class="admin-text-input" 
-                  value="admin@cavanoire.cl" 
-                  placeholder="admin@cavanoire.cl"
+                  placeholder="Ingrese usuario"
                   autocomplete="username"
+                  required
                 />
               </div>
             </div>
 
             <div class="admin-form-group">
-              <label for="admin-pass-input" class="admin-input-label">Contraseña Maestra / PIN</label>
+              <label for="admin-pass-input" class="admin-input-label">Contraseña de Seguridad</label>
               <div class="admin-input-wrap">
                 <span class="admin-input-icon">🔑</span>
                 <input 
                   type="password" 
                   id="admin-pass-input" 
                   class="admin-text-input" 
-                  placeholder="Ingrese clave o PIN (ej: cavanoire2026 o 1810)"
+                  placeholder="••••••••"
                   autocomplete="current-password"
                   required
                 />
               </div>
-              <span class="admin-hint-text">Clave predeterminada: <strong>cavanoire2026</strong> o PIN <strong>1810</strong></span>
             </div>
 
             <div id="admin-login-error" class="admin-login-error-msg" style="display: none;"></div>
 
             <div class="admin-login-buttons">
               <button type="submit" class="btn-admin-submit">
-                <span>🔒 Desbloquear Panel de Control</span>
-              </button>
-              <button type="button" class="btn-admin-fast-login" onclick="window.OrdersApp.fastLogin()" title="Acceso de demostración con 1 clic">
-                <span>⚡ Acceso Rápido Demo (1 Clic)</span>
+                <span>🔒 Iniciar Sesión de Administrador</span>
               </button>
             </div>
           </form>
