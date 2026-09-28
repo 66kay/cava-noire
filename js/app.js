@@ -488,6 +488,43 @@ class PaymentGateway {
       document.getElementById("v-date").textContent = now;
       document.getElementById("v-amount").textContent = formatCLP(this.currentAmount);
 
+      // Capturar items y registrar la venta en el Panel de Pedidos
+      const cartItems = (window.CartManager && window.CartManager.getCart().length > 0)
+        ? [...window.CartManager.getCart()]
+        : [
+            {
+              name: "Cofre Degustación 'Grand Affineur' (5 Quesos)",
+              weight: "1.250g con maridajes",
+              price: this.currentAmount,
+              quantity: 1,
+              image: "https://images.unsplash.com/photo-1452195100486-9cc805987862?w=800&auto=format&fit=crop&q=80"
+            }
+          ];
+
+      if (window.OrdersApp) {
+        window.OrdersApp.addOrder({
+          id: orderNum,
+          authCode: authCode,
+          date: now,
+          timestamp: Date.now(),
+          customer: {
+            name: "Cliente Tienda Webpay",
+            email: "cliente.webpay@gmail.com",
+            phone: "+56 9 8123 4567",
+            address: "Av. Vitacura 5400",
+            commune: "Vitacura, Región Metropolitana"
+          },
+          items: cartItems,
+          subtotal: this.currentAmount,
+          shipping: 0,
+          total: this.currentAmount,
+          paymentMethod: this.selectedMethod === "debito" ? `Webpay Plus Débito (${this.selectedBank})` : `Webpay Plus Crédito (${this.selectedBank})`,
+          bank: this.selectedBank,
+          status: "En Cava (Preparación Fría)",
+          trackingCode: "BLX-" + Math.floor(10000000 + Math.random() * 90000000)
+        });
+      }
+
       // Vaciar carrito
       if (window.CartManager) {
         window.CartManager.clear();
@@ -496,7 +533,7 @@ class PaymentGateway {
       // Notificar al chatbot
       if (window.SommelierBot) {
         window.SommelierBot.addBotMessage(
-          `¡Excelente noticia! Transbank ha confirmado el pago de su orden **${orderNum}** por **${formatCLP(this.currentAmount)}** con código de autorización **${authCode}**. Sus quesos ya se encuentran en preparación para despacho refrigerado.`
+          `¡Excelente noticia! Transbank ha confirmado el pago de su orden **${orderNum}** por **${formatCLP(this.currentAmount)}** con código de autorización **${authCode}**. El pedido ha ingresado a nuestro panel de cava para preparación y despacho refrigerado.`
         );
       }
     }, 1800);

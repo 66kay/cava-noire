@@ -38,6 +38,13 @@ Web application boutique de alta gama dedicada a quesos exclusivos de autor, afi
 - Moneda en Pesos Chilenos ($ CLP) con formato nacional ($29.990) y umbral dinámico para despacho refrigerado gratuito ($65.000 CLP).
 - Cupones de cortesía válidos: `CAVANOIRE10` (10% OFF) y `SOMMELIER15` (15% OFF).
 
+### 6. 📦 Panel de Control de Pedidos & Ventas en Vivo
+- Registro persistente de cada orden aprobada vía Webpay Plus tanto desde el carrito como desde el Chatbot Sommelier IA.
+- Ficha detallada con datos del cliente (nombre, dirección de entrega en Chile, teléfono, productos seleccionados y código de transacción Transbank).
+- Control de estados logísticos: *🟡 En Cava (Preparación Fría)*, *🚚 Despachado (Blue Express Frío)* y *✅ Entregado al Cliente*.
+- Métricas dinámicas de facturación en `$ CLP`, botón para simular nuevas ventas y exportación de datos en formato **CSV**.
+- Alerta visual flotante en tiempo real (*popup con sonido de cristal*) cada vez que se concreta un pago.
+
 ---
 
 ## 🛠️ Stack Tecnológico
