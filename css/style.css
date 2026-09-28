@@ -189,55 +189,65 @@ h3, h4, h5, h6 {
   justify-content: space-between;
   align-items: center;
   height: 80px;
+  gap: 1.25rem;
 }
 
 .brand-logo {
   display: flex;
   align-items: center;
-  gap: 0.85rem;
+  gap: 0.65rem;
+  flex-shrink: 0;
+  min-width: 0;
 }
 
 .brand-heraldry {
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   color: var(--gold-primary);
   filter: drop-shadow(0 0 6px var(--gold-glow));
+  flex-shrink: 0;
 }
 
 .brand-names {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .brand-title {
   font-family: var(--font-serif);
-  font-size: 1.45rem;
+  font-size: 1.32rem;
   font-weight: 600;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.1em;
   color: var(--text-primary);
   text-transform: uppercase;
+  white-space: nowrap;
+  line-height: 1.15;
 }
 
 .brand-subtitle {
-  font-size: 0.62rem;
-  letter-spacing: 0.22em;
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
   color: var(--gold-primary);
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .desktop-nav {
   display: flex;
   align-items: center;
-  gap: 2.2rem;
+  gap: 1.6rem;
+  flex-shrink: 1;
 }
 
 .nav-link {
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   font-weight: 500;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   color: var(--text-secondary);
   transition: color var(--transition-fast);
   position: relative;
   padding: 0.25rem 0;
+  white-space: nowrap;
 }
 
 .nav-link:hover {
@@ -262,7 +272,8 @@ h3, h4, h5, h6 {
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
+  gap: 0.75rem;
+  flex-shrink: 0;
 }
 
 .btn-header-sommelier {
@@ -3480,7 +3491,7 @@ h3, h4, h5, h6 {
 }
 
 /* RESPONSIVE DESIGN */
-@media (max-width: 1024px) {
+@media (max-width: 1180px) {
   .desktop-nav { display: none; }
   .btn-mobile-toggle { display: flex; }
   .pairing-stage { grid-template-columns: 1fr; }
@@ -3488,6 +3499,8 @@ h3, h4, h5, h6 {
   .philosophy-grid { grid-template-columns: 1fr; gap: 2.5rem; }
   .modal-two-columns { grid-template-columns: 1fr; padding: 1.5rem; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
+  .btn-header-orders .label-text { display: none; }
+  .btn-header-sommelier .label-text { display: none; }
 }
 
 @media (max-width: 768px) {
@@ -3503,6 +3516,13 @@ h3, h4, h5, h6 {
   .banks-grid { grid-template-columns: 1fr; }
   .sommelier-window { width: 100vw; height: 100vh; max-width: 100vw; max-height: 100vh; bottom: 0; right: 0; border-radius: 0; }
   .cart-drawer { width: 100vw; }
+
+  /* En móviles, ocultar botones de texto del header para dar máximo espacio al logo */
+  .btn-header-orders, .btn-header-sommelier { display: none; }
+  .brand-logo { gap: 0.5rem; }
+  .brand-heraldry { font-size: 1.3rem; }
+  .brand-title { font-size: 1.12rem; letter-spacing: 0.08em; }
+  .brand-subtitle { font-size: 0.5rem; letter-spacing: 0.12em; }
 }
 
 /* ==========================================================================
