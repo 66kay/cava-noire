@@ -60,14 +60,13 @@
 
       <!-- Botones de Acción -->
       <div class="header-actions">
-        <!-- Panel de Registro de Pedidos & Ventas -->
-        <button id="orders-dashboard-btn" class="btn-header-orders" onclick="window.OrdersApp.openModal()" title="Ver Registro de Pedidos y Ventas Webpay">
+        <!-- Panel de Control & Pedidos (Acceso Administrativo) -->
+        <button id="orders-dashboard-btn" class="btn-header-orders" onclick="window.OrdersApp.openAdminPortal()" title="Acceso al Panel de Control de Ventas y Pedidos">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <path d="M16 10a4 4 0 0 1-8 0"></path>
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
           </svg>
-          <span class="label-text">Pedidos</span>
+          <span class="label-text">Panel Admin</span>
           <span class="orders-count-badge" id="orders-count-badge">0</span>
         </button>
 
@@ -104,8 +103,8 @@
       <a href="#atelier">Atelier de la Tabla</a>
       <a href="#cadena-frio">Cadena de Frío</a>
       <a href="#filosofia">Nuestra Cava</a>
-      <button class="btn-mobile-orders" onclick="window.OrdersApp.openModal()">
-        <span>📦 Ver Registro de Pedidos & Ventas</span>
+      <button class="btn-mobile-orders" onclick="window.OrdersApp.openAdminPortal()">
+        <span>🔒 Acceso Panel Administrativo & Pedidos</span>
       </button>
       <button class="btn-mobile-sommelier" onclick="window.SommelierBot.openChat()">
         <span>🍷 Consultar a Jean-Pierre (Sommelier IA)</span>
@@ -452,6 +451,7 @@
           <a href="#">Términos del Servicio</a>
           <a href="#">Garantía de Cadena de Frío</a>
           <a href="#">Privacidad</a>
+          <a href="#admin" onclick="window.OrdersApp.openAdminPortal(); return false;">🔒 Portal Administrativo</a>
         </div>
       </div>
     </div>
