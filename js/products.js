@@ -1,0 +1,313 @@
+/**
+ * LA CAVA NOIRE // Catálogo Exclusivo de Quesos de Autor y Afinación
+ * Todos los precios expresados en Pesos Chilenos ($ CLP) con IVA incluido.
+ */
+
+const CHEESE_PRODUCTS = [
+  {
+    id: "comte-36m",
+    name: "Comté Extra Réserve AOP (36 Meses)",
+    subtitle: "Afinado en las cavas subterráneas del Fort Saint-Antoine, Jura",
+    origin: "Franco-Condado, Francia",
+    appellation: "AOP (Appellation d'Origine Protégée)",
+    category: "pasta-dura",
+    categoryLabel: "Pasta Prensada Cocida",
+    aging: "36 Meses de Cava",
+    milkType: "Leche cruda de vaca Montbéliarde",
+    intensity: 4,
+    weight: "250g (Cuña seleccionada a mano)",
+    price: 29990,
+    badge: "Reserva de Oro",
+    description: "Una joya de la quesería gala. Elaborado exclusivamente en verano cuando las vacas pastan en alta montaña. Textura densa salpicada de cristales crocantes de tirosina. Notas complejas a avellana tostada, mantequilla noisette y toques sutiles de fruta deshidratada.",
+    tastingNotes: {
+      aroma: "Mantequilla tibia, frutos secos y sotobosque",
+      palate: "Umami profundo, acidez láctica noble y dulzor de caramelo salino",
+      texture: "Untuosa con cristales crujientes de aminoácidos"
+    },
+    pairing: "Vino blanco Arbois (Jura) o Carménère Reserva chileno con guarda en barrica de roble francés.",
+    serviceTemp: "16°C - 18°C",
+    image: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=800&auto=format&fit=crop&q=80",
+    imageHover: "https://images.unsplash.com/photo-1528751014936-863e6e7a319c?w=800&auto=format&fit=crop&q=80",
+    inStock: true
+  },
+  {
+    id: "pecorino-tartufo",
+    name: "Pecorino al Tartufo Nero Riserva",
+    subtitle: "Elaboración toscana con virutas visibles de Tuber Melanosporum",
+    origin: "Toscana / Umbría, Italia",
+    appellation: "DOP Tradizionale",
+    category: "trufados",
+    categoryLabel: "Quesos Trufados",
+    aging: "12 Meses",
+    milkType: "100% Leche cruda de oveja de pasto",
+    intensity: 5,
+    weight: "220g (Corte en cuña sellada al vacío)",
+    price: 34990,
+    badge: "Colección Privada",
+    description: "Obra maestra italiana que fusiona la leche grasa de ovejas sienesas con auténtica trufa negra recolectada a mano. La pasta es compacta, marfilada y generosamente veteada con finas lascas de trufa que inundan el paladar de elegancia terrosa y notas boscosas.",
+    tastingNotes: {
+      aroma: "Trufa negra salvaje, tierra húmeda y cuero fino",
+      palate: "Intenso, sápido, con un final prolongado y untuoso",
+      texture: "Firme pero mantecosa al fundirse en boca"
+    },
+    pairing: "Brunello di Montalcino, Cabernet Sauvignon de Maipo o un Syrah especiado.",
+    serviceTemp: "18°C",
+    image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=800&auto=format&fit=crop&q=80",
+    imageHover: "https://images.unsplash.com/photo-1452195100486-9cc805987862?w=800&auto=format&fit=crop&q=80",
+    inStock: true
+  },
+  {
+    id: "parmigiano-vacche-rosse",
+    name: "Parmigiano Reggiano Vacche Rosse (30 Meses)",
+    subtitle: "Raza autóctona 'Rossa Reggiana' de altísima caseína",
+    origin: "Reggio Emilia, Italia",
+    appellation: "DOP Vacche Rosse",
+    category: "pasta-dura",
+    categoryLabel: "Pasta Prensada Cocida",
+    aging: "30 Meses",
+    milkType: "Leche cruda de vaca Reggiana",
+    intensity: 4,
+    weight: "300g (Bloque quebrado artesanal)",
+    price: 31990,
+    badge: "DOP Histórica",
+    description: "El auténtico padre de los Parmesanos. La vaca roja produce solo la mitad de leche que otras razas, pero con una concentración proteica y enzimática insuperable. Se parte con punzón en rocas granulosas con aromas a piña madura, heno seco y caldo de ternera concentrado.",
+    tastingNotes: {
+      aroma: "Heno maduro, fruta confitada y crema tostada",
+      palate: "Explosión mineral, sapidez perfectamente equilibrada sin asperezas",
+      texture: "Granulosa, crujiente y soluble"
+    },
+    pairing: "Champagne Blanc de Blancs, Espumante del Valle de Leyda o gotas de Vinagre Balsámico Tradicional.",
+    serviceTemp: "17°C",
+    image: "https://images.unsplash.com/photo-1624806992066-5ffcf7ca186b?w=800&auto=format&fit=crop&q=80",
+    imageHover: "https://images.unsplash.com/photo-1559561853-08451507cbe7?w=800&auto=format&fit=crop&q=80",
+    inStock: true
+  },
+  {
+    id: "brillat-savarin-creme",
+    name: "Brillat-Savarin Triple Crème Affiné",
+    subtitle: "Enriquecido con nata fresca y corteza de Penicillium Camemberti",
+    origin: "Normandía / Borgoña, Francia",
+    appellation: "IGP Artisanale",
+    category: "corteza-enmohecida",
+    categoryLabel: "Pasta Blanda Enmohecida",
+    aging: "5 Semanas",
+    milkType: "Leche entera de vaca pasteurizada + Nata doble",
+    intensity: 2,
+    weight: "200g (Medio disco)",
+    price: 24990,
+    badge: "Alta Cremor",
+    description: "Bautizado en honor al célebre gastrónomo Jean Anthelme Brillat-Savarin. Posee un 72% de materia grasa que le otorga una consistencia cercana a una mousse de mantequilla de lujo, con sutiles toques a champiñón de París fresco y acidez láctica refrescante.",
+    tastingNotes: {
+      aroma: "Lactosa fresca, nata batida y setas blancas",
+      palate: "Suntuoso, fundente, con balance cítrico ligero",
+      texture: "Aterciopelada, sedosa y untuosa"
+    },
+    pairing: "Champagne Brut, Sauvignon Blanc del Valle de Casablanca o sidra de manzana artesanal.",
+    serviceTemp: "14°C - 16°C",
+    image: "https://images.unsplash.com/photo-1552767059-ce182ead6c1b?w=800&auto=format&fit=crop&q=80",
+    imageHover: "https://images.unsplash.com/photo-1506354666786-959d6d497f1a?w=800&auto=format&fit=crop&q=80",
+    inStock: true
+  },
+  {
+    id: "chiloe-oveja-niebla",
+    name: "Queso de Oveja Chiloé 'Reserva Marina' (12M)",
+    subtitle: "Afinado frente al Pacífico en la Isla Grande de Chiloé",
+    origin: "Chiloé, Los Lagos, Chile",
+    appellation: "Quesería de Autor Chilena",
+    category: "de-autor",
+    categoryLabel: "De Autor Chileno",
+    aging: "12 Meses",
+    milkType: "Leche cruda de oveja de praderas marinas",
+    intensity: 4,
+    weight: "250g (Cuña numerada)",
+    price: 27990,
+    badge: "Producción Chilena Limitada",
+    description: "El orgullo de la afinación chilena austral. Las ovejas pastan a metros del mar en praderas impregnadas de salmuera y algas. Curado en tablas de roble pellín en cava húmeda, ofrece notas salobres, tostadas y un perfil vegetal herbáceo inigualable.",
+    tastingNotes: {
+      aroma: "Hierba húmeda, brisa marina, almendras tostadas",
+      palate: "Punzante mineralidad marina, final cálido y láctico persistente",
+      texture: "Quebradiza y compacta con grasa noble de oveja"
+    },
+    pairing: "Pinot Noir de Malleco, Chardonnay con paso por barrica o Cerveza Porter artesanal de Valdivia.",
+    serviceTemp: "17°C",
+    image: "https://images.unsplash.com/photo-1598514983318-2f64f8f4796c?w=800&auto=format&fit=crop&q=80",
+    imageHover: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=800&auto=format&fit=crop&q=80",
+    inStock: true
+  },
+  {
+    id: "roquefort-societe",
+    name: "Roquefort AOP 'Caves Baragnaudes'",
+    subtitle: "El rey de los quesos azules afinado en las fallas del Combalou",
+    origin: "Aveyron, Occitania, Francia",
+    appellation: "AOP d'Origine Contrôlée",
+    category: "quesos-azules",
+    categoryLabel: "Quesos Azules Nobles",
+    aging: "5 Meses en cueva natural",
+    milkType: "Leche cruda de oveja Lacaune",
+    intensity: 5,
+    weight: "180g (Corte especial)",
+    price: 26990,
+    badge: "Mítico AOP",
+    description: "Venerado desde la época de Carlomagno. El hongo noble Penicillium roqueforti se desarrolla de forma salvaje gracias a la ventilación de las 'fleurines' de las cuevas de Roquefort. Pasta marfil con vetas azul esmeralda, textura fundente y un perfil sápido y potente.",
+    tastingNotes: {
+      aroma: "Humedad de cueva caliza, salitre y sotobosque",
+      palate: "Intenso, salado, picante refinado con dulzor cárnico",
+      texture: "Cremosa, húmeda y granulada en vetas"
+    },
+    pairing: "Vino Late Harvest chileno, Sauternes, Oporto Tawny o miel pura de ulmo.",
+    serviceTemp: "15°C",
+    image: "https://images.unsplash.com/photo-1631379578550-7038263db699?w=800&auto=format&fit=crop&q=80",
+    imageHover: "https://images.unsplash.com/photo-1559561853-08451507cbe7?w=800&auto=format&fit=crop&q=80",
+    inStock: true
+  },
+  {
+    id: "gouda-vintage-5a",
+    name: "Gouda Boerenkaas Millésime (5 Años)",
+    subtitle: "Elaborado en granja con cristales dorados de maduración extrema",
+    origin: "Holanda Meridional, Países Bajos",
+    appellation: "Boerenkaas GTS (Especialidad Tradicional Garantizada)",
+    category: "pasta-dura",
+    categoryLabel: "Pasta Prensada Cocida",
+    aging: "60 Meses (5 Años)",
+    milkType: "Leche cruda de vaca de pastizal holandés",
+    intensity: 5,
+    weight: "250g (Corte en roca)",
+    price: 33990,
+    badge: "Afinación Centenaria",
+    description: "Una experiencia gastronómica que rivaliza con los mejores destilados. Cinco años de evaporación y cristalización confieren a este queso una tonalidad ámbar oscura casi translúcida. Cada bocado estalla en cristales crujientes de tirosina con recuerdos a caramelo quemado, toffee y whisky de malta.",
+    tastingNotes: {
+      aroma: "Bourbon, melaza, nuez moscada y cuero curtido",
+      palate: "Dulzura licorosa, umami arrollador y final mineral profundo",
+      texture: "Dura, quebradiza y densamente cristalizada"
+    },
+    pairing: "Whisky Single Malt, Cerveza Barley Wine o Cabernet Franc de Colchagua.",
+    serviceTemp: "18°C",
+    image: "https://images.unsplash.com/photo-1589881133595-a3c085cb731d?w=800&auto=format&fit=crop&q=80",
+    imageHover: "https://images.unsplash.com/photo-1528751014936-863e6e7a319c?w=800&auto=format&fit=crop&q=80",
+    inStock: true
+  },
+  {
+    id: "morbier-ceniza-aop",
+    name: "Morbier AOP con Raya de Ceniza Vegetal",
+    subtitle: "Doble cuajada tradicional con línea de carbón vegetal alimentario",
+    origin: "Montañas del Jura, Francia",
+    appellation: "AOP Contrôlée",
+    category: "de-autor",
+    categoryLabel: "Pasta Prensada No Cocida",
+    aging: "100 Días",
+    milkType: "Leche cruda de vaca",
+    intensity: 3,
+    weight: "250g (Cuña)",
+    price: 22990,
+    badge: "Tradición Alpina",
+    description: "Reconocible al instante por su línea horizontal de ceniza vegetal que históricamente separaba el ordeño de la mañana del de la tarde. Ofrece una corteza lavada anaranjada, pasta elástica y cremosa con sutiles toques afrutados y fondo de heno fresco.",
+    tastingNotes: {
+      aroma: "Heno fresco, establo dulce y fruta cocida",
+      palate: "Láctico, mantecoso, con ligero amargor elegante de avellana",
+      texture: "Elástica, suave y fundente en boca"
+    },
+    pairing: "Chardonnay joven del Valle de Limarí o Merlot Reserva.",
+    serviceTemp: "16°C",
+    image: "https://images.unsplash.com/photo-1598514983318-2f64f8f4796c?w=800&auto=format&fit=crop&q=80",
+    imageHover: "https://images.unsplash.com/photo-1552767059-ce182ead6c1b?w=800&auto=format&fit=crop&q=80",
+    inStock: true
+  },
+  {
+    id: "tabla-degustacion-privee",
+    name: "Cofre Degustación 'Grand Affineur' (5 Quesos)",
+    subtitle: "Experiencia completa para 6 a 8 comensales en caja de madera de cedro",
+    origin: "Selección Curada Europea & Chilena",
+    appellation: "Reserva del Maestro Quesero",
+    category: "tablas-degustacion",
+    categoryLabel: "Cofres & Tablas de Autor",
+    aging: "Afinaciones mixtas de 5 semanas a 36 meses",
+    milkType: "Trilogía de Leches (Vaca Montbéliarde, Oveja Marina, Cabra de los Alpes)",
+    intensity: 4,
+    weight: "1.250g en total (5 quesos seleccionados + Maridajes)",
+    price: 89990,
+    badge: "Best Seller Exclusivo",
+    description: "La cumbre de nuestra cava. Incluye 250g de Comté 36M, 200g de Brillat-Savarin Triple Crème, 220g de Pecorino al Tartufo, 180g de Roquefort Baragnaudes y 250g de Queso de Oveja Chiloé 12M. Acompañado de frasco de miel de trufa blanca de Alba (50g), nueces pecanas chilenas y crackers de masa madre al romero.",
+    tastingNotes: {
+      aroma: "Un viaje sensorial desde las flores alpinas hasta la trufa umbra",
+      palate: "Recorrido armónico de menor a mayor intensidad gustativa",
+      texture: "Desde la mousse sedosa hasta el cristal crujiente milenario"
+    },
+    pairing: "Perfecto para acompañar una botella de Cabernet Sauvignon Icono y un espumante método tradicional.",
+    serviceTemp: "Retirar del refrigerador 45 min antes de servir",
+    image: "https://images.unsplash.com/photo-1452195100486-9cc805987862?w=800&auto=format&fit=crop&q=80",
+    imageHover: "https://images.unsplash.com/photo-1544025162-d76694265947?w=800&auto=format&fit=crop&q=80",
+    inStock: true
+  }
+];
+
+// Delicatessen y Acompañamientos Gourmet para Tablas
+const DELICATESSEN_ITEMS = [
+  {
+    id: "miel-trufa-alba",
+    name: "Miel de Acacia con Trufa Blanca de Alba (120g)",
+    price: 18990,
+    category: "acompanamiento",
+    image: "https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=600&auto=format&fit=crop&q=80",
+    desc: "Gotas de oro aromático ideales para contrastar con quesos azules y pecorinos maduros."
+  },
+  {
+    id: "crackers-romero-artesanal",
+    name: "Crackers de Masa Madre y Sal de Cahuil (150g)",
+    price: 6990,
+    category: "acompanamiento",
+    image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&auto=format&fit=crop&q=80",
+    desc: "Horneadas en leña con romero silvestre y sal de mar de las salinas de Cahuil, Pichilemu."
+  },
+  {
+    id: "cuchillo-laguiole-fromage",
+    name: "Cuchillo Maestro Fromager Laguiole de Aubrac",
+    price: 42990,
+    category: "accesorios",
+    image: "https://images.unsplash.com/photo-1528751014936-863e6e7a319c?w=600&auto=format&fit=crop&q=80",
+    desc: "Acero forjado francés Sandvik 12C27 con mango en madera de nogal noble para corte perfecto."
+  }
+];
+
+// Maridajes recomendados por tipo de cepa o licor
+const WINE_PAIRING_MATRIX = [
+  {
+    wine: "carmenere",
+    name: "Carménère Reserva / Gran Reserva",
+    profile: "Notas a pimiento asado, frutos negros, higo, café y taninos suaves pero envolventes.",
+    recommendedCheeses: ["comte-36m", "chiloe-oveja-niebla"],
+    reasoning: "El cuerpo untuoso del Carménère abraza la manteca noble del Comté y resalta los minerales salobres de la oveja chilena."
+  },
+  {
+    wine: "cabernet-sauvignon",
+    name: "Cabernet Sauvignon del Valle del Maipo",
+    profile: "Estructura potente, cassis maduro, notas ahumadas de barrica y acidez viva.",
+    recommendedCheeses: ["pecorino-tartufo", "gouda-vintage-5a"],
+    reasoning: "Requiere quesos con alta maduración y cristales de tirosina que puedan rivalizar con la potencia de sus taninos."
+  },
+  {
+    wine: "espumante-champagne",
+    name: "Espumante Brut Nature / Champagne",
+    profile: "Burbuja fina persistente, acidez cítrica refrescante, levadura tostada.",
+    recommendedCheeses: ["brillat-savarin-creme", "parmigiano-vacche-rosse"],
+    reasoning: "La efervescencia y acidez cortan la suntuosa grasa del triple crema y limpian el paladar tras cada bocado."
+  },
+  {
+    wine: "late-harvest-oporto",
+    name: "Late Harvest / Oporto / Sauternes",
+    profile: "Miel, damascos secos, flores blancas y dulzor denso licoroso.",
+    recommendedCheeses: ["roquefort-societe"],
+    reasoning: "El contraste clásico y sublime entre la alta salinidad y picor noble del queso azul y la dulzura melosa del vino de cosecha tardía."
+  },
+  {
+    wine: "pinot-noir",
+    name: "Pinot Noir del Valle de Casablanca / Malleco",
+    profile: "Frutilla fresca, cereza silvestre, sotobosque húmedo y taninos sedosos.",
+    recommendedCheeses: ["morbier-ceniza-aop", "chiloe-oveja-niebla"],
+    reasoning: "La ligereza y frescura frutal del Pinot Noir no opacan la sutileza terrosa y vegetal del queso Morbier."
+  }
+];
+
+// Formato de moneda chilena
+function formatCLP(amount) {
+  return "$" + Math.round(amount).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}

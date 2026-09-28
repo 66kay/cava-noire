@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LA CAVA NOIRE // Quesos de Autor, Afinación Exclusiva & Sommelier IA</title>
+  <meta name="description" content="Fromagerie y cava de quesos exclusivos en Chile. Denominaciones de origen AOP/DOP, maduración de hasta 60 meses, maridaje con Sommelier IA y pago seguro con Webpay Plus.">
+  
+  <!-- Tipografías de Lujo: Cinzel (Títulos & Heráldica) y Plus Jakarta Sans (Interfaz & Fichas) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="luxury-dark-theme">
+
+  <!-- Top Announcement Bar -->
+  <div class="announcement-bar">
+    <div class="container announcement-inner">
+      <div class="announcement-item">
+        <span class="pulse-gold"></span>
+        <span>CADENA DE FRÍO 4°C CERTIFICADA A TODO CHILE</span>
+      </div>
+      <div class="announcement-item hide-mobile">
+        <span>📦 Despacho GRATIS en compras sobre $65.000 CLP</span>
+      </div>
+      <div class="announcement-item">
+        <span>💳 Pago Oficial Webpay Plus • Redcompra & Crédito</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header & Navegación Principal -->
+  <header class="site-header">
+    <div class="container header-container">
+      <!-- Logo de la Casa -->
+      <a href="#" class="brand-logo">
+        <span class="brand-heraldry">⚜</span>
+        <div class="brand-names">
+          <span class="brand-title">LA CAVA NOIRE</span>
+          <span class="brand-subtitle">FROMAGERIE & AFFINEUR PRIVÉE</span>
+        </div>
+      </a>
+
+      <!-- Menú de Navegación de Escritorio -->
+      <nav class="desktop-nav">
+        <a href="#catalogo" class="nav-link">Afinaciones de Autor</a>
+        <a href="#maridaje" class="nav-link">Cata & Maridaje</a>
+        <a href="#atelier" class="nav-link">Atelier de la Tabla</a>
+        <a href="#cadena-frio" class="nav-link">Cadena de Frío</a>
+        <a href="#filosofia" class="nav-link">Nuestra Cava</a>
+      </nav>
+
+      <!-- Botones de Acción -->
+      <div class="header-actions">
+        <!-- Disparador Sommelier IA -->
+        <button class="btn-header-sommelier" onclick="window.SommelierBot.openChat()" title="Consultar a Jean-Pierre Sommelier">
+          <span class="gold-sparkle">✨</span>
+          <span class="label-text">Sommelier IA</span>
+        </button>
+
+        <!-- Bolsa de Compra -->
+        <button id="cart-trigger-btn" class="btn-header-cart" aria-label="Bolsa de compras">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span class="cart-count-badge" style="display: none;">0</span>
+        </button>
+
+        <!-- Hamburguesa Móvil -->
+        <button id="mobile-menu-toggle" class="btn-mobile-toggle" aria-label="Abrir menú">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Menú Desplegable Móvil -->
+    <div id="mobile-nav-menu" class="mobile-nav-menu">
+      <a href="#catalogo">Afinaciones de Autor</a>
+      <a href="#maridaje">Cata & Maridajes</a>
+      <a href="#atelier">Atelier de la Tabla</a>
+      <a href="#cadena-frio">Cadena de Frío</a>
+      <a href="#filosofia">Nuestra Cava</a>
+      <button class="btn-mobile-sommelier" onclick="window.SommelierBot.openChat()">
+        <span>🍷 Consultar a Jean-Pierre (Sommelier IA)</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION: Atmósfera de Lujo & Reserva Privada -->
+    <section class="hero-section">
+      <div class="hero-ambient-glow"></div>
+      <div class="hero-background-media">
+        <img src="https://images.unsplash.com/photo-1527515862127-a4fc05baf7a5?w=1600&auto=format&fit=crop&q=85" alt="Cava subterránea de maduración de quesos">
+        <div class="hero-overlay-gradient"></div>
+      </div>
+
+      <div class="container hero-content">
+        <div class="hero-badge animate-fade-in">
+          <span class="badge-emblem">✦</span>
+          <span>CAVA DE MADURACIÓN & ALTA GASTRONOMÍA • SANTIAGO DE CHILE</span>
+        </div>
+
+        <h1 class="hero-title animate-fade-in">
+          L'Art de l'Affinage.<br>
+          <span class="gold-gradient-text">Quesos de Autor Exclusivos.</span>
+        </h1>
+
+        <p class="hero-description animate-fade-in">
+          Selección numerada de quesos con Denominación de Origen Protegida (AOP/DOP), curados hasta 60 meses en cavas subterráneas y praderas de Chiloé. Asesoría enológica en tiempo real con nuestro <strong>Sommelier IA</strong> y despacho refrigerado con <strong>Webpay Plus</strong>.
+        </p>
+
+        <div class="hero-actions animate-fade-in">
+          <a href="#catalogo" class="btn-hero-primary">
+            <span>Explorar Colección de Cava</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+          <button class="btn-hero-secondary" onclick="window.SommelierBot.openChat()">
+            <span class="bot-icon">💬</span>
+            <span>Atención con Sommelier IA</span>
+          </button>
+        </div>
+
+        <!-- Franja de Métricas de Prestigio -->
+        <div class="hero-stats-grid animate-fade-in">
+          <div class="stat-card">
+            <span class="stat-num">36–60M</span>
+            <span class="stat-label">Meses de Cava en Madera Noble</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num">AOP / DOP</span>
+            <span class="stat-label">100% Leche Cruda de Pastizal</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num">4°C Frío</span>
+            <span class="stat-label">Empaque Isotérmico Garantizado</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num">Webpay</span>
+            <span class="stat-label">Transbank Débito & Crédito en CLP</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 1: CAVA & MARIDAJE INTERACTIVO (PAIRING STUDIO) -->
+    <section id="maridaje" class="section-padding pairing-section">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="gold-tag">EXPERIENCIA ENOLÓGICA</span>
+          <h2 class="section-title">El Arte del Maridaje & Armonización</h2>
+          <p class="section-subtitle">
+            Seleccione la cepa que descorchará hoy para descubrir la afinación de queso que potenciará cada nota de cata, tanino y persistencia aromática.
+          </p>
+        </div>
+
+        <!-- Montaje del Pairing Studio -->
+        <div id="pairing-studio-mount"></div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 2: CATÁLOGO DE AFINACIONES EXCLUSIVAS -->
+    <section id="catalogo" class="section-padding catalog-section">
+      <div class="container">
+        <div class="section-header">
+          <div class="header-titles">
+            <span class="gold-tag">SELECCIÓN DE LA CAVA PRIVADA</span>
+            <h2 class="section-title">Quesos de Autor & Piezas de Colección</h2>
+          </div>
+          <div class="catalog-search-wrap">
+            <div class="search-input-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" id="cheese-search-input" placeholder="Buscar por nombre, origen (ej: Chiloé, Jura, Toscana)...">
+            </div>
+          </div>
+        </div>
+
+        <!-- Filtros por Categoría -->
+        <div class="catalog-filters-scroll">
+          <div class="filters-row">
+            <button class="cat-filter-btn active" data-category="todas">Todas las Afinaciones</button>
+            <button class="cat-filter-btn" data-category="pasta-dura">Pasta Prensada Cocida</button>
+            <button class="cat-filter-btn" data-category="trufados">Quesos Trufados</button>
+            <button class="cat-filter-btn" data-category="corteza-enmohecida">Pasta Blanda Triple Crème</button>
+            <button class="cat-filter-btn" data-category="quesos-azules">Azules Nobles AOP</button>
+            <button class="cat-filter-btn" data-category="de-autor">De Autor Chileno</button>
+            <button class="cat-filter-btn" data-category="tablas-degustacion">Cofres & Tablas</button>
+          </div>
+        </div>
+
+        <!-- Grilla de Productos -->
+        <div id="cheese-catalog-grid" class="cheese-catalog-grid"></div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 3: ATELIER DE LA TABLA (DISEÑA TU TABLA DE DEGUSTACIÓN) -->
+    <section id="atelier" class="section-padding atelier-section">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="gold-tag">COMPOSICIÓN A MEDIDA</span>
+          <h2 class="section-title">Atelier de la Tabla: Diseña tu Pizarra Gourmet</h2>
+          <p class="section-subtitle">
+            Configure la experiencia ideal para sus invitados. Elija la base noble, determine el gramaje según comensales y combine sus afinaciones preferidas en tiempo real.
+          </p>
+        </div>
+
+        <!-- Montaje del Board Builder -->
+        <div id="board-builder-mount"></div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 4: CADENA DE FRÍO & LOGÍSTICA CHILENA -->
+    <section id="cadena-frio" class="section-padding cold-chain-section">
+      <div class="container">
+        <div class="cold-chain-card">
+          <div class="cold-chain-header">
+            <div class="cold-seal-gold">
+              <span class="seal-icon">❄️</span>
+              <span class="seal-text">CADENA DE FRÍO 100% GARANTIZADA</span>
+            </div>
+            <h2 class="cold-title">Compromiso de Conservación Térmica a 4°C</h2>
+            <p class="cold-sub">
+              Un queso madurado artesanalmente nunca debe romper su cadena térmica. Por ello, cada pedido se prepara en nuestra cava y se envasa bajo los protocolos más exigentes de la fromagerie francesa:
+            </p>
+          </div>
+
+          <div class="cold-features-grid">
+            <div class="cold-feature-item">
+              <div class="feature-icon">🛡️</div>
+              <h4>Caja Isotérmica de Alta Densidad</h4>
+              <p>Barrera aluminizada reflectante de triple capa que bloquea el calor ambiental y mantiene la temperatura interna sin fluctuaciones.</p>
+            </div>
+            <div class="cold-feature-item">
+              <div class="feature-icon">🧊</div>
+              <h4>Geles Eutécticos Refrigerantes</h4>
+              <p>Acumuladores criogénicos que aseguran un ambiente continuo entre 2°C y 6°C durante un trayecto de hasta 72 horas continuas.</p>
+            </div>
+            <div class="cold-feature-item">
+              <div class="feature-icon">🚚</div>
+              <h4>Logística Prioritaria Nacional</h4>
+              <p>Despachos Same-Day en Santiago Oriente (Las Condes, Vitacura, Lo Barnechea, Providencia) y 24-48 hrs a Regiones vía Blue Express Frío y Chilexpress.</p>
+            </div>
+            <div class="cold-feature-item">
+              <div class="feature-icon">💳</div>
+              <h4>Transacción Certificada Webpay</h4>
+              <p>Emisión inmediata de comprobante tributario y código de autorización bancario oficial Transbank.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 5: FILOSOFÍA & CAVA DE MADURACIÓN -->
+    <section id="filosofia" class="section-padding philosophy-section">
+      <div class="container philosophy-grid">
+        <div class="philosophy-text">
+          <span class="gold-tag">MAESTRÍA & ORIGEN</span>
+          <h2 class="section-title">El Tiempo Como Ingrediente Principal</h2>
+          <p class="body-p">
+            En <strong>La Cava Noire</strong> no vendemos quesos industriales de anaquel; custodiamos piezas vivas de alta afinación. Trabajamos mano a mano con maestros afinadores de las montañas del Jura francés, las colinas de Parma y pequeños rebaños de ovejas marinas de la Isla de Chiloé.
+          </p>
+          <p class="body-p">
+            Cada cuña es cepillada a mano, volteada en estanterías de madera de abeto y sometida a rigurosas catas organolépticas antes de ser aprobada para su despacho en Chile.
+          </p>
+          <div class="philosophy-quote">
+            <p>“Un gran queso no se fabrica: se acompaña con paciencia y devoción hasta alcanzar su cumbre sensorial.”</p>
+            <span>— Jean-Pierre, Maître Affineur de La Cava Noire</span>
+          </div>
+        </div>
+
+        <div class="philosophy-visual">
+          <div class="visual-stack">
+            <img class="img-front" src="https://images.unsplash.com/photo-1544025162-d76694265947?w=800&auto=format&fit=crop&q=80" alt="Tabla de quesos y vino reserva">
+            <div class="visual-badge-overlay">
+              <span class="badge-num">100%</span>
+              <span class="badge-txt">Trazabilidad de Cava</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- BOLSA DE COMPRA LATERAL (SLIDE-OVER DRAWER) -->
+  <div id="cart-overlay" class="cart-overlay" aria-hidden="true"></div>
+  <aside id="cart-drawer" class="cart-drawer" aria-label="Bolsa de la Cava">
+    <div class="cart-drawer-header">
+      <div class="cart-title-row">
+        <h3>Bolsa de la Cava</h3>
+        <span class="cart-badge-count cart-count-badge">0</span>
+      </div>
+      <button id="cart-close-btn" class="cart-close-btn" aria-label="Cerrar bolsa">×</button>
+    </div>
+
+    <!-- Barra de Meta de Envío Gratis -->
+    <div class="cart-shipping-tracker">
+      <div class="tracker-bar-bg">
+        <div id="shipping-progress-bar" class="tracker-bar-fill"></div>
+      </div>
+      <p id="shipping-threshold-msg" class="tracker-text">Añade afinaciones por $65.000 para despacho refrigerado GRATIS.</p>
+    </div>
+
+    <!-- Lista de Productos en Carrito -->
+    <div id="cart-items-list" class="cart-items-list">
+      <!-- Inyectado dinámicamente -->
+    </div>
+
+    <!-- Estado Vacío -->
+    <div id="cart-empty-state" class="cart-empty-state" style="display: none;">
+      <span class="empty-icon">🧀</span>
+      <h4>Su bolsa está vacía</h4>
+      <p>Explore nuestro catálogo de quesos de autor o consulte a nuestro Sommelier IA para una recomendación a la medida.</p>
+      <button class="btn-empty-shop" onclick="window.CartManager.closeDrawer(); window.location.hash='#catalogo';">
+        Ver Afinaciones Disponibles
+      </button>
+    </div>
+
+    <!-- Footer con Totales y Cupones -->
+    <div id="cart-footer" class="cart-footer">
+      <!-- Cupón -->
+      <form id="cart-coupon-form" class="cart-coupon-form">
+        <input type="text" id="cart-coupon-input" placeholder="Código de cortesía (ej: CAVANOIRE10)">
+        <button type="submit">Aplicar</button>
+      </form>
+      <div id="coupon-feedback" class="coupon-feedback"></div>
+
+      <!-- Desglose de Precios -->
+      <div class="cart-summary-breakdown">
+        <div class="sum-row">
+          <span>Subtotal:</span>
+          <span id="cart-subtotal">$0 CLP</span>
+        </div>
+        <div class="sum-row" id="cart-discount-row" style="display: none;">
+          <span>Descuento Cortesía:</span>
+          <span id="cart-discount-val" class="discount-val">-$0 CLP</span>
+        </div>
+        <div class="sum-row">
+          <span>Envío Refrigerado (4°C):</span>
+          <span id="cart-shipping-val">$4.990 CLP</span>
+        </div>
+        <div class="sum-total-row">
+          <span>Total a Pagar (CLP):</span>
+          <strong id="cart-total-val" class="gold-text">$0 CLP</strong>
+        </div>
+      </div>
+
+      <!-- Botón Principal Webpay Plus -->
+      <button id="btn-webpay-cart" class="btn-cart-webpay">
+        <!-- Inyectado con montos dinámicos -->
+      </button>
+
+      <div class="cart-trust-footer">
+        <span>🔒 Pagos procesados por Webpay Plus (Transbank). Débito Redcompra y Tarjetas Bancarias Nacionales.</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- FOOTER PRINCIPAL -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-col brand-col">
+        <a href="#" class="footer-logo">
+          <span class="logo-emblem">⚜</span>
+          <span class="logo-title">LA CAVA NOIRE</span>
+        </a>
+        <p class="footer-desc">
+          Boutique privada de quesos de autor, afinación noble y gastronomía enológica. Proveedor de alta gama para los amantes del buen vivir en Chile.
+        </p>
+        <div class="legal-merchant">
+          <span>Razón Social: La Cava Noire Gourmet SpA</span><br>
+          <span>RUT: 77.892.410-8 • Av. Alonso de Córdova, Vitacura</span>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading">Afinaciones</h4>
+        <ul class="footer-links">
+          <li><a href="#catalogo">Pasta Prensada Cocida</a></li>
+          <li><a href="#catalogo">Quesos Trufados de la Toscana</a></li>
+          <li><a href="#catalogo">Pasta Blanda Triple Crème</a></li>
+          <li><a href="#catalogo">Azules Nobles AOP</a></li>
+          <li><a href="#catalogo">Oveja Marina de Chiloé</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading">Experiencias</h4>
+        <ul class="footer-links">
+          <li><a href="#maridaje">Cata & Maridaje Interactivo</a></li>
+          <li><a href="#atelier">Atelier de la Tabla Personalizada</a></li>
+          <li><a href="#" onclick="window.SommelierBot.openChat(); return false;">Chatbot Sommelier IA</a></li>
+          <li><a href="#cadena-frio">Protocolo de Cadena de Frío (4°C)</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading">Medios de Pago & Envíos</h4>
+        <div class="payment-methods-strip">
+          <span class="pay-pill">Webpay Plus</span>
+          <span class="pay-pill">Redcompra</span>
+          <span class="pay-pill">Visa / Mastercard</span>
+          <span class="pay-pill">MACH</span>
+        </div>
+        <p class="footer-shipping-note">
+          📦 Despachos climatizados vía <strong>Blue Express Frío</strong> y <strong>Chilexpress Priority</strong> a todas las regiones de Chile.
+        </p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>© 2026 LA CAVA NOIRE GOURMET SPA. Todos los derechos reservados.</p>
+        <div class="bottom-links">
+          <a href="#">Términos del Servicio</a>
+          <a href="#">Garantía de Cadena de Frío</a>
+          <a href="#">Privacidad</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts Modulares -->
+  <script src="js/products.js"></script>
+  <script src="js/sommelier-ai.js"></script>
+  <script src="js/pairing-wheel.js"></script>
+  <script src="js/board-builder.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
