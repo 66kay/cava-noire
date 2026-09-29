@@ -93,7 +93,7 @@ class FromagerAI {
               type="text" 
               id="sommelier-input" 
               class="sommelier-input" 
-              placeholder="Pregúntale a Jean-Pierre sobre quesos, afinaciones o tu pedido..."
+              placeholder="Pregúntele a Jean-Pierre sobre quesos, tablas o su pedido..."
               autocomplete="off"
             >
             <button type="submit" id="sommelier-send-btn" class="sommelier-send-btn" aria-label="Enviar pregunta">
@@ -206,21 +206,16 @@ class FromagerAI {
 
   sendInitialGreeting() {
     const greetingText = `
-      *Bonjour et bienvenue à La Cava Noire.* 
-      Soy **${this.botName}**, su Maître Fromager y asesor quesero personal. 
+      *Bonjour.* Es un placer recibirle en **La Cava Noire**.
       
-      En La Cava Noire nos dedicamos **exclusivamente a la afinación, maduración y venta de quesos artesanales de autor de alta gama**. 
-      
-      Puedo orientarle para elegir la pieza exacta según la intensidad que busque, calcular las porciones para su tabla de picoteo, explicarle el proceso de maduración de nuestras cavas subterráneas o guiarle en su compra directa con **Webpay Plus**.
-      
-      ¿Qué tipo de queso artesanal desea disfrutar hoy?
+      ¿En qué afinación o tabla puedo orientarle hoy? Disponemos de piezas con maduración de hasta 60 meses, quesos trufados, opciones sin lactosa y despacho refrigerado a 4°C a todo Chile.
     `;
 
     this.addBotMessage(greetingText, [
-      { text: "🧀 Armar Tabla para Invitados", query: "Recomiéndame una tabla gourmet para 4 personas" },
-      { text: "✨ Quesos Trufados", query: "¿Tienen quesos exclusivos con trufa negra?" },
-      { text: "📦 Ver Cofre Grand Affineur", query: "Háblame del Cofre Degustación Grand Affineur" },
-      { text: "💳 Finalizar Compra de Quesos", query: "Quiero proceder con la compra y pagar vía Webpay" }
+      { text: "🧀 Tabla para Picoteo", query: "Recomiéndame una tabla gourmet para 4 personas" },
+      { text: "✨ Queso Trufado", query: "¿Tienen quesos exclusivos con trufa negra?" },
+      { text: "🥛 Sin Lactosa", query: "¿Qué opciones tienen sin lactosa natural?" },
+      { text: "💳 Pagar con Webpay", query: "Quiero proceder con la compra y pagar vía Webpay" }
     ]);
   }
 
@@ -370,11 +365,9 @@ class FromagerAI {
       q.includes("botella")
     ) {
       const reply = `
-        En **La Cava Noire** nuestro negocio es **100% y de manera exclusiva la afinación, maduración y venta de quesos artesanales de autor**. 
+        En **La Cava Noire** nos dedicamos **exclusivamente a la afinación y venta de quesos artesanales de autor**.
         
-        **No vendemos vinos ni bebidas alcohólicas.** Nuestra cava subterránea y nuestro catálogo están dedicados por entero al arte quesero francés, italiano, holandés y austral chileno.
-        
-        ¿Qué tipo de queso busca hoy? Puedo guiarle entre nuestras pastas prensadas cocidas, cremosas triple crème, quesos trufados o nuestra tabla degustación.
+        No vendemos vinos ni alcohol. Con gusto le asesoro en nuestras piezas de colección: pastas duras, cremosos, trufados o cofres de cata.
       `;
       this.addBotMessage(reply, [
         { text: "🧀 Ver Cofre Degustación", query: "Háblame del Cofre Degustación Grand Affineur" },
@@ -420,11 +413,9 @@ class FromagerAI {
           window.CartManager.addItem(foundProduct);
         }
         const reply = `
-          Magnifique choice. He añadido **${foundProduct.name}** a su bolsa de compras por **${formatCLP(foundProduct.price)}**.
+          *Parfait.* He añadido **${foundProduct.name}** a su bolsa (${formatCLP(foundProduct.price)}).
           
-          Su pieza de queso será empacada en nuestra caja isotérmica con gel refrigerante a 4°C para conservar su textura y aroma intactos.
-          
-          ¿Desea agregar algún acompañamiento artesanal o prefiere proceder al pago con Webpay Plus de inmediato?
+          Se despacha en empaque isotérmico con gel refrigerante a 4°C. ¿Desea sumar otro queso o prefiere pagar directamente?
         `;
         this.addBotMessage(reply, [
           { text: "💳 Proceder al Pago (Webpay)", query: "Quiero proceder con la compra y pagar vía Webpay" },
@@ -441,73 +432,66 @@ class FromagerAI {
       const miel = DELICATESSEN_ITEMS.find(d => d.id === "miel-trufa-alba");
 
       const reply = `
-        Nuestra línea de quesos trufados es la joya más codiciada de la cava privada:
+        Nuestra joya trufada: **${pecorino.name}** (${formatCLP(pecorino.price)}), afinado 12 meses con auténtica trufa negra toscana (*Tuber melanosporum*), sin esencias sintéticas.
         
-        - **${pecorino.name}** (${formatCLP(pecorino.price)}): No utilizamos aromatizantes sintéticos; son auténticas virutas de trufa negra toscana (*Tuber melanosporum*) maduradas con leche pura de oveja durante 12 meses.
-        - **Acompañamiento sugerido:** Una cucharadita de **${miel.name}** (${formatCLP(miel.price)}) eleva el contraste a nivel de alta gastronomía.
+        *Sugerencia:* Una cucharadita de **${miel.name}** (${formatCLP(miel.price)}) para un maridaje inolvidable.
       `;
 
       const card = this.renderProductRecommendationCard([pecorino]);
       this.addBotMessage(reply, [
-        { text: "🛒 Añadir Pecorino Trufado al Carrito", query: "Agrega el Pecorino Trufado al carrito" },
+        { text: "🛒 Añadir Pecorino al Carrito", query: "Agrega el Pecorino Trufado al carrito" },
         { text: "💳 Pagar con Webpay", query: "Quiero proceder a pagar con Webpay" }
       ], card);
       return;
     }
 
-    // 3. ASESORÍA DE TABLA PARA PERSONAS / EVENTOS
-    if (q.includes("tabla") || q.includes("personas") || q.includes("comensales") || q.includes("invitados") || q.includes("cena")) {
+    // 4. ASESORÍA DE TABLA PARA PERSONAS / EVENTOS / PICOTEO
+    if (q.includes("tabla") || q.includes("personas") || q.includes("comensales") || q.includes("invitados") || q.includes("cena") || q.includes("picoteo")) {
       const grandAffineur = CHEESE_PRODUCTS.find(c => c.id === "tabla-degustacion-privee");
 
       const reply = `
-        Para una reunión o picoteo en casa, la regla de oro de la fromagerie es calcular entre **100g y 150g de queso por persona**.
+        Para picoteos o catas calculamos **100g a 150g por persona**.
         
-        Para 4 a 8 comensales, la elección predilecta es nuestro **${grandAffineur.name}** (${formatCLP(grandAffineur.price)}):
-        
-        - 1.250g de afinación gourmet con **5 quesos de denominación de origen** (Comté 36M, Brillat-Savarin Triple Crème, Pecorino al Tartufo, Roquefort de Cueva y Oveja Chiloé).
-        - Incluye miel con trufa blanca de Alba, nueces pecanas chilenas y crackers de masa madre horneadas en leña.
-        - Se despacha en estuche de madera de cedro con cadena de frío garantizada a 4°C.
+        Para 4 a 8 personas recomendamos el **${grandAffineur.name}** (${formatCLP(grandAffineur.price)}): 1.250g con 5 quesos AOP selectos en estuche de madera con miel de trufa blanca, nueces y crackers. Listo para servir y disfrutar.
       `;
 
       const card = this.renderProductRecommendationCard([grandAffineur]);
       this.addBotMessage(reply, [
-        { text: "🛒 Añadir Cofre Grand Affineur al Carrito", query: "Agrega el Cofre Grand Affineur al carrito" },
-        { text: "💳 Proceder al Pago Webpay Directo", query: "Quiero pagar con Webpay" }
+        { text: "🛒 Añadir Cofre al Carrito", query: "Agrega el Cofre Grand Affineur al carrito" },
+        { text: "💳 Pagar con Webpay", query: "Quiero pagar con Webpay" }
       ], card);
       return;
     }
 
-    // 4. PREGUNTAS DE INTENSIDAD / FUERTE / SUAVE / CREMOSO
+    // 5. PREGUNTAS DE INTENSIDAD / FUERTE / SUAVE / CREMOSO
     if (q.includes("fuerte") || q.includes("intenso") || q.includes("potente") || q.includes("azul")) {
       const roquefort = CHEESE_PRODUCTS.find(c => c.id === "roquefort-societe");
       const gouda = CHEESE_PRODUCTS.find(c => c.id === "gouda-vintage-5a");
 
       const reply = `
-        Para paladares que buscan máxima potencia y persistencia en boca:
-        
-        1. **${roquefort.name}** (${formatCLP(roquefort.price)}): Intensidad 5/5. Afinado en cuevas calizas naturales francesas. Pasta marfil húmeda con vetas verdeazuladas y un picor noble salino inolvidable.
-        2. **${gouda.name}** (${formatCLP(gouda.price)}): Intensidad 5/5. Con 5 años de cueva, presenta cristales dorados de tirosina y un perfil tostado que recuerda a caramelo toffee y malta añeja.
+        Para amantes de la intensidad pura:
+        • **${roquefort.name}** (${formatCLP(roquefort.price)}): Afinado en cuevas francesas, notas salinas nobles y untuosidad única.
+        • **${gouda.name}** (${formatCLP(gouda.price)}): 5 años en cava con cristales de tirosina y matices de caramelo tostado.
       `;
 
       const card = this.renderProductRecommendationCard([roquefort, gouda]);
       this.addBotMessage(reply, [
         { text: "🛒 Añadir Roquefort ($26.990)", query: "Agrega el Roquefort al carrito" },
         { text: "🛒 Añadir Gouda 5 Años ($33.990)", query: "Agrega el Gouda al carrito" },
-        { text: "💳 Ir a Pagar con Webpay", query: "Quiero pagar con Webpay" }
+        { text: "💳 Pagar con Webpay", query: "Quiero pagar con Webpay" }
       ], card);
       return;
     }
 
-    // 5. CREMOSOS / SUAVES
+    // 6. CREMOSOS / SUAVES
     if (q.includes("cremoso") || q.includes("suave") || q.includes("brie") || q.includes("untar")) {
       const brillat = CHEESE_PRODUCTS.find(c => c.id === "brillat-savarin-creme");
       const morbier = CHEESE_PRODUCTS.find(c => c.id === "morbier-ceniza-aop");
 
       const reply = `
-        Para amantes de las texturas untuosas y sedosas:
-        
-        1. **${brillat.name}** (${formatCLP(brillat.price)}): Un 72% de materia grasa con textura de mousse aterciopelada. Suave, delicado y mantecoso.
-        2. **${morbier.name}** (${formatCLP(morbier.price)}): Tierno y elástico, con su tradicional línea de ceniza vegetal y sabor suave a campo.
+        Para texturas delicadas y fundentes:
+        • **${brillat.name}** (${formatCLP(brillat.price)}): Triple crème mantecoso, textura sedosa tipo mousse.
+        • **${morbier.name}** (${formatCLP(morbier.price)}): Suave y elástico con su tradicional línea de ceniza vegetal.
       `;
 
       const card = this.renderProductRecommendationCard([brillat, morbier]);
@@ -518,21 +502,16 @@ class FromagerAI {
       return;
     }
 
-    // 6. SIN LACTOSA
+    // 7. SIN LACTOSA
     if (q.includes("lactosa") || q.includes("intolerante") || q.includes("intolerancia")) {
       const comte = CHEESE_PRODUCTS.find(c => c.id === "comte-36m");
       const gouda = CHEESE_PRODUCTS.find(c => c.id === "gouda-vintage-5a");
       const parmigiano = CHEESE_PRODUCTS.find(c => c.id === "parmigiano-vacche-rosse");
 
       const reply = `
-        ¡Excelente noticia! Los quesos de pasta dura con larga maduración artesanal son **naturalmente casi 0% lactosa**:
+        Los quesos de pasta dura con larga maduración son **naturalmente casi 0% lactosa**, ya que las bacterias lácticas la consumen durante los meses de curación en cava.
         
-        Durante los 30 a 60 meses de curación en cava, las bacterias lácticas consumen los azúcares (lactosa), transformándolos en ácido láctico y aminoácidos digestibles.
-        
-        Nuestras recomendaciones 100% seguras y deliciosas:
-        - **${comte.name}** (36 meses de maduración)
-        - **${parmigiano.name}** (30 meses de curación)
-        - **${gouda.name}** (5 años en cava)
+        Opciones 100% seguras y digestibles: **${comte.name}** (36M), **${parmigiano.name}** (30M) y **${gouda.name}** (5 años).
       `;
 
       const card = this.renderProductRecommendationCard([comte, parmigiano]);
@@ -543,19 +522,17 @@ class FromagerAI {
       return;
     }
 
-    // 7. ENVÍO REFRIGERADO / CADENA DE FRÍO
+    // 8. ENVÍO REFRIGERADO / CADENA DE FRÍO
     if (q.includes("envio") || q.includes("envío") || q.includes("despacho") || q.includes("frio") || q.includes("frío") || q.includes("temperatura")) {
       const reply = `
-        Garantizamos **Cadena de Frío certificada a 4°C** en cada envío:
-        
-        - **Caja Isotérmica:** Barrera aluminizada de triple capa de alta densidad.
-        - **Geles Criogénicos:** Conservan la temperatura interna entre 2°C y 6°C por hasta 72 horas.
-        - **Couriers Especializados:** Blue Express Frío y Chilexpress Priority con entrega en 24-48h a todo Chile.
-        - **Envío Gratis:** En compras superiores a $65.000.
+        Garantizamos **Cadena de Frío certificada a 4°C** en todo momento:
+        • Embalaje isotérmico con gel criogénico (autonomía 24-48 hrs).
+        • Entrega express en Santiago y regiones vía Blue Express Frío y Chilexpress Priority.
+        • **Envío GRATIS** en compras sobre $65.000 ($4.990 tarifa plana en Santiago).
       `;
       this.addBotMessage(reply, [
-        { text: "🧀 Ver Catálogo de Quesos", query: "Recomiéndame una tabla gourmet para 4 personas" },
-        { text: "💳 Ir a Pagar con Webpay", query: "Quiero proceder con la compra y pagar vía Webpay" }
+        { text: "🧀 Ver Tablas Gourmet", query: "Recomiéndame una tabla gourmet para 4 personas" },
+        { text: "💳 Pagar con Webpay", query: "Quiero proceder con la compra y pagar vía Webpay" }
       ]);
       return;
     }
@@ -577,19 +554,16 @@ class FromagerAI {
 
     if (matchedCheese) {
       const reply = `
-        **${matchedCheese.name}** (${formatCLP(matchedCheese.price)}):
-        
-        - **Origen & Leche:** ${matchedCheese.origin} • ${matchedCheese.milkType}.
-        - **Maduración:** ${matchedCheese.aging} (${matchedCheese.appellation}).
-        - **Perfil Sensorial:** ${matchedCheese.easyGuide}
-        - **Temperatura de Servicio:** ${matchedCheese.serviceTemp}.
-        - **Acompañamiento Sugerido:** ${matchedCheese.accompaniment}
+        **${matchedCheese.name}** (${formatCLP(matchedCheese.price)})
+        • **Origen & Afinación:** ${matchedCheese.origin} • ${matchedCheese.aging} (${matchedCheese.appellation}).
+        • **Perfil:** ${matchedCheese.easyGuide}
+        • **Acompañamiento:** ${matchedCheese.accompaniment}
       `;
       const card = this.renderProductRecommendationCard([matchedCheese]);
       const shortName = matchedCheese.name.split(" ")[0];
       this.addBotMessage(reply, [
         { text: `🛒 Añadir ${shortName} al Carrito`, query: `Agrega el ${shortName} al carrito` },
-        { text: "💳 Proceder al Pago (Webpay)", query: "Quiero proceder con la compra y pagar vía Webpay" },
+        { text: "💳 Pagar con Webpay", query: "Quiero proceder con la compra y pagar vía Webpay" },
         { text: "🧀 Ver otro queso artesanal", query: "¿Qué queso suave y cremoso tienen?" }
       ], card);
       return;
@@ -598,15 +572,14 @@ class FromagerAI {
     // 10. ACOMPAÑAMIENTOS & DELICATESSEN
     if (q.includes("miel") || q.includes("cracker") || q.includes("galleta") || q.includes("cuchillo") || q.includes("laguiole") || q.includes("delicatessen") || q.includes("acompañamiento")) {
       const reply = `
-        Para complementar y realzar la cata de quesos, disponemos de tres acompañamientos selectos:
-        
-        - **Miel de Acacia con Trufa Blanca de Alba (120g - $18.990):** El contrapunto dulce y terroso predilecto para quesos azules y pecorinos maduros.
-        - **Crackers de Masa Madre y Sal de Cahuil (150g - $6.990):** Horneadas en leña con romero silvestre y sal de mar chilena.
-        - **Cuchillo Maestro Fromager Laguiole de Aubrac ($42.990):** Acero forjado francés Sandvik 12C27 con punta bífida de servicio y mango en nogal.
+        Para complementar su tabla de quesos:
+        • **Miel con Trufa Blanca de Alba** (120g - $18.990)
+        • **Crackers al Romero & Sal de Cahuil** (150g - $6.990)
+        • **Cuchillo Maestro Fromager Laguiole** ($42.990)
       `;
       this.addBotMessage(reply, [
         { text: "🧀 Ver Tablas Gourmet", query: "Recomiéndame una tabla gourmet para 4 personas" },
-        { text: "💳 Proceder al Pago", query: "Quiero proceder con la compra y pagar vía Webpay" }
+        { text: "💳 Pagar con Webpay", query: "Quiero proceder con la compra y pagar vía Webpay" }
       ]);
       return;
     }
@@ -614,15 +587,13 @@ class FromagerAI {
     // 11. UBICACIÓN, RETIRO Y HORARIOS
     if (q.includes("donde") || q.includes("dónde") || q.includes("ubicacion") || q.includes("ubicación") || q.includes("direccion") || q.includes("dirección") || q.includes("tienda") || q.includes("retiro") || q.includes("horario")) {
       const reply = `
-        **La Cava Noire** opera como una *fromagerie privée* y cava subterránea de guarda:
+        Nuestra cava subterránea de guarda está en **Av. Alonso de Córdova, Vitacura** (Santiago).
         
-        - **Ubicación:** Avenida Alonso de Córdova, Vitacura, Santiago de Chile.
-        - **Envíos Refrigerados (4°C):** Cobertura express en todo Santiago y despacho en 24-48h a regiones vía Blue Express Frío y Chilexpress Priority.
-        - **Retiro en Cava:** Puede coordinar retiro privado seleccionando la opción correspondiente al momento de abonar vía Webpay Plus.
+        Ofrecemos despacho refrigerado express a domicilio o retiro privado previa coordinación al momento de pagar en Webpay Plus.
       `;
       this.addBotMessage(reply, [
-        { text: "🧀 Ver Catálogo de Quesos", query: "Recomiéndame una tabla gourmet para 4 personas" },
-        { text: "❄️ Garantía Cadena de Frío", query: "¿Cómo funciona el despacho en frío?" }
+        { text: "🧀 Ver Catálogo", query: "Recomiéndame una tabla gourmet para 4 personas" },
+        { text: "❄️ Cadena de Frío", query: "¿Cómo funciona el despacho en frío?" }
       ]);
       return;
     }
@@ -630,12 +601,12 @@ class FromagerAI {
     // 12. SALUDOS Y CORTESÍA
     if (q === "hola" || q === "buenas" || q === "buenos dias" || q === "buenos días" || q === "buenas tardes" || q === "buenas noches" || q === "bonjour" || q.startsWith("hola ") || q.startsWith("buenos dias ") || q.startsWith("buenos días ")) {
       const reply = `
-        *Bonjour.* Es un placer recibirle en **La Cava Noire**.
+        *Bonjour.* Es un placer saludarle en **La Cava Noire**.
         
-        ¿En qué afinación o preparación quesera puedo orientarle hoy? Disponemos de piezas de colección con maduración de hasta 60 meses, quesos trufados, cofres de cata y despacho refrigerado garantizado a 4°C.
+        ¿En qué afinación o tabla puedo orientarle hoy? Disponemos de quesos con maduración de hasta 60 meses, piezas trufadas, opciones sin lactosa y despacho en frío a 4°C.
       `;
       this.addBotMessage(reply, [
-        { text: "🧀 Tabla para Invitados", query: "Recomiéndame una tabla gourmet para 4 personas" },
+        { text: "🧀 Tabla para Picoteo", query: "Recomiéndame una tabla gourmet para 4 personas" },
         { text: "✨ Quesos Trufados", query: "¿Tienen quesos exclusivos con trufa negra?" },
         { text: "🏔️ Quesos Fuertes", query: "¿Cuáles son los quesos más intensos de la cava?" },
         { text: "💳 Pagar con Webpay", query: "Quiero proceder con la compra y pagar vía Webpay" }
@@ -645,18 +616,15 @@ class FromagerAI {
 
     // 13. FALLBACK INTELIGENTE CON SUGERENCIAS
     const generalReply = `
-      Como Maître Fromager, puedo recomendarle las joyas de nuestra cava de maduración:
+      Como Maître Fromager, puedo orientarle en piezas de colección (Comté 36M, Trufados, Azules y Chiloé) o armar su tabla ideal para picoteo.
       
-      - **Afinaciones de Lujo:** Disponemos de Comté AOP 36M, Pecorino Trufado de la Toscana, Gouda Vintage de 5 años y nuestro exclusivo Queso de Oveja Chiloé Curado en Niebla Marina.
-      - **Despachos & Pagos:** Envíos refrigerados isotérmicos a todo Chile con pasarela segura oficial **Webpay Plus (Transbank)**.
-      
-      ¿Le preparo una propuesta personalizada para picotear o prefiere proceder con su compra?
+      ¿Qué perfil busca o prefiere revisar el catálogo completo?
     `;
 
     this.addBotMessage(generalReply, [
-      { text: "🧀 Tabla para Invitados", query: "Recomiéndame una tabla gourmet para 4 personas" },
+      { text: "🧀 Tabla para Picoteo", query: "Recomiéndame una tabla gourmet para 4 personas" },
       { text: "✨ Quesos Trufados", query: "¿Tienen quesos exclusivos con trufa negra?" },
-      { text: "💳 Pagar Pedido con Webpay", query: "Quiero proceder con la compra y pagar vía Webpay" }
+      { text: "💳 Pagar con Webpay", query: "Quiero proceder con la compra y pagar vía Webpay" }
     ]);
   }
 
@@ -665,14 +633,14 @@ class FromagerAI {
     
     if (cart.length === 0) {
       const reply = `
-        Actualmente su carrito no tiene quesos agregados. 
+        Su carrito está vacío en este momento.
         
-        Permítame sugerirle nuestro **${CHEESE_PRODUCTS[0].name}** (${formatCLP(CHEESE_PRODUCTS[0].price)}) o nuestro célebre **${CHEESE_PRODUCTS[1].name}** para comenzar su pedido con despacho en frío garantizado.
+        Le sugiero comenzar con nuestro **${CHEESE_PRODUCTS[0].name}** o el **${CHEESE_PRODUCTS[1].name}**, ambos con despacho garantizado a 4°C.
       `;
       const card = this.renderProductRecommendationCard([CHEESE_PRODUCTS[0], CHEESE_PRODUCTS[1]]);
       this.addBotMessage(reply, [
-        { text: "🛒 Añadir Comté 36M al Carrito", query: "Agrega el Comté 36M al carrito" },
-        { text: "🛒 Añadir Pecorino al Carrito", query: "Agrega el Pecorino al carrito" },
+        { text: "🛒 Añadir Comté 36M", query: "Agrega el Comté 36M al carrito" },
+        { text: "🛒 Añadir Pecorino", query: "Agrega el Pecorino al carrito" },
         { text: "📦 Ver Cofre Degustación", query: "Háblame del Cofre Degustación Grand Affineur" }
       ], card);
       return;
@@ -713,9 +681,7 @@ class FromagerAI {
     `;
 
     const reply = `
-      Excelente decisión. Todo está dispuesto para procesar su despacho refrigerado con **Webpay Plus**. 
-      
-      Pulse el botón a continuación para abrir la pasarela segura oficial de Transbank:
+      Su orden está lista para despacho refrigerado a 4°C. Puede abonar de forma segura vía **Webpay Plus (Transbank)** a continuación:
     `;
 
     this.addBotMessage(reply, [], checkoutCardHTML);
