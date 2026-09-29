@@ -290,8 +290,16 @@ class CartManager {
     return this.cart;
   }
 
+  get items() {
+    return this.cart;
+  }
+
   getSubtotal() {
     return this.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  }
+
+  getTotalItemsCount() {
+    return this.cart.reduce((sum, item) => sum + item.quantity, 0);
   }
 
   clear() {

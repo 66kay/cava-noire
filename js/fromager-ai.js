@@ -151,6 +151,27 @@ class FromagerAI {
       });
     }
 
+    const messagesContainer = document.getElementById("sommelier-messages");
+    if (messagesContainer) {
+      messagesContainer.addEventListener("click", (e) => {
+        const pill = e.target.closest(".inline-action-pill");
+        if (pill && !this.isTyping) {
+          const query = pill.getAttribute("data-query") || pill.textContent.trim();
+          if (query) this.handleUserMessage(query);
+          return;
+        }
+
+        const addBtn = e.target.closest(".mini-add-btn");
+        if (addBtn) {
+          const pid = addBtn.getAttribute("data-product-id");
+          if (pid && window.CartManager) {
+            window.CartManager.addItemById(pid);
+          }
+          return;
+        }
+      });
+    }
+
     // Saludo de bienvenida diferido
     setTimeout(() => {
       this.sendInitialGreeting();
@@ -239,7 +260,7 @@ class FromagerAI {
       actionsHTML = `
         <div class="bot-inline-actions">
           ${quickActions.map(act => `
-            <button class="inline-action-pill" onclick="window.SommelierBot.handleUserMessage('${this.escapeHTML(act.query)}')">
+            <button class="inline-action-pill" data-query="${this.escapeHTML(act.query)}">
               ${act.text}
             </button>
           `).join("")}
@@ -324,12 +345,14 @@ class FromagerAI {
   }
 
   handleUserMessage(query) {
-    this.addUserMessage(query);
+    if (!query || typeof query !== "string" || !query.trim() || this.isTyping) return;
+    const cleanQuery = query.trim();
+    this.addUserMessage(cleanQuery);
     this.showTypingIndicator();
 
     setTimeout(() => {
       this.hideTypingIndicator();
-      this.processQuery(query);
+      this.processQuery(cleanQuery);
     }, 600);
   }
 
@@ -376,7 +399,43 @@ class FromagerAI {
       return;
     }
 
-    // 2. QUESO TRUFADO
+    // 2. ACCIÓN DE AGREGAR PRODUCTO AL CARRITO DESDE EL CHAT
+    if (q.includes("agrega") || q.includes("añadir") || q.includes("añade") || q.includes("sumar") || q.includes("comprar este")) {
+      let foundProduct = null;
+      if (q.includes("comte") || q.includes("comté")) foundProduct = CHEESE_PRODUCTS.find(p => p.id === "comte-36m");
+      else if (q.includes("trufa") || q.includes("pecorino")) foundProduct = CHEESE_PRODUCTS.find(p => p.id === "pecorino-tartufo");
+      else if (q.includes("brillat") || q.includes("savarin")) foundProduct = CHEESE_PRODUCTS.find(p => p.id === "brillat-savarin-creme");
+      else if (q.includes("parmigiano") || q.includes("parmesano")) foundProduct = CHEESE_PRODUCTS.find(p => p.id === "parmigiano-vacche-rosse");
+      else if (q.includes("chiloe") || q.includes("chiloé")) foundProduct = CHEESE_PRODUCTS.find(p => p.id === "chiloe-oveja-niebla");
+      else if (q.includes("roquefort") || q.includes("azul")) foundProduct = CHEESE_PRODUCTS.find(p => p.id === "roquefort-societe");
+      else if (q.includes("gouda")) foundProduct = CHEESE_PRODUCTS.find(p => p.id === "gouda-vintage-5a");
+      else if (q.includes("morbier")) foundProduct = CHEESE_PRODUCTS.find(p => p.id === "morbier-ceniza-aop");
+      else if (q.includes("cofre") || q.includes("tabla")) foundProduct = CHEESE_PRODUCTS.find(p => p.id === "tabla-degustacion-privee");
+      else if (q.includes("miel")) foundProduct = DELICATESSEN_ITEMS.find(d => d.id === "miel-trufa-alba");
+      else if (q.includes("cracker") || q.includes("galleta")) foundProduct = DELICATESSEN_ITEMS.find(d => d.id === "crackers-romero-artesanal");
+      else if (q.includes("cuchillo") || q.includes("laguiole")) foundProduct = DELICATESSEN_ITEMS.find(d => d.id === "cuchillo-laguiole-fromage");
+
+      if (foundProduct) {
+        if (window.CartManager) {
+          window.CartManager.addItem(foundProduct);
+        }
+        const reply = `
+          Magnifique choice. He añadido **${foundProduct.name}** a su bolsa de compras por **${formatCLP(foundProduct.price)}**.
+          
+          Su pieza de queso será empacada en nuestra caja isotérmica con gel refrigerante a 4°C para conservar su textura y aroma intactos.
+          
+          ¿Desea agregar algún acompañamiento artesanal o prefiere proceder al pago con Webpay Plus de inmediato?
+        `;
+        this.addBotMessage(reply, [
+          { text: "💳 Proceder al Pago (Webpay)", query: "Quiero proceder con la compra y pagar vía Webpay" },
+          { text: "🍯 Ver Acompañamientos", query: "¿Tienen miel con trufa o crackers artesanales?" },
+          { text: "🧀 Ver otro queso artesanal", query: "¿Qué queso suave y cremoso tienen?" }
+        ]);
+        return;
+      }
+    }
+
+    // 3. QUESO TRUFADO
     if (q.includes("trufa") || q.includes("trufado") || q.includes("tartufo")) {
       const pecorino = CHEESE_PRODUCTS.find(c => c.id === "pecorino-tartufo");
       const miel = DELICATESSEN_ITEMS.find(d => d.id === "miel-trufa-alba");
@@ -501,40 +560,90 @@ class FromagerAI {
       return;
     }
 
-    // 8. ACCIÓN DE AGREGAR PRODUCTO AL CARRITO DESDE EL CHAT
-    if (q.includes("agrega") || q.includes("añadir") || q.includes("añade") || q.includes("comprar este")) {
-      let foundProduct = null;
-      if (q.includes("comte") || q.includes("comté")) foundProduct = CHEESE_PRODUCTS.find(p => p.id === "comte-36m");
-      else if (q.includes("trufa") || q.includes("pecorino")) foundProduct = CHEESE_PRODUCTS.find(p => p.id === "pecorino-tartufo");
-      else if (q.includes("brillat") || q.includes("savarin")) foundProduct = CHEESE_PRODUCTS.find(p => p.id === "brillat-savarin-creme");
-      else if (q.includes("parmigiano") || q.includes("parmesano")) foundProduct = CHEESE_PRODUCTS.find(p => p.id === "parmigiano-vacche-rosse");
-      else if (q.includes("chiloe") || q.includes("chiloé")) foundProduct = CHEESE_PRODUCTS.find(p => p.id === "chiloe-oveja-niebla");
-      else if (q.includes("roquefort") || q.includes("azul")) foundProduct = CHEESE_PRODUCTS.find(p => p.id === "roquefort-societe");
-      else if (q.includes("gouda")) foundProduct = CHEESE_PRODUCTS.find(p => p.id === "gouda-vintage-5a");
-      else if (q.includes("morbier")) foundProduct = CHEESE_PRODUCTS.find(p => p.id === "morbier-ceniza-aop");
-      else if (q.includes("cofre") || q.includes("tabla")) foundProduct = CHEESE_PRODUCTS.find(p => p.id === "tabla-degustacion-privee");
+    // 9. CONSULTA ESPECÍFICA DE CUALQUIER QUESO DEL CATÁLOGO
+    const matchedCheese = CHEESE_PRODUCTS.find(p => {
+      const pid = p.id.toLowerCase();
+      if (pid === "comte-36m" && (q.includes("comte") || q.includes("comté"))) return true;
+      if (pid === "pecorino-tartufo" && (q.includes("pecorino") || q.includes("tartufo"))) return true;
+      if (pid === "parmigiano-vacche-rosse" && (q.includes("parmigiano") || q.includes("parmesano") || q.includes("vacche") || q.includes("rosse"))) return true;
+      if (pid === "brillat-savarin-creme" && (q.includes("brillat") || q.includes("savarin"))) return true;
+      if (pid === "chiloe-oveja-niebla" && (q.includes("chiloe") || q.includes("chiloé") || q.includes("oveja marina"))) return true;
+      if (pid === "roquefort-societe" && (q.includes("roquefort") || q.includes("baragnaudes"))) return true;
+      if (pid === "gouda-vintage-5a" && (q.includes("gouda") || q.includes("boerenkaas"))) return true;
+      if (pid === "morbier-ceniza-aop" && (q.includes("morbier") || q.includes("ceniza"))) return true;
+      if (pid === "tabla-degustacion-privee" && (q.includes("grand affineur") || q.includes("cofre degustacion") || q.includes("cofre degustación"))) return true;
+      return false;
+    });
 
-      if (foundProduct) {
-        if (window.CartManager) {
-          window.CartManager.addItem(foundProduct);
-        }
-        const reply = `
-          Magnifique choice. He añadido **${foundProduct.name}** a su bolsa de compras por **${formatCLP(foundProduct.price)}**.
-          
-          Su pieza de queso será empacada en nuestra caja isotérmica con gel refrigerante a 4°C para conservar su textura y aroma intactos.
-          
-          ¿Desea agregar algún acompañamiento artesanal o prefiere proceder al pago con Webpay Plus de inmediato?
-        `;
-        this.addBotMessage(reply, [
-          { text: "💳 Proceder al Pago (Webpay)", query: "Quiero proceder con la compra y pagar vía Webpay" },
-          { text: "🍯 Ver Acompañamientos", query: "¿Tienen miel con trufa o crackers artesanales?" },
-          { text: "🧀 Ver otro queso artesanal", query: "¿Qué queso suave y cremoso tienen?" }
-        ]);
-        return;
-      }
+    if (matchedCheese) {
+      const reply = `
+        **${matchedCheese.name}** (${formatCLP(matchedCheese.price)}):
+        
+        - **Origen & Leche:** ${matchedCheese.origin} • ${matchedCheese.milkType}.
+        - **Maduración:** ${matchedCheese.aging} (${matchedCheese.appellation}).
+        - **Perfil Sensorial:** ${matchedCheese.easyGuide}
+        - **Temperatura de Servicio:** ${matchedCheese.serviceTemp}.
+        - **Acompañamiento Sugerido:** ${matchedCheese.accompaniment}
+      `;
+      const card = this.renderProductRecommendationCard([matchedCheese]);
+      const shortName = matchedCheese.name.split(" ")[0];
+      this.addBotMessage(reply, [
+        { text: `🛒 Añadir ${shortName} al Carrito`, query: `Agrega el ${shortName} al carrito` },
+        { text: "💳 Proceder al Pago (Webpay)", query: "Quiero proceder con la compra y pagar vía Webpay" },
+        { text: "🧀 Ver otro queso artesanal", query: "¿Qué queso suave y cremoso tienen?" }
+      ], card);
+      return;
     }
 
-    // 9. FALLBACK INTELIGENTE CON SUGERENCIAS
+    // 10. ACOMPAÑAMIENTOS & DELICATESSEN
+    if (q.includes("miel") || q.includes("cracker") || q.includes("galleta") || q.includes("cuchillo") || q.includes("laguiole") || q.includes("delicatessen") || q.includes("acompañamiento")) {
+      const reply = `
+        Para complementar y realzar la cata de quesos, disponemos de tres acompañamientos selectos:
+        
+        - **Miel de Acacia con Trufa Blanca de Alba (120g - $18.990):** El contrapunto dulce y terroso predilecto para quesos azules y pecorinos maduros.
+        - **Crackers de Masa Madre y Sal de Cahuil (150g - $6.990):** Horneadas en leña con romero silvestre y sal de mar chilena.
+        - **Cuchillo Maestro Fromager Laguiole de Aubrac ($42.990):** Acero forjado francés Sandvik 12C27 con punta bífida de servicio y mango en nogal.
+      `;
+      this.addBotMessage(reply, [
+        { text: "🧀 Ver Tablas Gourmet", query: "Recomiéndame una tabla gourmet para 4 personas" },
+        { text: "💳 Proceder al Pago", query: "Quiero proceder con la compra y pagar vía Webpay" }
+      ]);
+      return;
+    }
+
+    // 11. UBICACIÓN, RETIRO Y HORARIOS
+    if (q.includes("donde") || q.includes("dónde") || q.includes("ubicacion") || q.includes("ubicación") || q.includes("direccion") || q.includes("dirección") || q.includes("tienda") || q.includes("retiro") || q.includes("horario")) {
+      const reply = `
+        **La Cava Noire** opera como una *fromagerie privée* y cava subterránea de guarda:
+        
+        - **Ubicación:** Avenida Alonso de Córdova, Vitacura, Santiago de Chile.
+        - **Envíos Refrigerados (4°C):** Cobertura express en todo Santiago y despacho en 24-48h a regiones vía Blue Express Frío y Chilexpress Priority.
+        - **Retiro en Cava:** Puede coordinar retiro privado seleccionando la opción correspondiente al momento de abonar vía Webpay Plus.
+      `;
+      this.addBotMessage(reply, [
+        { text: "🧀 Ver Catálogo de Quesos", query: "Recomiéndame una tabla gourmet para 4 personas" },
+        { text: "❄️ Garantía Cadena de Frío", query: "¿Cómo funciona el despacho en frío?" }
+      ]);
+      return;
+    }
+
+    // 12. SALUDOS Y CORTESÍA
+    if (q === "hola" || q === "buenas" || q === "buenos dias" || q === "buenos días" || q === "buenas tardes" || q === "buenas noches" || q === "bonjour" || q.startsWith("hola ") || q.startsWith("buenos dias ") || q.startsWith("buenos días ")) {
+      const reply = `
+        *Bonjour.* Es un placer recibirle en **La Cava Noire**.
+        
+        ¿En qué afinación o preparación quesera puedo orientarle hoy? Disponemos de piezas de colección con maduración de hasta 60 meses, quesos trufados, cofres de cata y despacho refrigerado garantizado a 4°C.
+      `;
+      this.addBotMessage(reply, [
+        { text: "🧀 Tabla para Invitados", query: "Recomiéndame una tabla gourmet para 4 personas" },
+        { text: "✨ Quesos Trufados", query: "¿Tienen quesos exclusivos con trufa negra?" },
+        { text: "🏔️ Quesos Fuertes", query: "¿Cuáles son los quesos más intensos de la cava?" },
+        { text: "💳 Pagar con Webpay", query: "Quiero proceder con la compra y pagar vía Webpay" }
+      ]);
+      return;
+    }
+
+    // 13. FALLBACK INTELIGENTE CON SUGERENCIAS
     const generalReply = `
       Como Maître Fromager, puedo recomendarle las joyas de nuestra cava de maduración:
       
@@ -552,9 +661,9 @@ class FromagerAI {
   }
 
   handleCheckoutIntent() {
-    const items = window.CartManager ? window.CartManager.items : [];
+    const cart = window.CartManager ? (window.CartManager.cart || window.CartManager.getCart() || []) : [];
     
-    if (items.length === 0) {
+    if (cart.length === 0) {
       const reply = `
         Actualmente su carrito no tiene quesos agregados. 
         
@@ -569,8 +678,12 @@ class FromagerAI {
       return;
     }
 
-    const subtotal = window.CartManager.getSubtotal();
-    const count = window.CartManager.getTotalItemsCount();
+    const subtotal = window.CartManager && typeof window.CartManager.getSubtotal === "function"
+      ? window.CartManager.getSubtotal()
+      : cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const count = window.CartManager && typeof window.CartManager.getTotalItemsCount === "function"
+      ? window.CartManager.getTotalItemsCount()
+      : cart.reduce((sum, item) => sum + item.quantity, 0);
 
     const checkoutCardHTML = `
       <div class="chat-checkout-summary">
@@ -579,10 +692,10 @@ class FromagerAI {
           <h4>Resumen de su Cava (${count} productos)</h4>
         </div>
         <div class="checkout-items-preview">
-          ${items.map(item => `
+          ${cart.map(item => `
             <div class="chat-item-row">
-              <span class="chat-item-name">${item.quantity}x ${item.product.name}</span>
-              <span class="chat-item-price">${formatCLP(item.product.price * item.quantity)}</span>
+              <span class="chat-item-name">${item.quantity}x ${item.name}</span>
+              <span class="chat-item-price">${formatCLP(item.price * item.quantity)}</span>
             </div>
           `).join("")}
         </div>
@@ -610,8 +723,8 @@ class FromagerAI {
 
   launchWebpayCheckout() {
     this.closeChat();
-    if (window.OrdersApp && typeof window.OrdersApp.openCheckoutModalWithCart === "function") {
-      window.OrdersApp.openCheckoutModalWithCart();
+    if (window.PaymentGateway && typeof window.PaymentGateway.openWebpayModal === "function") {
+      window.PaymentGateway.openWebpayModal();
     } else if (window.CartManager) {
       window.CartManager.openDrawer();
     }
@@ -630,7 +743,7 @@ class FromagerAI {
               <h5>${p.name}</h5>
               <div class="mini-bottom">
                 <span class="mini-price">${formatCLP(p.price)}</span>
-                <button class="mini-add-btn" onclick="window.CartManager.addItemById('${p.id}');">
+                <button class="mini-add-btn" data-product-id="${p.id}" onclick="window.CartManager && window.CartManager.addItemById('${p.id}');">
                   + Carrito
                 </button>
               </div>
