@@ -1212,7 +1212,7 @@ class ScrollRevealController {
       if (e.target === el && e.propertyName === "transform") settle();
     };
     el.addEventListener("transitionend", onEnd);
-    setTimeout(settle, 3200); // respaldo por si el navegador no dispara transitionend
+    setTimeout(settle, 4200); // respaldo por si el navegador no dispara transitionend
 
     // Activar contadores numéricos y barras de progreso internas
     this.triggerCounters(el);
@@ -1225,7 +1225,10 @@ class ScrollRevealController {
     if (!container) return;
 
     // Contadores de porcentaje o métricas numéricas
-    const counters = container.querySelectorAll(".counter-metric, .counter-card-metric, .counter-val");
+    let counters = Array.from(container.querySelectorAll(".counter-metric, .counter-card-metric, .counter-val"));
+    if (container.matches && container.matches(".counter-metric, .counter-card-metric, .counter-val")) {
+      counters.push(container);
+    }
     counters.forEach(counter => {
       const target = parseInt(counter.getAttribute("data-target"), 10) || 0;
       const suffix = counter.getAttribute("data-suffix") || "%";
@@ -1233,12 +1236,18 @@ class ScrollRevealController {
       this.animateNumberCounter(counter, target, 1800, suffix, prefix);
     });
 
-    // Barras de progreso asociadas
-    const bars = container.querySelectorAll(".metric-fill, .c-bar-fill, .craft-fill, .badge-fill");
+    // Barras de progreso asociadas: asegurar inicio en 0% y transición suave al target
+    let bars = Array.from(container.querySelectorAll(".metric-fill, .c-bar-fill, .craft-fill, .badge-fill"));
+    if (container.matches && container.matches(".metric-fill, .c-bar-fill, .craft-fill, .badge-fill")) {
+      bars.push(container);
+    }
     bars.forEach(bar => {
       const target = bar.getAttribute("data-target");
       if (target) {
-        bar.style.width = `${target}%`;
+        bar.style.width = "0%";
+        requestAnimationFrame(() => {
+          bar.style.width = `${target}%`;
+        });
       }
     });
   }
@@ -1248,13 +1257,6 @@ class ScrollRevealController {
    */
   animateNumberCounter(element, targetVal, duration = 1800, suffix = "%", prefix = "") {
     if (!element) return;
-    
-    // Si el usuario prefiere movimiento reducido, mostrar el valor final sin animación
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReducedMotion) {
-      element.textContent = `${prefix}${targetVal}${suffix}`;
-      return;
-    }
 
     let startTime = null;
     const startVal = 0;
