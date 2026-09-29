@@ -5811,10 +5811,41 @@ html:not(.js-enabled) .cheese-card .card-media .img-primary {
   }
 
   .cold-telemetry-hud {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
     padding: 0.85rem 1rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .cold-telemetry-hud .telemetry-pill {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 0.5rem;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    box-sizing: border-box;
+  }
+
+  .cold-telemetry-hud .telemetry-pill:last-child {
+    border-bottom: none;
+  }
+
+  .cold-telemetry-hud .tele-label {
+    flex-shrink: 1;
+    font-size: 0.72rem;
+  }
+
+  .cold-telemetry-hud .tele-val {
+    margin-left: auto;
+    white-space: nowrap;
+    font-size: 0.82rem;
+    text-align: right;
+    flex-shrink: 0;
   }
 
   .craft-metrics-strip {
