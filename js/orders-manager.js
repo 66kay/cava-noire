@@ -9,6 +9,9 @@ class OrdersManager {
     this.orders = this.loadOrders();
     this.currentFilter = "todos";
 
+    // Garantizar que toda nueva sesión requiera autenticación obligatoria con admin / admin
+    sessionStorage.removeItem("cava_admin_auth");
+
     this.initAdminLoginModal();
     this.initDOM();
     this.initTrackingModal();
@@ -52,10 +55,16 @@ class OrdersManager {
     if (modal) {
       modal.classList.add("open");
       modal.setAttribute("aria-hidden", "false");
+      document.body.classList.add("admin-modal-open");
+      document.body.style.overflow = "hidden";
       const err = document.getElementById("admin-login-error");
       if (err) err.style.display = "none";
+      const userInput = document.getElementById("admin-user-input");
+      const passInput = document.getElementById("admin-pass-input");
+      if (userInput) userInput.value = "";
+      if (passInput) passInput.value = "";
       setTimeout(() => {
-        document.getElementById("admin-user-input")?.focus();
+        userInput?.focus();
       }, 100);
     }
   }
@@ -65,6 +74,11 @@ class OrdersManager {
     if (modal) {
       modal.classList.remove("open");
       modal.setAttribute("aria-hidden", "true");
+    }
+    document.body.classList.remove("admin-modal-open");
+    document.body.style.overflow = "";
+    if (window.location.hash === "#admin") {
+      history.replaceState(null, "", window.location.pathname + window.location.search);
     }
   }
 
@@ -81,11 +95,11 @@ class OrdersManager {
       this.closeAdminLogin();
       this.openModal();
       if (window.CartManager) {
-        window.CartManager.showToast("✓ Sesión iniciada: Administrador General");
+        window.CartManager.showToast("✓ Sesión iniciada: Administrador General (admin)");
       }
     } else {
       if (errorEl) {
-        errorEl.textContent = "Credenciales incorrectas. Verifique usuario y contraseña.";
+        errorEl.textContent = "Credenciales incorrectas. Verifique usuario y contraseña (admin / admin).";
         errorEl.style.display = "block";
       }
     }
@@ -112,7 +126,7 @@ class OrdersManager {
               <span class="admin-crown-icon">⚜</span>
               <div>
                 <h3 class="admin-login-title">Control Maestro de Cava</h3>
-                <p class="admin-login-sub">Acceso restringido para Sommeliers y Administradores</p>
+                <p class="admin-login-sub">Acceso administrativo exclusivo • Credenciales: <strong>admin</strong> / <strong>admin</strong></p>
               </div>
             </div>
             <button class="admin-login-close" onclick="window.OrdersApp.closeAdminLogin()">×</button>
@@ -127,7 +141,7 @@ class OrdersManager {
                   type="text" 
                   id="admin-user-input" 
                   class="admin-text-input" 
-                  placeholder="Ingrese usuario"
+                  placeholder="admin"
                   autocomplete="username"
                   required
                 />
@@ -142,7 +156,7 @@ class OrdersManager {
                   type="password" 
                   id="admin-pass-input" 
                   class="admin-text-input" 
-                  placeholder="••••••••"
+                  placeholder="admin"
                   autocomplete="current-password"
                   required
                 />
@@ -454,7 +468,10 @@ class OrdersManager {
             <div class="orders-brand">
               <span class="brand-crest">⚜</span>
               <div>
-                <h3 class="orders-panel-title">Panel de Control de Pedidos & Ventas</h3>
+                <h3 class="orders-panel-title">
+                  <span class="title-full">Panel de Control de Pedidos & Ventas</span>
+                  <span class="title-short">Panel Admin</span>
+                </h3>
                 <p class="orders-panel-sub">Registro en tiempo real de transacciones Webpay Plus y despachos refrigerados</p>
               </div>
             </div>
@@ -464,13 +481,16 @@ class OrdersManager {
                 <span>Master Affineur</span>
               </div>
               <button class="btn-simulate-sale" onclick="window.OrdersApp.createTestOrder()" title="Simular una nueva compra en vivo">
-                <span>+ Simular Venta</span>
+                <span class="btn-text-full">+ Simular Venta</span>
+                <span class="btn-text-short">+ Venta</span>
               </button>
               <button class="btn-export-orders" onclick="window.OrdersApp.exportCSV()" title="Descargar registro en CSV">
-                <span>📥 Exportar CSV</span>
+                <span class="btn-text-full">📥 Exportar CSV</span>
+                <span class="btn-text-short">📥 CSV</span>
               </button>
               <button class="btn-admin-logout" onclick="window.OrdersApp.adminLogout()" title="Cerrar sesión de administrador">
-                <span>🔒 Salir</span>
+                <span class="btn-text-full">🔒 Salir</span>
+                <span class="btn-text-short">🔒 Salir</span>
               </button>
               <button class="orders-close-btn" onclick="window.OrdersApp.closeModal()">×</button>
             </div>
@@ -763,20 +783,30 @@ class OrdersManager {
   }
 
   openModal() {
+    if (!this.isAdminAuthenticated()) {
+      this.openAdminLogin();
+      return;
+    }
     const modal = document.getElementById("orders-modal");
     if (!modal) return;
     this.render();
     modal.classList.add("open");
     modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("admin-modal-open");
     document.body.style.overflow = "hidden";
   }
 
   closeModal() {
+    sessionStorage.removeItem("cava_admin_auth");
     const modal = document.getElementById("orders-modal");
     if (modal) {
       modal.classList.remove("open");
       modal.setAttribute("aria-hidden", "true");
-      document.body.style.overflow = "";
+    }
+    document.body.classList.remove("admin-modal-open");
+    document.body.style.overflow = "";
+    if (window.location.hash === "#admin") {
+      history.replaceState(null, "", window.location.pathname + window.location.search);
     }
   }
 
