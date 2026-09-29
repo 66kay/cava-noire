@@ -35,8 +35,8 @@ const CHEESE_PRODUCTS = [
     },
     accompaniment: "Nueces tostadas, uvas blancas frescas, higos secos y pan crujiente de masa madre horneado en leña.",
     serviceTemp: "16°C - 18°C",
-    image: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=480&auto=format&fit=crop&q=72",
-    imageHover: "https://images.unsplash.com/photo-1528751014936-863e6e7a319c?w=480&auto=format&fit=crop&q=72",
+    image: "img/products/comte-36m.jpg",
+    imageHover: "img/products/comte-36m-hover.jpg",
     inStock: true
   },
   {
@@ -70,8 +70,8 @@ const CHEESE_PRODUCTS = [
     },
     accompaniment: "Miel con trufa blanca, peras maduras laminadas y pan de centeno campesino.",
     serviceTemp: "18°C",
-    image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=480&auto=format&fit=crop&q=72",
-    imageHover: "https://images.unsplash.com/photo-1452195100486-9cc805987862?w=480&auto=format&fit=crop&q=72",
+    image: "img/products/pecorino-tartufo.jpg",
+    imageHover: "img/products/pecorino-tartufo-hover.jpg",
     inStock: true
   },
   {
@@ -105,8 +105,8 @@ const CHEESE_PRODUCTS = [
     },
     accompaniment: "Gotas de vinagre balsámico tradicional de Módena, nueces tostadas o higos maduros.",
     serviceTemp: "17°C",
-    image: "https://images.unsplash.com/photo-1624806992066-5ffcf7ca186b?w=480&auto=format&fit=crop&q=72",
-    imageHover: "https://images.unsplash.com/photo-1559561853-08451507cbe7?w=480&auto=format&fit=crop&q=72",
+    image: "img/products/parmigiano-vacche-rosse.jpg",
+    imageHover: "img/products/parmigiano-vacche-rosse-hover.jpg",
     inStock: true
   },
   {
@@ -140,8 +140,8 @@ const CHEESE_PRODUCTS = [
     },
     accompaniment: "Frutos rojos frescos (frambuesas o fresas), tostadas finas y mermelada artesanal de higos.",
     serviceTemp: "14°C - 16°C",
-    image: "https://images.unsplash.com/photo-1552767059-ce182ead6c1b?w=480&auto=format&fit=crop&q=72",
-    imageHover: "https://images.unsplash.com/photo-1506354666786-959d6d497f1a?w=480&auto=format&fit=crop&q=72",
+    image: "img/products/brillat-savarin.jpg",
+    imageHover: "img/products/brillat-savarin-hover.jpg",
     inStock: true
   },
   {
@@ -175,8 +175,8 @@ const CHEESE_PRODUCTS = [
     },
     accompaniment: "Dulce de membrillo artesanal chileno, manzanas verdes en láminas y frutos secos del sur.",
     serviceTemp: "17°C",
-    image: "https://images.unsplash.com/photo-1598514983318-2f64f8f4796c?w=480&auto=format&fit=crop&q=72",
-    imageHover: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=480&auto=format&fit=crop&q=72",
+    image: "img/products/chiloe-oveja.jpg",
+    imageHover: "img/products/chiloe-oveja-hover.jpg",
     inStock: true
   },
   {
@@ -210,8 +210,8 @@ const CHEESE_PRODUCTS = [
     },
     accompaniment: "Miel pura de ulmo chilena, peras asadas, damascos deshidratados y crackers de avena.",
     serviceTemp: "15°C",
-    image: "https://images.unsplash.com/photo-1631379578550-7038263db699?w=480&auto=format&fit=crop&q=72",
-    imageHover: "https://images.unsplash.com/photo-1559561853-08451507cbe7?w=480&auto=format&fit=crop&q=72",
+    image: "img/products/roquefort-societe.jpg",
+    imageHover: "img/products/roquefort-societe-hover.jpg",
     inStock: true
   },
   {
@@ -245,8 +245,8 @@ const CHEESE_PRODUCTS = [
     },
     accompaniment: "Manzanas crujientes, almendras tostadas con sal de mar o higos negros caramelizados.",
     serviceTemp: "18°C",
-    image: "https://images.unsplash.com/photo-1589881133595-a3c085cb731d?w=480&auto=format&fit=crop&q=72",
-    imageHover: "https://images.unsplash.com/photo-1528751014936-863e6e7a319c?w=480&auto=format&fit=crop&q=72",
+    image: "img/products/gouda-vintage.jpg",
+    imageHover: "img/products/gouda-vintage-hover.jpg",
     inStock: true
   },
   {
@@ -280,8 +280,8 @@ const CHEESE_PRODUCTS = [
     },
     accompaniment: "Pepinillos encurtidos agridulces, pan campesino rústico y nueces.",
     serviceTemp: "16°C",
-    image: "https://images.unsplash.com/photo-1598514983318-2f64f8f4796c?w=480&auto=format&fit=crop&q=72",
-    imageHover: "https://images.unsplash.com/photo-1552767059-ce182ead6c1b?w=480&auto=format&fit=crop&q=72",
+    image: "img/products/morbier-ceniza.jpg",
+    imageHover: "img/products/morbier-ceniza-hover.jpg",
     inStock: true
   },
   {
@@ -315,8 +315,8 @@ const CHEESE_PRODUCTS = [
     },
     accompaniment: "Tabla lista para servir con miel con trufa blanca, nueces pecanas y crackers de masa madre al romero.",
     serviceTemp: "Retirar del refrigerador 45 min antes de servir",
-    image: "https://images.unsplash.com/photo-1452195100486-9cc805987862?w=480&auto=format&fit=crop&q=72",
-    imageHover: "https://images.unsplash.com/photo-1544025162-d76694265947?w=480&auto=format&fit=crop&q=72",
+    image: "img/products/tabla-degustacion.jpg",
+    imageHover: "img/products/tabla-degustacion-hover.jpg",
     inStock: true
   }
 ];
@@ -328,24 +328,24 @@ const DELICATESSEN_ITEMS = [
     name: "Miel de Acacia con Trufa Blanca de Alba (120g)",
     price: 18990,
     category: "acompanamiento",
-    image: "https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=400&auto=format&fit=crop&q=72",
-    desc: "Gotas de oro aromático ideales para contrastar con quesos azules y pecorinos maduros."
+    image: "img/products/miel-trufa.jpg",
+    desc: "Gotas de oro aromático con lascas de trufa blanca, ideal para maridar con quesos azules y pecorinos maduros."
   },
   {
     id: "crackers-romero-artesanal",
     name: "Crackers de Masa Madre y Sal de Cahuil (150g)",
     price: 6990,
     category: "acompanamiento",
-    image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&auto=format&fit=crop&q=72",
-    desc: "Horneadas en leña con romero silvestre y sal de mar de las salinas de Cahuil, Pichilemu."
+    image: "img/products/crackers-artesanal.jpg",
+    desc: "Láminas crujientes horneadas en leña con romero silvestre y escamas de sal de mar de Cahuil, Pichilemu."
   },
   {
     id: "cuchillo-laguiole-fromage",
     name: "Cuchillo Maestro Fromager Laguiole de Aubrac",
     price: 42990,
     category: "accesorios",
-    image: "https://images.unsplash.com/photo-1528751014936-863e6e7a319c?w=400&auto=format&fit=crop&q=72",
-    desc: "Acero forjado francés Sandvik 12C27 con mango en madera de nogal noble para corte perfecto."
+    image: "img/products/cuchillo-laguiole.jpg",
+    desc: "Acero forjado francés Sandvik 12C27 con punta bífida de servicio y mango en noble madera de nogal."
   }
 ];
 

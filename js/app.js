@@ -13,7 +13,7 @@ class CartManager {
         subtitle: "Afinado en las cavas subterráneas del Fort Saint-Antoine",
         price: 29990,
         weight: "250g (Cuña seleccionada)",
-        image: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=480&auto=format&fit=crop&q=72",
+        image: "img/products/comte-36m.jpg",
         quantity: 1
       }
     ];
@@ -622,7 +622,7 @@ class PaymentGateway {
               weight: "1.250g con acompañamientos",
               price: this.currentSubtotal,
               quantity: 1,
-              image: "https://images.unsplash.com/photo-1452195100486-9cc805987862?w=480&auto=format&fit=crop&q=72"
+              image: "img/products/tabla-degustacion.jpg"
             }
           ];
 

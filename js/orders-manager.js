@@ -193,14 +193,14 @@ class OrdersManager {
                 weight: "300g",
                 price: 31990,
                 quantity: 1,
-                image: "https://images.unsplash.com/photo-1624806992066-5ffcf7ca186b?w=160&auto=format&fit=crop&q=70"
+                image: "img/products/parmigiano-vacche-rosse.jpg"
               },
               {
                 name: "Morbier AOP con Raya de Ceniza Vegetal",
                 weight: "250g",
                 price: 22990,
                 quantity: 1,
-                image: "https://images.unsplash.com/photo-1598514983318-2f64f8f4796c?w=160&auto=format&fit=crop&q=70"
+                image: "img/products/morbier-ceniza.jpg"
               }
             ],
             subtotal: 54980,
@@ -240,14 +240,14 @@ class OrdersManager {
             weight: "250g",
             price: 29990,
             quantity: 1,
-            image: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=160&auto=format&fit=crop&q=70"
+            image: "img/products/comte-36m.jpg"
           },
           {
             name: "Pecorino al Tartufo Nero Riserva",
             weight: "220g",
             price: 34990,
             quantity: 1,
-            image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=160&auto=format&fit=crop&q=70"
+            image: "img/products/pecorino-tartufo.jpg"
           }
         ],
         subtotal: 64980,
@@ -277,7 +277,7 @@ class OrdersManager {
             weight: "1.250g con acompañamientos",
             price: 89990,
             quantity: 1,
-            image: "https://images.unsplash.com/photo-1452195100486-9cc805987862?w=160&auto=format&fit=crop&q=70"
+            image: "img/products/tabla-degustacion.jpg"
           }
         ],
         subtotal: 89990,
@@ -307,14 +307,14 @@ class OrdersManager {
             weight: "300g",
             price: 31990,
             quantity: 1,
-            image: "https://images.unsplash.com/photo-1624806992066-5ffcf7ca186b?w=160&auto=format&fit=crop&q=70"
+            image: "img/products/parmigiano-vacche-rosse.jpg"
           },
           {
             name: "Morbier AOP con Raya de Ceniza Vegetal",
             weight: "250g",
             price: 22990,
             quantity: 1,
-            image: "https://images.unsplash.com/photo-1598514983318-2f64f8f4796c?w=160&auto=format&fit=crop&q=70"
+            image: "img/products/morbier-ceniza.jpg"
           }
         ],
         subtotal: 54980,

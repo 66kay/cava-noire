@@ -83,7 +83,8 @@ class SommelierAI {
           <!-- Chips de Acciones Rápidas -->
           <div class="sommelier-chips-scroll">
             <div id="sommelier-quick-chips" class="sommelier-quick-chips">
-              <button class="chip-btn" data-query="¿Qué queso marida con vino Carménère o Cabernet?">🍷 Maridaje con Tintos</button>
+              <button class="chip-btn" data-query="¿Venden vino o solo quesos de autor?">🧀 ¿Venden vino o solo quesos?</button>
+              <button class="chip-btn" data-query="¿Qué queso marida con vino Carménère o Cabernet que tengo en casa?">🍷 Maridaje con mi Vino</button>
               <button class="chip-btn" data-query="Recomiéndame una tabla gourmet para 4 personas">🧀 Tabla para 4 personas</button>
               <button class="chip-btn" data-query="¿Tienen quesos exclusivos con trufa negra?">✨ Queso Trufado</button>
               <button class="chip-btn" data-query="¿Qué opciones tienen sin lactosa natural?">🥛 Sin Lactosa</button>
@@ -180,15 +181,15 @@ class SommelierAI {
       *Bonjour et bienvenue à La Cava Noire.* 
       Soy **${this.botName}**, su Maître Fromager y Sommelier personal. 
       
-      Estoy a su entera disposición para asesorarle en maridajes excepcionales con vinos del Valle del Maipo, Colchagua o Borgoña, guiarle en la composición de su tabla de quesos de autor, o preparar su despacho refrigerado con **Webpay Plus**.
+      En La Cava Noire nos dedicamos **exclusivamente a la afinación, maduración y venta de quesos artesanales de autor (no vendemos vinos ni licores)**. Mi misión es guiarle para elegir el queso perfecto que mejor armonice con las botellas que usted ya tenga en casa, diseñar su tabla gourmet o gestionar su pedido refrigerado a través de **Webpay Plus**.
       
-      ¿En qué experiencia gastronómica puedo acompañarle hoy?
+      ¿Qué vino descorchará en su hogar o qué tipo de queso artesanal busca hoy?
     `;
 
     this.addBotMessage(greetingText, [
-      { text: "🍷 Consultar Maridaje", query: "¿Qué queso marida con vino Carménère o Cabernet?" },
-      { text: "📦 Ver Cofre Grand Affineur", query: "Háblame del Cofre Degustación Grand Affineur" },
-      { text: "💳 Finalizar Compra con Webpay", query: "Quiero proceder con la compra y pagar vía Webpay" }
+      { text: "🍷 Asesoría con mi Vino de Casa", query: "¿Qué queso marida con vino Carménère o Cabernet que tengo en casa?" },
+      { text: "🧀 Ver Cofre Grand Affineur", query: "Háblame del Cofre Degustación Grand Affineur" },
+      { text: "💳 Finalizar Compra de Quesos", query: "Quiero proceder con la compra y pagar vía Webpay" }
     ]);
   }
 
