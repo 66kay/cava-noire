@@ -1005,7 +1005,7 @@ class ProductCatalog {
           const target = parseInt(counter.getAttribute("data-target"), 10) || 0;
           const suffix = counter.getAttribute("data-suffix") || "%";
           if (window.ScrollRevealEngine) {
-            window.ScrollRevealEngine.animateNumberCounter(counter, target, 2100, suffix);
+            window.ScrollRevealEngine.animateNumberCounter(counter, target, 1800, suffix);
           } else {
             counter.textContent = `${target}${suffix}`;
           }
@@ -1153,9 +1153,9 @@ class ScrollRevealEngine {
   }
 
   /**
-   * Anima un número desde 0 hasta su valor objetivo con un ritmo pausado y elegante a 120Hz (~2.1s)
+   * Anima un número desde 0 hasta su valor objetivo calibrado a exactamente 1.8 segundos a 120Hz
    */
-  animateNumberCounter(element, targetVal, duration = 2100, suffix = "%", prefix = "") {
+  animateNumberCounter(element, targetVal, duration = 1800, suffix = "%", prefix = "") {
     if (!element) return;
     let startTime = null;
     const startVal = 0;
@@ -1194,13 +1194,13 @@ class ScrollRevealEngine {
     if (!container) return;
     container.classList.add("is-in-view");
 
-    // 1. Contadores numéricos (0 a X%) pausados y bien visibles
+    // 1. Contadores numéricos (0 a X%) a ritmo exacto de 1.8 segundos
     const counters = container.querySelectorAll(".counter-metric, .counter-card-metric, .counter-val");
     counters.forEach(counter => {
       const target = parseInt(counter.getAttribute("data-target"), 10) || 0;
       const suffix = counter.getAttribute("data-suffix") || "%";
       const prefix = counter.getAttribute("data-prefix") || "";
-      this.animateNumberCounter(counter, target, 2100, suffix, prefix);
+      this.animateNumberCounter(counter, target, 1800, suffix, prefix);
     });
 
     // 2. Barras de progreso de métricas (0% a X% width)
