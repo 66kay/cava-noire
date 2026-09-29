@@ -134,21 +134,21 @@
         </div>
 
         <!-- Franja de Beneficios Clave -->
-        <div class="hero-stats-grid animate-fade-in">
-          <div class="stat-card">
-            <span class="stat-num">4°C Frío</span>
+        <div class="hero-stats-grid">
+          <div class="stat-card modern-stat-reveal">
+            <span class="stat-num"><strong class="counter-metric" data-target="4" data-suffix="°C Frío">0°C Frío</strong></span>
             <span class="stat-label">Empaque que cuida su sabor</span>
           </div>
-          <div class="stat-card">
+          <div class="stat-card modern-stat-reveal">
             <span class="stat-num">24–48 hrs</span>
             <span class="stat-label">Despacho en Santiago y regiones</span>
           </div>
-          <div class="stat-card">
+          <div class="stat-card modern-stat-reveal">
             <span class="stat-num">Webpay Plus</span>
             <span class="stat-label">Paga seguro en Pesos Chilenos</span>
           </div>
-          <div class="stat-card">
-            <span class="stat-num">100% Quesería</span>
+          <div class="stat-card modern-stat-reveal">
+            <span class="stat-num"><strong class="counter-metric text-gold" data-target="100" data-suffix="% Quesería">0% Quesería</strong></span>
             <span class="stat-label">Venta exclusiva de quesos de autor</span>
           </div>
         </div>
@@ -156,7 +156,7 @@
     </section>
 
     <!-- SECCIÓN 1: CATÁLOGO DE AFINACIONES EXCLUSIVAS -->
-    <section id="catalogo" class="section-padding catalog-section">
+    <section id="catalogo" class="section-padding catalog-section scroll-reveal-group">
       <div class="container">
         <div class="section-header">
           <div class="header-titles">
@@ -194,13 +194,15 @@
 
 
     <!-- SECCIÓN 3: CADENA DE FRÍO & LOGÍSTICA CHILENA -->
-    <section id="cadena-frio" class="section-padding cold-chain-section">
+    <section id="cadena-frio" class="section-padding cold-chain-section scroll-reveal-group">
       <div class="container">
-        <div class="cold-chain-card">
+        <div class="cold-chain-card modern-positioning-card">
+          <div class="cold-ambient-mesh"></div>
+          
           <div class="cold-chain-header">
             <div class="cold-seal-gold">
               <span class="seal-icon">❄️</span>
-              <span class="seal-text">CADENA DE FRÍO 100% GARANTIZADA</span>
+              <span class="seal-text">CADENA DE FRÍO <strong class="counter-metric text-gold" data-target="100" data-suffix="%">0%</strong> GARANTIZADA</span>
             </div>
             <h2 class="cold-title">Compromiso de Conservación Térmica a 4°C</h2>
             <p class="cold-sub">
@@ -208,26 +210,70 @@
             </p>
           </div>
 
+          <!-- Barra de Telemetría Térmica Moderna Estilo UI/UX -->
+          <div class="cold-telemetry-hud">
+            <div class="telemetry-pill">
+              <span class="tele-dot"></span>
+              <span class="tele-label">Sensor Interior:</span>
+              <strong class="tele-val counter-metric" data-target="4" data-suffix="°C Constante">0°C Constante</strong>
+            </div>
+            <div class="telemetry-pill">
+              <span class="tele-dot pulse-blue"></span>
+              <span class="tele-label">Hermeticidad Térmica:</span>
+              <strong class="tele-val counter-metric text-gold" data-target="100" data-suffix="% Activa">0% Activa</strong>
+            </div>
+            <div class="telemetry-pill">
+              <span class="tele-dot"></span>
+              <span class="tele-label">Autonomía Geles:</span>
+              <strong class="tele-val counter-metric" data-target="72" data-suffix=" Horas">0 Horas</strong>
+            </div>
+            <div class="telemetry-pill">
+              <span class="tele-dot pulse-gold"></span>
+              <span class="tele-label">Monitoreo Envíos:</span>
+              <strong class="tele-val counter-metric text-gold" data-target="100" data-suffix="% Certificado">0% Certificado</strong>
+            </div>
+          </div>
+
           <div class="cold-features-grid">
-            <div class="cold-feature-item">
+            <div class="cold-feature-item modern-pos-item" data-pos-delay="1">
               <div class="feature-icon">🛡️</div>
               <h4>Caja Isotérmica de Alta Densidad</h4>
               <p>Barrera aluminizada reflectante de triple capa que bloquea el calor ambiental y mantiene la temperatura interna sin fluctuaciones.</p>
+              <div class="cold-item-metric">
+                <span class="c-metric-lbl">Aislamiento Térmico</span>
+                <div class="c-metric-bar"><div class="c-bar-fill" data-target="100" style="width: 0%;"></div></div>
+                <strong class="c-metric-val counter-metric" data-target="100" data-suffix="%">0%</strong>
+              </div>
             </div>
-            <div class="cold-feature-item">
+            <div class="cold-feature-item modern-pos-item" data-pos-delay="2">
               <div class="feature-icon">🧊</div>
               <h4>Geles Eutécticos Refrigerantes</h4>
               <p>Acumuladores criogénicos que aseguran un ambiente continuo entre 2°C y 6°C durante un trayecto de hasta 72 horas continuas.</p>
+              <div class="cold-item-metric">
+                <span class="c-metric-lbl">Estabilidad de Frío</span>
+                <div class="c-metric-bar"><div class="c-bar-fill" data-target="98" style="width: 0%;"></div></div>
+                <strong class="c-metric-val counter-metric" data-target="98" data-suffix="%">0%</strong>
+              </div>
             </div>
-            <div class="cold-feature-item">
+            <div class="cold-feature-item modern-pos-item" data-pos-delay="3">
               <div class="feature-icon">🚚</div>
               <h4>Logística Prioritaria Nacional</h4>
               <p>Despachos Same-Day en Santiago Oriente (Las Condes, Vitacura, Lo Barnechea, Providencia) y 24-48 hrs a Regiones vía Blue Express Frío y Chilexpress.</p>
+              <div class="cold-item-metric">
+                <span class="c-metric-lbl">Puntualidad en Entrega</span>
+                <div class="c-metric-bar"><div class="c-bar-fill" data-target="100" style="width: 0%;"></div></div>
+                <strong class="c-metric-val counter-metric" data-target="100" data-suffix="%">0%</strong>
+              </div>
             </div>
-            <div class="cold-feature-item">
+            <div class="cold-feature-item modern-pos-item" data-pos-delay="4">
               <div class="feature-icon">💳</div>
               <h4>Transacción Certificada Webpay</h4>
               <p>Emisión inmediata de comprobante tributario y código de autorización bancario oficial Transbank.</p>
+              <div class="cold-item-metric">
+                <span class="c-metric-lbl">Seguridad Bancaria</span>
+                <div class="c-metric-bar"><div class="c-bar-fill" data-target="100" style="width: 0%;"></div></div>
+                <strong class="c-metric-val counter-metric" data-target="100" data-suffix="%">0%</strong>
+              </div>
             </div>
           </div>
         </div>
@@ -235,9 +281,9 @@
     </section>
 
     <!-- SECCIÓN 5: FILOSOFÍA & CAVA DE MADURACIÓN -->
-    <section id="filosofia" class="section-padding philosophy-section">
+    <section id="filosofia" class="section-padding philosophy-section scroll-reveal-group">
       <div class="container philosophy-grid">
-        <div class="philosophy-text">
+        <div class="philosophy-text modern-pos-left">
           <span class="gold-tag">MAESTRÍA & ORIGEN</span>
           <h2 class="section-title">El Tiempo Como Ingrediente Principal</h2>
           <p class="body-p">
@@ -250,14 +296,37 @@
             <p>“Un gran queso no se fabrica: se acompaña con paciencia y devoción hasta alcanzar su cumbre sensorial.”</p>
             <span>— Jean-Pierre, Maître Affineur de La Cava Noire</span>
           </div>
+
+          <!-- Métricas de Maestría & Trazabilidad Estilo UI/UX -->
+          <div class="craft-metrics-strip">
+            <div class="craft-metric-card">
+              <span class="craft-num counter-metric text-gold" data-target="100" data-suffix="%">0%</span>
+              <span class="craft-lbl">Leche Cruda de Pastoreo</span>
+              <div class="craft-bar"><div class="craft-fill" data-target="100" style="width: 0%;"></div></div>
+            </div>
+            <div class="craft-metric-card">
+              <span class="craft-num counter-metric text-gold" data-target="60" data-suffix=" Meses">0 Meses</span>
+              <span class="craft-lbl">Maduración Máxima en Cava</span>
+              <div class="craft-bar"><div class="craft-fill" data-target="100" style="width: 0%;"></div></div>
+            </div>
+            <div class="craft-metric-card">
+              <span class="craft-num counter-metric text-gold" data-target="100" data-suffix="%">0%</span>
+              <span class="craft-lbl">Pureza Artesanal Sin Aditivos</span>
+              <div class="craft-bar"><div class="craft-fill" data-target="100" style="width: 0%;"></div></div>
+            </div>
+          </div>
         </div>
 
-        <div class="philosophy-visual">
+        <div class="philosophy-visual modern-pos-right">
           <div class="visual-stack">
             <img class="img-front" src="img/products/tabla-degustacion.jpg" alt="Tabla de quesos artesanales de autor" loading="lazy" decoding="async" width="600" height="400">
-            <div class="visual-badge-overlay">
-              <span class="badge-num">100%</span>
+            <div class="visual-badge-overlay modern-badge-glow">
+              <div class="badge-ring-pulse"></div>
+              <span class="badge-num counter-metric text-gold" data-target="100" data-suffix="%">0%</span>
               <span class="badge-txt">Trazabilidad de Cava</span>
+              <div class="badge-sub-bar">
+                <div class="badge-fill" data-target="100" style="width: 0%;"></div>
+              </div>
             </div>
           </div>
         </div>

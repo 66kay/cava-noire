@@ -839,24 +839,79 @@ h3, h4, h5, h6 {
 }
 
 /* Mini Indicadores Clave en la Tarjeta */
+/* Mini Indicadores Clave en la Tarjeta: Modern Luxury Pills con Barras de Progreso Dinámicas */
 .card-quick-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.45rem;
+  margin-bottom: 0.85rem;
+}
+
+.card-metric-pill {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-bottom: 0.75rem;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(212, 175, 55, 0.12);
+  border-radius: 6px;
+  padding: 0.35rem 0.45rem;
+  transition: all 0.25s ease;
 }
 
-.quick-metric {
-  font-size: 0.72rem;
-  padding: 0.2rem 0.55rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-sm);
+.card-metric-pill:hover {
+  background: rgba(212, 175, 55, 0.07);
+  border-color: rgba(212, 175, 55, 0.35);
+  transform: translateY(-1px);
+}
+
+.card-metric-pill .metric-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  line-height: 1.2;
+  margin-bottom: 0.3rem;
+}
+
+.card-metric-pill .m-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
   color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.68rem;
 }
 
-.quick-metric strong {
+.card-metric-pill .m-val {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
   color: var(--gold-light);
+}
+
+.card-metric-pill .metric-track {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.card-metric-pill .metric-fill {
+  height: 100%;
+  border-radius: 3px;
+  width: 0%;
+  transition: width 1.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.metric-fill-acidity {
+  background: linear-gradient(90deg, #eab308, #f59e0b);
+}
+
+.metric-fill-intensity {
+  background: linear-gradient(90deg, #d4af37, #fef08a);
+}
+
+.metric-fill-creaminess {
+  background: linear-gradient(90deg, #ca8a04, #fde047);
 }
 
 .card-desc {
@@ -5292,5 +5347,404 @@ body {
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+/* ==========================================================================
+   SISTEMA MODERNO DE REVELADO, ACOMODO AL SCROLL & TELEMETRÍA (120Hz UI/UX)
+   ========================================================================== */
+
+/* 1. BENEFICIOS HERO REVELADO */
+.modern-stat-reveal {
+  opacity: 0;
+  transform: translateY(24px) scale(0.97);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
+  will-change: transform, opacity;
+}
+
+.modern-stat-reveal.is-in-view {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* 2. ACOMODO MODERNO DE LAS TARJETAS DE QUESO */
+.cheese-card.scroll-reveal-card {
+  opacity: 0;
+  transform: translateY(32px) scale(0.96);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s ease,
+              border-color 0.35s ease;
+  will-change: transform, opacity;
+}
+
+.cheese-card.scroll-reveal-card.is-in-view {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.cheese-card.scroll-reveal-card:hover {
+  transform: translateY(-8px) scale(1.015);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8), 0 0 25px var(--gold-glow);
+  border-color: var(--gold-primary);
+}
+
+/* 3. CADENA DE FRÍO: POSICIONAMIENTO MODERNO ESTILO PÁGINAS MODERNAS */
+.cold-chain-card.modern-positioning-card {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(145deg, rgba(16, 16, 20, 0.95), rgba(10, 10, 14, 0.98));
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  border-radius: var(--radius-lg);
+  padding: 3.5rem 3rem;
+  box-shadow: var(--shadow-luxury);
+  opacity: 0;
+  transform: translateY(45px) scale(0.97);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.85s ease,
+              border-color 0.85s ease;
+  will-change: transform, opacity;
+}
+
+.cold-chain-card.modern-positioning-card.is-in-view {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.9), 0 0 45px rgba(212, 175, 55, 0.1);
+  border-color: rgba(212, 175, 55, 0.35);
+}
+
+/* Malla ambiental sutil de refrigeración fría y oro */
+.cold-ambient-mesh {
+  position: absolute;
+  top: -120px;
+  right: -80px;
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, rgba(212, 175, 55, 0.04) 50%, transparent 75%);
+  pointer-events: none;
+  filter: blur(50px);
+}
+
+/* Barra de Telemetría Térmica HUD */
+.cold-telemetry-hud {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(212, 175, 55, 0.18);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1.35rem;
+  margin-bottom: 2.5rem;
+  backdrop-filter: blur(8px);
+}
+
+.telemetry-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.tele-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold-primary);
+  box-shadow: 0 0 8px var(--gold-primary);
+}
+
+.tele-dot.pulse-blue {
+  background: #38bdf8;
+  box-shadow: 0 0 10px #38bdf8;
+  animation: telemetryPulse 2s infinite ease-in-out;
+}
+
+.tele-dot.pulse-gold {
+  background: var(--gold-light);
+  box-shadow: 0 0 10px var(--gold-light);
+  animation: telemetryPulse 2.4s infinite ease-in-out;
+}
+
+@keyframes telemetryPulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.35); opacity: 1; }
+}
+
+.tele-label {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tele-val {
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+/* Tarjetas de Features con Acomodo Escalonado Moderno */
+.cold-feature-item.modern-pos-item {
+  position: relative;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-md);
+  padding: 1.5rem 1.35rem;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transform: translateY(35px) scale(0.95);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.3s ease,
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
+  will-change: transform, opacity;
+}
+
+.cold-chain-card.is-in-view .cold-feature-item.modern-pos-item[data-pos-delay="1"] {
+  transition-delay: 0.08s;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.cold-chain-card.is-in-view .cold-feature-item.modern-pos-item[data-pos-delay="2"] {
+  transition-delay: 0.16s;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.cold-chain-card.is-in-view .cold-feature-item.modern-pos-item[data-pos-delay="3"] {
+  transition-delay: 0.24s;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.cold-chain-card.is-in-view .cold-feature-item.modern-pos-item[data-pos-delay="4"] {
+  transition-delay: 0.32s;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.cold-feature-item.modern-pos-item:hover {
+  background: rgba(212, 175, 55, 0.04);
+  border-color: rgba(212, 175, 55, 0.3);
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(212, 175, 55, 0.1);
+}
+
+.cold-item-metric {
+  margin-top: auto;
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.c-metric-lbl {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.c-metric-bar {
+  height: 5px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.c-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  width: 0%;
+  background: linear-gradient(90deg, #38bdf8, #d4af37);
+  transition: width 1.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.c-metric-val {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--gold-light);
+  align-self: flex-end;
+}
+
+/* 4. MAESTRÍA & ORIGEN (#FILOSOFIA): ENTRADA Y EFECTO ELEGANTE */
+.philosophy-text.modern-pos-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.philosophy-section.is-in-view .philosophy-text.modern-pos-left {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.philosophy-visual.modern-pos-right {
+  opacity: 0;
+  transform: translateX(40px) scale(0.96);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.philosophy-section.is-in-view .philosophy-visual.modern-pos-right {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+/* Franja de Métricas de Maestría Artesanal */
+.craft-metrics-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.85rem;
+  margin-top: 2rem;
+}
+
+.craft-metric-card {
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(212, 175, 55, 0.16);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  transition: all 0.25s ease;
+}
+
+.craft-metric-card:hover {
+  background: rgba(212, 175, 55, 0.06);
+  border-color: rgba(212, 175, 55, 0.35);
+  transform: translateY(-2px);
+}
+
+.craft-num {
+  font-family: var(--font-sans);
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--gold-light);
+}
+
+.craft-lbl {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  line-height: 1.35;
+}
+
+.craft-bar {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 0.35rem;
+}
+
+.craft-fill {
+  height: 100%;
+  border-radius: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, #d4af37, #fef08a);
+  transition: width 1.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Badge de Trazabilidad 100% en la Foto */
+.visual-badge-overlay.modern-badge-glow {
+  position: absolute;
+  bottom: -22px;
+  right: -20px;
+  background: linear-gradient(135deg, rgba(16, 16, 20, 0.95), rgba(8, 8, 12, 0.98));
+  border: 1px solid var(--gold-primary);
+  padding: 1.35rem 1.6rem;
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(212, 175, 55, 0.25);
+  min-width: 170px;
+}
+
+.visual-badge-overlay .badge-ring-pulse {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold-light);
+  box-shadow: 0 0 10px var(--gold-glow);
+  animation: telemetryPulse 2s infinite ease-in-out;
+}
+
+.badge-sub-bar {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+.badge-fill {
+  height: 100%;
+  border-radius: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, #d4af37, #fef08a);
+  transition: width 1.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   ADAPTACIONES RESPONSIVAS MÓVILES (TELÉFONOS & TABLETS)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .cold-chain-card.modern-positioning-card {
+    padding: 2.2rem 1.35rem;
+  }
+
+  .cold-telemetry-hud {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+  }
+
+  .craft-metrics-strip {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+
+  .card-quick-metrics {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.25rem;
+  }
+
+  .card-metric-pill {
+    padding: 0.3rem 0.35rem;
+  }
+
+  .card-metric-pill .m-label {
+    font-size: 0.62rem;
+  }
+
+  .card-metric-pill .m-val {
+    font-size: 0.68rem;
+  }
+
+  .visual-badge-overlay.modern-badge-glow {
+    bottom: -10px;
+    right: -10px;
+    padding: 1rem 1.2rem;
+    min-width: 140px;
   }
 }

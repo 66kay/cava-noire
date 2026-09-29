@@ -909,7 +909,7 @@ class ProductCatalog {
               <div class="chart-bar-item">
                 <div class="chart-bar-labels">
                   <span class="bar-name">🍋 Nivel Real de Acidez:</span>
-                  <strong class="bar-score text-gold">${product.acidityLabel || (product.acidity + '%')}</strong>
+                  <strong class="bar-score text-gold modal-counter-val" data-target="${product.acidity}" data-suffix="%">0%</strong>
                 </div>
                 <div class="chart-track">
                   <div class="chart-fill chart-fill-acidity chart-anim" data-target="${product.acidity}" style="width: 0%;"></div>
@@ -919,7 +919,7 @@ class ProductCatalog {
               <div class="chart-bar-item">
                 <div class="chart-bar-labels">
                   <span class="bar-name">⭐ Intensidad de Sabor:</span>
-                  <strong class="bar-score">${product.intensityScoreLabel || (product.intensityScore + '%')}</strong>
+                  <strong class="bar-score modal-counter-val" data-target="${product.intensityScore}" data-suffix="%">0%</strong>
                 </div>
                 <div class="chart-track">
                   <div class="chart-fill chart-fill-intensity chart-anim" data-target="${product.intensityScore}" style="width: 0%;"></div>
@@ -929,7 +929,7 @@ class ProductCatalog {
               <div class="chart-bar-item">
                 <div class="chart-bar-labels">
                   <span class="bar-name">🧈 Nivel de Cremosidad:</span>
-                  <strong class="bar-score">${product.creaminessLabel || (product.creaminess + '%')}</strong>
+                  <strong class="bar-score modal-counter-val" data-target="${product.creaminess}" data-suffix="%">0%</strong>
                 </div>
                 <div class="chart-track">
                   <div class="chart-fill chart-fill-creaminess chart-anim" data-target="${product.creaminess}" style="width: 0%;"></div>
@@ -939,7 +939,7 @@ class ProductCatalog {
               <div class="chart-bar-item">
                 <div class="chart-bar-labels">
                   <span class="bar-name">🧂 Punto Salino:</span>
-                  <strong class="bar-score">${product.salinityLabel || (product.salinity + '%')}</strong>
+                  <strong class="bar-score modal-counter-val" data-target="${product.salinity}" data-suffix="%">0%</strong>
                 </div>
                 <div class="chart-track">
                   <div class="chart-fill chart-fill-salinity chart-anim" data-target="${product.salinity}" style="width: 0%;"></div>
@@ -991,13 +991,23 @@ class ProductCatalog {
     modalEl.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
 
-    // Animación suave de llenado hacia el punto exacto de acidez y notas
+    // Animación suave de llenado hacia el punto exacto de acidez y notas + conteo numérico 0 a X%
     requestAnimationFrame(() => {
       setTimeout(() => {
         contentEl.querySelectorAll(".chart-anim").forEach(bar => {
           const target = bar.getAttribute("data-target");
           if (target) {
             bar.style.width = `${target}%`;
+          }
+        });
+
+        contentEl.querySelectorAll(".modal-counter-val").forEach(counter => {
+          const target = parseInt(counter.getAttribute("data-target"), 10) || 0;
+          const suffix = counter.getAttribute("data-suffix") || "%";
+          if (window.ScrollRevealEngine) {
+            window.ScrollRevealEngine.animateNumberCounter(counter, target, 1100, suffix);
+          } else {
+            counter.textContent = `${target}${suffix}`;
           }
         });
       }, 70);
@@ -1038,7 +1048,7 @@ class ProductCatalog {
     }
 
     grid.innerHTML = filtered.map(item => `
-      <article class="cheese-card luxury-card-3d" data-id="${item.id}" onclick="window.ProductCatalog.openProductModal('${item.id}')">
+      <article class="cheese-card luxury-card-3d scroll-reveal-card" data-id="${item.id}" onclick="window.ProductCatalog.openProductModal('${item.id}')">
         <div class="card-media">
           <img class="img-primary" src="${item.image}" alt="${item.name}" loading="lazy" decoding="async" width="480" height="330">
           <img class="img-hover" src="${item.imageHover}" alt="${item.name} detalle" loading="lazy" decoding="async" width="480" height="330">
@@ -1063,11 +1073,37 @@ class ProductCatalog {
 
           <h3 class="card-title">${item.name}</h3>
           
-          <!-- Mini Indicadores Clave Prácticos -->
+          <!-- Mini Indicadores Clave Prácticos con Barras y Porcentajes Dinámicos (0 a X%) -->
           <div class="card-quick-metrics">
-            <span class="quick-metric" title="Acidez del queso">🍋 Acidez: <strong>${item.acidity}%</strong></span>
-            <span class="quick-metric" title="Intensidad">⭐ Sabor: <strong>${item.intensityScore}%</strong></span>
-            <span class="quick-metric" title="Cremosidad">🧈 Crema: <strong>${item.creaminess}%</strong></span>
+            <div class="card-metric-pill" title="Nivel Real de Acidez: ${item.acidity}%">
+              <div class="metric-head">
+                <span class="m-label">🍋 Acidez</span>
+                <strong class="m-val counter-card-metric text-gold" data-target="${item.acidity}" data-suffix="%">0%</strong>
+              </div>
+              <div class="metric-track">
+                <div class="metric-fill metric-fill-acidity" data-target="${item.acidity}" style="width: 0%;"></div>
+              </div>
+            </div>
+
+            <div class="card-metric-pill" title="Intensidad de Sabor: ${item.intensityScore}%">
+              <div class="metric-head">
+                <span class="m-label">⭐ Sabor</span>
+                <strong class="m-val counter-card-metric" data-target="${item.intensityScore}" data-suffix="%">0%</strong>
+              </div>
+              <div class="metric-track">
+                <div class="metric-fill metric-fill-intensity" data-target="${item.intensityScore}" style="width: 0%;"></div>
+              </div>
+            </div>
+
+            <div class="card-metric-pill" title="Nivel de Cremosidad: ${item.creaminess}%">
+              <div class="metric-head">
+                <span class="m-label">🧈 Crema</span>
+                <strong class="m-val counter-card-metric" data-target="${item.creaminess}" data-suffix="%">0%</strong>
+              </div>
+              <div class="metric-track">
+                <div class="metric-fill metric-fill-creaminess" data-target="${item.creaminess}" style="width: 0%;"></div>
+              </div>
+            </div>
           </div>
 
           <p class="card-desc">${item.easyGuide ? item.easyGuide.substring(0, 115) + '...' : item.description.substring(0, 110) + '...'}</p>
@@ -1094,11 +1130,172 @@ class ProductCatalog {
     void grid.offsetWidth;
     grid.classList.add("animating-filter");
 
+    // Registrar tarjetas en el motor de scroll y revelado dinámico
+    if (window.ScrollRevealEngine) {
+      window.ScrollRevealEngine.observeNewElements();
+    }
+
     this.attachTiltEffects();
   }
 
   attachTiltEffects() {
     // Delegado al compositor GPU en CSS con will-change: transform para 60-120fps puros sin reflows
+  }
+}
+
+// --- MOTOR DE REVELADO, ACOMODO AL SCROLL & CONTADORES DE PORCENTAJES (SCROLL REVEAL ENGINE 120Hz) ---
+class ScrollRevealEngine {
+  constructor() {
+    this.observer = null;
+    this.animatedElements = new WeakSet();
+    this.init();
+    this.setupResetOnTop();
+  }
+
+  /**
+   * Anima un número desde 0 hasta su valor objetivo con suavidad cúbica a 120Hz
+   */
+  animateNumberCounter(element, targetVal, duration = 1150, suffix = "%", prefix = "") {
+    if (!element) return;
+    let startTime = null;
+    const startVal = 0;
+
+    if (element._animRaf) {
+      cancelAnimationFrame(element._animRaf);
+      element._animRaf = null;
+    }
+
+    function step(currentTime) {
+      if (!startTime) startTime = currentTime;
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      // Desaceleración cúbica sedosa (easeOutCubic)
+      const ease = 1 - Math.pow(1 - progress, 3);
+      const current = Math.round(startVal + (targetVal - startVal) * ease);
+
+      element.textContent = `${prefix}${current}${suffix}`;
+
+      if (progress < 1) {
+        element._animRaf = requestAnimationFrame(step);
+      } else {
+        element.textContent = `${prefix}${targetVal}${suffix}`;
+        element._animRaf = null;
+      }
+    }
+
+    element._animRaf = requestAnimationFrame(step);
+  }
+
+  /**
+   * Activa el acomodo y animaciones de un contenedor al entrar a la vista
+   */
+  triggerEntrance(container) {
+    if (!container) return;
+    container.classList.add("is-in-view");
+
+    // 1. Contadores numéricos (0 a X%)
+    const counters = container.querySelectorAll(".counter-metric, .counter-card-metric, .counter-val");
+    counters.forEach(counter => {
+      const target = parseInt(counter.getAttribute("data-target"), 10) || 0;
+      const suffix = counter.getAttribute("data-suffix") || "%";
+      const prefix = counter.getAttribute("data-prefix") || "";
+      this.animateNumberCounter(counter, target, 1150, suffix, prefix);
+    });
+
+    // 2. Barras de progreso de métricas (0% a X% width)
+    const bars = container.querySelectorAll(".metric-fill, .c-bar-fill, .craft-fill, .badge-fill");
+    bars.forEach(bar => {
+      const target = bar.getAttribute("data-target");
+      if (target) {
+        bar.style.width = `${target}%`;
+      }
+    });
+  }
+
+  /**
+   * Resetea el contenedor para que vuelva a animarse si el usuario sube y vuelve a bajar
+   */
+  resetContainer(container) {
+    if (!container) return;
+    container.classList.remove("is-in-view");
+
+    const counters = container.querySelectorAll(".counter-metric, .counter-card-metric, .counter-val");
+    counters.forEach(counter => {
+      if (counter._animRaf) cancelAnimationFrame(counter._animRaf);
+      const suffix = counter.getAttribute("data-suffix") || "%";
+      const prefix = counter.getAttribute("data-prefix") || "";
+      counter.textContent = `${prefix}0${suffix}`;
+    });
+
+    const bars = container.querySelectorAll(".metric-fill, .c-bar-fill, .craft-fill, .badge-fill");
+    bars.forEach(bar => {
+      bar.style.width = "0%";
+    });
+  }
+
+  init() {
+    if (!("IntersectionObserver" in window)) {
+      document.querySelectorAll(".scroll-reveal-group, .modern-stat-reveal, .scroll-reveal-card").forEach(el => {
+        this.triggerEntrance(el);
+      });
+      return;
+    }
+
+    const observerOptions = {
+      root: null,
+      rootMargin: "0px 0px -40px 0px",
+      threshold: 0.12
+    };
+
+    this.observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const el = entry.target;
+        if (entry.isIntersecting) {
+          if (!this.animatedElements.has(el)) {
+            this.animatedElements.add(el);
+            this.triggerEntrance(el);
+          }
+        } else {
+          // Si el elemento sale de la pantalla por arriba o por abajo, permitir que vuelva a acomodarse
+          const rect = entry.boundingClientRect;
+          if (rect.top > window.innerHeight || rect.bottom < -100) {
+            this.animatedElements.delete(el);
+            this.resetContainer(el);
+          }
+        }
+      });
+    }, observerOptions);
+
+    this.observeNewElements();
+  }
+
+  observeNewElements() {
+    if (!this.observer) return;
+    const elementsToObserve = document.querySelectorAll(
+      ".scroll-reveal-group, .modern-stat-reveal, .scroll-reveal-card, .cold-chain-card, .philosophy-section"
+    );
+    elementsToObserve.forEach(el => {
+      if (!el.dataset.observed) {
+        el.dataset.observed = "true";
+        this.observer.observe(el);
+      }
+    });
+  }
+
+  setupResetOnTop() {
+    // Al volver al menú principal o inicio de la página, resetear para que al bajar todo vuelva a acomodarse
+    let lastScrollY = window.pageYOffset;
+    window.addEventListener("scroll", () => {
+      const currentY = window.pageYOffset;
+      if (currentY < 70 && lastScrollY >= 70) {
+        document.querySelectorAll(".scroll-reveal-group, .scroll-reveal-card, .cold-chain-card, .philosophy-section").forEach(el => {
+          this.animatedElements.delete(el);
+          this.resetContainer(el);
+        });
+      }
+      lastScrollY = currentY;
+    }, { passive: true });
   }
 }
 
@@ -1206,6 +1403,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.CartManager = new CartManager();
   window.PaymentGateway = new PaymentGateway();
   window.ProductCatalog = new ProductCatalog();
+  window.ScrollRevealEngine = new ScrollRevealEngine();
 
   // Menú hamburguesa móvil
   const mobileToggle = document.getElementById("mobile-menu-toggle");
