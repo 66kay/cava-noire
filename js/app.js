@@ -1160,8 +1160,21 @@ class ScrollRevealController {
   constructor() {
     this.observer = null;
     this.initObserver();
+    this.initHeroCounters();
     this.initScrollProgressBar();
     this.initHeaderScrollBlur();
+  }
+
+  /**
+   * Dispara los contadores numéricos del Hero inmediatamente en la carga
+   * para que los números aumenten con suavidad hasta su objetivo/porcentaje
+   * sin movimientos de zoom ni saltos en las tarjetas.
+   */
+  initHeroCounters() {
+    const heroStats = document.querySelector(".hero-stats-grid");
+    if (heroStats) {
+      this.triggerCounters(heroStats);
+    }
   }
 
   /**
@@ -1251,6 +1264,8 @@ class ScrollRevealController {
       counters.push(container);
     }
     counters.forEach(counter => {
+      if (counter._counted) return;
+      counter._counted = true;
       const target = parseInt(counter.getAttribute("data-target"), 10) || 0;
       const suffix = counter.getAttribute("data-suffix") || "%";
       const prefix = counter.getAttribute("data-prefix") || "";
@@ -1274,7 +1289,7 @@ class ScrollRevealController {
   }
 
   /**
-   * Anima un contador numérico de 0 a target en 1.8 segundos con suavidad cuadrática
+   * Anima un contador numérico de 0 a target en 1.8 segundos con suavidad cúbica
    */
   animateNumberCounter(element, targetVal, duration = 1800, suffix = "%", prefix = "") {
     if (!element) return;
@@ -1298,7 +1313,7 @@ class ScrollRevealController {
       if (!startTime) startTime = currentTime;
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      const ease = 1 - Math.pow(1 - progress, 2);
+      const ease = 1 - Math.pow(1 - progress, 3);
       const current = Math.round(startVal + (targetVal - startVal) * ease);
 
       element.textContent = `${prefix}${formatNumber(current)}${suffix}`;
