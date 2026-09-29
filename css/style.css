@@ -5154,6 +5154,143 @@ body {
   }
 }
 
+/* ==========================================================================
+   INTERACCIÓN TÁCTIL LUXURY & EFECTO DE DESPLAZAMIENTO FLUIDO (SMOOTH GLIDE)
+   ========================================================================== */
 
+/* Efecto de pulsación táctil luxury para logotipo y botones de cabecera */
+.brand-logo {
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
 
+.brand-logo:hover {
+  opacity: 0.95;
+}
 
+.brand-logo:active,
+.brand-logo.btn-pressed-tactile {
+  transform: scale(0.97) translateY(1px);
+}
+
+.brand-logo:active .brand-heraldry,
+.brand-logo.btn-pressed-tactile .brand-heraldry {
+  transform: scale(1.18) rotate(-6deg);
+  filter: drop-shadow(0 0 12px var(--gold-glow));
+}
+
+.brand-heraldry {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.25s ease;
+}
+
+/* Efecto háptico visual y resplandor al pulsar enlaces de la barra superior */
+.nav-link {
+  cursor: pointer;
+}
+
+.nav-link.btn-pressed-tactile {
+  animation: navLinkTactile 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  color: var(--gold-light);
+}
+
+@keyframes navLinkTactile {
+  0% { transform: scale(0.94); color: var(--gold-light); }
+  50% { transform: scale(1.05); text-shadow: 0 0 10px rgba(212, 175, 55, 0.6); }
+  100% { transform: scale(1); }
+}
+
+/* Efecto háptico para botones del Hero */
+.btn-hero-primary.btn-pressed-tactile {
+  animation: heroBtnTactile 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-hero-secondary.btn-pressed-tactile {
+  animation: heroBtnTactile 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes heroBtnTactile {
+  0% { transform: scale(0.94) translateY(2px); box-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
+  50% { transform: scale(1.02) translateY(-2px); box-shadow: 0 0 25px rgba(212, 175, 55, 0.6); }
+  100% { transform: scale(1) translateY(0); }
+}
+
+/* Botón Asistente Quesero en la cabecera */
+.btn-header-sommelier.btn-pressed-tactile,
+.btn-mobile-sommelier.btn-pressed-tactile {
+  animation: sommelierBtnTactile 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes sommelierBtnTactile {
+  0% { transform: scale(0.92); box-shadow: 0 0 8px rgba(212, 175, 55, 0.4); }
+  50% { transform: scale(1.05); box-shadow: 0 0 22px rgba(212, 175, 55, 0.7); }
+  100% { transform: scale(1); }
+}
+
+/* Botones de Categorías del Catálogo: Pulsación viva y transición de lujo */
+.cat-filter-btn {
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  cursor: pointer;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.25s ease,
+              border-color 0.25s ease,
+              color 0.25s ease,
+              box-shadow 0.25s ease;
+}
+
+.cat-filter-btn:active,
+.cat-filter-btn.btn-filter-press {
+  animation: catBtnPressBounce 0.42s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes catBtnPressBounce {
+  0% { transform: scale(0.92); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.5); }
+  50% { transform: scale(1.05); box-shadow: 0 0 18px 2px rgba(212, 175, 55, 0.4); }
+  100% { transform: scale(1); }
+}
+
+.cat-filter-btn.active {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.22), rgba(212, 175, 55, 0.08)) !important;
+  border-color: var(--gold-primary) !important;
+  color: var(--gold-light) !important;
+  box-shadow: 0 0 16px rgba(212, 175, 55, 0.3), inset 0 0 10px rgba(212, 175, 55, 0.15) !important;
+}
+
+/* Resalte visual temporal cuando se desliza hacia una sección */
+.section-glide-highlight {
+  animation: sectionGlowSweep 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes sectionGlowSweep {
+  0% { outline: 1px solid rgba(212, 175, 55, 0); }
+  35% { outline: 1px solid rgba(212, 175, 55, 0.45); box-shadow: 0 0 35px rgba(212, 175, 55, 0.15); }
+  100% { outline: 1px solid rgba(212, 175, 55, 0); box-shadow: none; }
+}
+
+/* Animación fluida de aparición de las tarjetas de queso al filtrar */
+.cheese-catalog-grid.animating-filter .cheese-card {
+  animation: cheeseCardEntrance 0.48s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+.cheese-catalog-grid.animating-filter .cheese-card:nth-child(1) { animation-delay: 0.02s; }
+.cheese-catalog-grid.animating-filter .cheese-card:nth-child(2) { animation-delay: 0.06s; }
+.cheese-catalog-grid.animating-filter .cheese-card:nth-child(3) { animation-delay: 0.10s; }
+.cheese-catalog-grid.animating-filter .cheese-card:nth-child(4) { animation-delay: 0.14s; }
+.cheese-catalog-grid.animating-filter .cheese-card:nth-child(5) { animation-delay: 0.18s; }
+.cheese-catalog-grid.animating-filter .cheese-card:nth-child(6) { animation-delay: 0.22s; }
+.cheese-catalog-grid.animating-filter .cheese-card:nth-child(7) { animation-delay: 0.26s; }
+.cheese-catalog-grid.animating-filter .cheese-card:nth-child(8) { animation-delay: 0.30s; }
+.cheese-catalog-grid.animating-filter .cheese-card:nth-child(9) { animation-delay: 0.34s; }
+
+@keyframes cheeseCardEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

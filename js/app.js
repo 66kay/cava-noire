@@ -800,14 +800,23 @@ class ProductCatalog {
   }
 
   initDOM() {
-    // Filtros de categoría
+    // Filtros de categoría con pulsación táctil háptica y deslizamiento lento y agradable
     const filterPills = document.querySelectorAll(".cat-filter-btn");
     filterPills.forEach(btn => {
       btn.addEventListener("click", () => {
+        // Micro-animación elástica al pulsar el botón
+        btn.classList.add("btn-filter-press");
+        setTimeout(() => btn.classList.remove("btn-filter-press"), 420);
+
         filterPills.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
         this.currentCategory = btn.getAttribute("data-category");
         this.render();
+
+        // Deslizarse lentamente hacia el catálogo ("lentamente pero un tiempo ideal")
+        if (typeof window.glideToSection === "function") {
+          window.glideToSection("#catalogo", 15, 750);
+        }
       });
     });
 
@@ -1080,6 +1089,11 @@ class ProductCatalog {
       </article>
     `).join("");
 
+    // Disparar animación de entrada escalonada fluida a 120Hz para las tarjetas
+    grid.classList.remove("animating-filter");
+    void grid.offsetWidth;
+    grid.classList.add("animating-filter");
+
     this.attachTiltEffects();
   }
 
@@ -1087,6 +1101,105 @@ class ProductCatalog {
     // Delegado al compositor GPU en CSS con will-change: transform para 60-120fps puros sin reflows
   }
 }
+
+// --- MOTOR DE DESPLAZAMIENTO SUAVE & ELEGANTE (SMOOTH GLIDE CONTROLLER 120Hz) ---
+let activeGlideRaf = null;
+
+/**
+ * Desplaza la página con una curva cúbica fluida ("deslizándose lentamente pero un tiempo ideal")
+ * @param {number} targetY - Posición de scroll vertical de destino
+ * @param {number} duration - Duración en milisegundos (por defecto 780ms)
+ * @param {Function} [callback] - Función a ejecutar al completar el deslizamiento
+ */
+window.smoothGlideTo = function(targetY, duration = 780, callback) {
+  if (activeGlideRaf) {
+    cancelAnimationFrame(activeGlideRaf);
+    activeGlideRaf = null;
+  }
+
+  const startY = window.pageYOffset;
+  const distance = targetY - startY;
+
+  // Si la distancia es insignificante, saltar suavemente
+  if (Math.abs(distance) < 5) {
+    window.scrollTo(0, targetY);
+    if (callback) callback();
+    return;
+  }
+
+  // Tiempo ideal: duración controlada y calibrada según distancia (680ms a 900ms)
+  const actualDuration = Math.min(Math.max(duration, 680), 920);
+  let startTime = null;
+
+  // Curva cúbica bezier suave (suave aceleración, velocidad agradable y desaceleración sedosa)
+  function easeInOutCubic(t) {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
+  function step(currentTime) {
+    if (!startTime) startTime = currentTime;
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / actualDuration, 1);
+    const ease = easeInOutCubic(progress);
+
+    window.scrollTo(0, startY + distance * ease);
+
+    if (progress < 1) {
+      activeGlideRaf = requestAnimationFrame(step);
+    } else {
+      window.scrollTo(0, targetY);
+      activeGlideRaf = null;
+      if (callback) callback();
+    }
+  }
+
+  activeGlideRaf = requestAnimationFrame(step);
+};
+
+// Cancelar suavemente si el usuario interactúa manualmente durante el deslizamiento
+window.addEventListener("wheel", () => {
+  if (activeGlideRaf) {
+    cancelAnimationFrame(activeGlideRaf);
+    activeGlideRaf = null;
+  }
+}, { passive: true });
+
+window.addEventListener("touchmove", () => {
+  if (activeGlideRaf) {
+    cancelAnimationFrame(activeGlideRaf);
+    activeGlideRaf = null;
+  }
+}, { passive: true });
+
+/**
+ * Desplaza la vista hacia un elemento o selector considerando la barra fija superior
+ */
+window.glideToSection = function(selectorOrElement, extraOffset = 15, duration = 780, callback) {
+  if (!selectorOrElement) return;
+
+  if (selectorOrElement === "#" || selectorOrElement === "#top" || selectorOrElement === "top") {
+    window.smoothGlideTo(0, duration, callback);
+    return;
+  }
+
+  const target = typeof selectorOrElement === "string" 
+    ? document.querySelector(selectorOrElement) 
+    : selectorOrElement;
+
+  if (!target) return;
+
+  const header = document.querySelector(".site-header");
+  const headerHeight = header ? header.getBoundingClientRect().height : 80;
+  const elementPosition = target.getBoundingClientRect().top;
+  const targetY = Math.max(0, elementPosition + window.pageYOffset - headerHeight - extraOffset);
+
+  window.smoothGlideTo(targetY, duration, () => {
+    target.classList.remove("section-glide-highlight");
+    void target.offsetWidth;
+    target.classList.add("section-glide-highlight");
+    if (callback) callback();
+  });
+};
 
 // --- 4. INICIALIZACIÓN GLOBAL ---
 document.addEventListener("DOMContentLoaded", () => {
@@ -1103,39 +1216,81 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Desplazamiento suave y sutil hacia las secciones (Afinaciones de Autor, Cadena de Frío, Nuestra Cava)
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener("click", function(e) {
-      const targetId = this.getAttribute("href");
-      if (!targetId || targetId === "#" || targetId.startsWith("#admin")) return;
+  // 1. Logotipo de la Casa: "⚜ LA CAVA NOIRE FROMAGERIE & AFFINEUR PRIVÉE" -> Desliza al inicio suavemente
+  const brandLogo = document.querySelector(".brand-logo");
+  if (brandLogo) {
+    brandLogo.addEventListener("click", (e) => {
+      e.preventDefault();
+      brandLogo.classList.add("btn-pressed-tactile");
+      setTimeout(() => brandLogo.classList.remove("btn-pressed-tactile"), 450);
 
-      const target = document.querySelector(targetId);
-      if (target) {
-        e.preventDefault();
+      document.querySelectorAll(".desktop-nav .nav-link, .mobile-nav-menu a").forEach(l => l.classList.remove("active"));
+      window.smoothGlideTo(0, 750);
+    });
+  }
 
-        // Compensación perfecta de la barra de navegación fija superior (82px)
-        const headerOffset = 82;
-        const elementPosition = target.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+  // 2. Enlaces de Navegación de Escritorio (Afinaciones de Autor, Cadena de Frío, Nuestra Cava)
+  document.querySelectorAll(".desktop-nav .nav-link").forEach(link => {
+    link.addEventListener("click", function(e) {
+      const href = this.getAttribute("href");
+      if (!href || !href.startsWith("#")) return;
+      e.preventDefault();
 
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: "smooth"
-        });
+      this.classList.add("btn-pressed-tactile");
+      setTimeout(() => this.classList.remove("btn-pressed-tactile"), 450);
 
-        // Actualizar clase activa en los enlaces
-        document.querySelectorAll(".desktop-nav .nav-link, .mobile-nav-menu a").forEach(l => l.classList.remove("active"));
-        this.classList.add("active");
+      document.querySelectorAll(".desktop-nav .nav-link").forEach(l => l.classList.remove("active"));
+      this.classList.add("active");
 
-        // Cerrar menú móvil si está desplegado
-        if (mobileMenu && mobileMenu.classList.contains("open")) {
-          mobileMenu.classList.remove("open");
-        }
-      }
+      let duration = 750;
+      if (href === "#filosofia") duration = 850;
+      if (href === "#cadena-frio") duration = 800;
+
+      window.glideToSection(href, 15, duration);
     });
   });
 
-  // ScrollSpy sutil: ilumina el enlace de navegación correspondiente a la sección visible
+  // 3. Enlaces del Menú Desplegable Móvil
+  if (mobileMenu) {
+    mobileMenu.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", function(e) {
+        const href = this.getAttribute("href");
+        if (!href || !href.startsWith("#")) return;
+        e.preventDefault();
+
+        mobileMenu.classList.remove("open");
+
+        let duration = 750;
+        if (href === "#filosofia") duration = 850;
+        if (href === "#cadena-frio") duration = 800;
+
+        window.glideToSection(href, 15, duration);
+      });
+    });
+  }
+
+  // 4. Botón Hero: "Ver Quesos Disponibles" -> Desplaza suavemente hacia el catálogo
+  const heroPrimaryBtn = document.querySelector(".btn-hero-primary");
+  if (heroPrimaryBtn) {
+    heroPrimaryBtn.addEventListener("click", function(e) {
+      e.preventDefault();
+      heroPrimaryBtn.classList.add("btn-pressed-tactile");
+      setTimeout(() => heroPrimaryBtn.classList.remove("btn-pressed-tactile"), 450);
+
+      window.glideToSection("#catalogo", 15, 750);
+    });
+  }
+
+  // 5. Botones Hero y Cabecera del Asistente Quesero -> Efecto de pulsación táctil
+  const sommelierTriggerBtns = document.querySelectorAll(".btn-header-sommelier, .btn-hero-secondary, .btn-mobile-sommelier");
+  sommelierTriggerBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      btn.classList.add("btn-pressed-tactile");
+      setTimeout(() => btn.classList.remove("btn-pressed-tactile"), 450);
+    });
+  });
+
+  // 6. ScrollSpy sutil: ilumina el enlace de navegación correspondiente a la sección visible
   const trackedSections = [
     { id: "catalogo", link: document.querySelector('.desktop-nav a[href="#catalogo"]') },
     { id: "cadena-frio", link: document.querySelector('.desktop-nav a[href="#cadena-frio"]') },
