@@ -1047,8 +1047,8 @@ class ProductCatalog {
       return;
     }
 
-    grid.innerHTML = filtered.map(item => `
-      <article class="cheese-card luxury-card-3d scroll-reveal-card" data-id="${item.id}" onclick="window.ProductCatalog.openProductModal('${item.id}')">
+    grid.innerHTML = filtered.map((item, index) => `
+      <article class="cheese-card luxury-card-3d reveal" data-reveal="up" data-delay="${(index % 3) * 110}" data-id="${item.id}" onclick="window.ProductCatalog.openProductModal('${item.id}')">
         <div class="card-media">
           <img class="img-primary" src="${item.image}" alt="${item.name}" loading="lazy" decoding="async" width="480" height="330">
           <img class="img-hover" src="${item.imageHover}" alt="${item.name} detalle" loading="lazy" decoding="async" width="480" height="330">
@@ -1131,8 +1131,10 @@ class ProductCatalog {
     grid.classList.add("animating-filter");
 
     // Registrar tarjetas en el motor de scroll y revelado dinámico
-    if (window.ScrollRevealEngine) {
-      window.ScrollRevealEngine.observeNewElements();
+    if (window.ScrollRevealController) {
+      window.ScrollRevealController.observeElements(grid);
+    } else if (window.ScrollRevealEngine) {
+      window.ScrollRevealEngine.observeElements(grid);
     }
 
     this.attachTiltEffects();
@@ -1143,17 +1145,99 @@ class ProductCatalog {
   }
 }
 
-// --- MOTOR DE REVELADO, ACOMODO AL SCROLL & CONTADORES DE PORCENTAJES (SCROLL REVEAL ENGINE 120Hz) ---
-class ScrollRevealEngine {
+// ==========================================================================
+// CONTROLADOR DE ANIMACIONES SCROLL REVEAL (SENIOR FRONT-END ARCHITECTURE)
+// ==========================================================================
+class ScrollRevealController {
   constructor() {
     this.observer = null;
-    this.animatedElements = new WeakSet();
-    this.init();
-    this.setupResetOnTop();
+    this.initObserver();
+    this.initScrollProgressBar();
+    this.initHeaderScrollBlur();
   }
 
   /**
-   * Anima un número desde 0 hasta su valor objetivo calibrado a exactamente 1.8 segundos a 120Hz
+   * Requisito 1: IntersectionObserver con threshold 0.15 y rootMargin "0px 0px -8% 0px"
+   */
+  initObserver() {
+    // Accesibilidad: Si el usuario tiene activo "prefers-reduced-motion", mostrar todo de inmediato
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+      document.querySelectorAll(".reveal, [data-reveal]").forEach(el => {
+        el.classList.add("is-visible");
+        this.triggerCounters(el);
+      });
+      return;
+    }
+
+    const observerOptions = {
+      root: null,
+      rootMargin: "0px 0px -8% 0px",
+      threshold: 0.15
+    };
+
+    this.observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          this.revealElement(el);
+          // Requisito 9: Ejecutar UNA sola vez (unobserve tras animar para no distraer)
+          this.observer.unobserve(el);
+        }
+      });
+    }, observerOptions);
+
+    this.observeElements(document);
+  }
+
+  /**
+   * Revela un elemento aplicando will-change, clase is-visible y contadores
+   */
+  revealElement(el) {
+    if (!el || el.classList.contains("is-visible")) return;
+
+    // Rendimiento: will-change activo solo durante la animación
+    el.style.willChange = "transform, opacity";
+
+    // Activar transición CSS (0.9s cubic-bezier(0.22, 1, 0.36, 1))
+    el.classList.add("is-visible");
+
+    // Limpieza de GPU: retirar will-change al finalizar la transición
+    el.addEventListener("transitionend", () => {
+      el.style.willChange = "auto";
+    }, { once: true });
+
+    // Activar contadores numéricos y barras de progreso internas
+    this.triggerCounters(el);
+  }
+
+  /**
+   * Dispara los contadores numéricos y barras dentro del elemento revelado
+   */
+  triggerCounters(container) {
+    if (!container) return;
+
+    // Contadores de porcentaje o métricas numéricas
+    const counters = container.querySelectorAll(".counter-metric, .counter-card-metric, .counter-val");
+    counters.forEach(counter => {
+      const target = parseInt(counter.getAttribute("data-target"), 10) || 0;
+      const suffix = counter.getAttribute("data-suffix") || "%";
+      const prefix = counter.getAttribute("data-prefix") || "";
+      this.animateNumberCounter(counter, target, 1800, suffix, prefix);
+    });
+
+    // Barras de progreso asociadas
+    const bars = container.querySelectorAll(".metric-fill, .c-bar-fill, .craft-fill, .badge-fill");
+    bars.forEach(bar => {
+      const target = bar.getAttribute("data-target");
+      if (target) {
+        bar.style.width = `${target}%`;
+      }
+    });
+  }
+
+  /**
+   * Anima un contador numérico de 0 a target en 1.8 segundos con suavidad cuadrática
    */
   animateNumberCounter(element, targetVal, duration = 1800, suffix = "%", prefix = "") {
     if (!element) return;
@@ -1169,8 +1253,6 @@ class ScrollRevealEngine {
       if (!startTime) startTime = currentTime;
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
-
-      // Curva cuadrática suave (easeOutQuad) que permite leer cada porcentaje sin prisas
       const ease = 1 - Math.pow(1 - progress, 2);
       const current = Math.round(startVal + (targetVal - startVal) * ease);
 
@@ -1188,114 +1270,89 @@ class ScrollRevealEngine {
   }
 
   /**
-   * Activa el acomodo y animaciones de un contenedor al entrar a la vista
+   * Requisito 3 & 4: Registra y aplica cálculo de stagger (100–120ms) y data-delay
    */
-  triggerEntrance(container) {
-    if (!container) return;
-    container.classList.add("is-in-view");
+  observeElements(scope = document) {
+    if (!this.observer) return;
 
-    // 1. Contadores numéricos (0 a X%) a ritmo exacto de 1.8 segundos
-    const counters = container.querySelectorAll(".counter-metric, .counter-card-metric, .counter-val");
-    counters.forEach(counter => {
-      const target = parseInt(counter.getAttribute("data-target"), 10) || 0;
-      const suffix = counter.getAttribute("data-suffix") || "%";
-      const prefix = counter.getAttribute("data-prefix") || "";
-      this.animateNumberCounter(counter, target, 1800, suffix, prefix);
-    });
-
-    // 2. Barras de progreso de métricas (0% a X% width)
-    const bars = container.querySelectorAll(".metric-fill, .c-bar-fill, .craft-fill, .badge-fill");
-    bars.forEach(bar => {
-      const target = bar.getAttribute("data-target");
-      if (target) {
-        bar.style.width = `${target}%`;
-      }
-    });
-  }
-
-  /**
-   * Resetea el contenedor para que vuelva a animarse si el usuario sube y vuelve a bajar
-   */
-  resetContainer(container) {
-    if (!container) return;
-    container.classList.remove("is-in-view");
-
-    const counters = container.querySelectorAll(".counter-metric, .counter-card-metric, .counter-val");
-    counters.forEach(counter => {
-      if (counter._animRaf) cancelAnimationFrame(counter._animRaf);
-      const suffix = counter.getAttribute("data-suffix") || "%";
-      const prefix = counter.getAttribute("data-prefix") || "";
-      counter.textContent = `${prefix}0${suffix}`;
-    });
-
-    const bars = container.querySelectorAll(".metric-fill, .c-bar-fill, .craft-fill, .badge-fill");
-    bars.forEach(bar => {
-      bar.style.width = "0%";
-    });
-  }
-
-  init() {
-    if (!("IntersectionObserver" in window)) {
-      document.querySelectorAll(".scroll-reveal-group, .modern-stat-reveal, .scroll-reveal-card").forEach(el => {
-        this.triggerEntrance(el);
-      });
-      return;
-    }
-
-    const observerOptions = {
-      root: null,
-      rootMargin: "0px 0px -40px 0px",
-      threshold: 0.12
-    };
-
-    this.observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        const el = entry.target;
-        if (entry.isIntersecting) {
-          if (!this.animatedElements.has(el)) {
-            this.animatedElements.add(el);
-            this.triggerEntrance(el);
-          }
-        } else {
-          // Si el elemento sale de la pantalla por arriba o por abajo, permitir que vuelva a acomodarse
-          const rect = entry.boundingClientRect;
-          if (rect.top > window.innerHeight || rect.bottom < -100) {
-            this.animatedElements.delete(el);
-            this.resetContainer(el);
-          }
+    // 1. Stagger para hijos directos en contenedores .reveal-stagger
+    const staggerContainers = scope.querySelectorAll(".reveal-stagger");
+    staggerContainers.forEach(container => {
+      const children = container.querySelectorAll(":scope > .reveal, :scope > [data-reveal]");
+      children.forEach((child, index) => {
+        if (!child.getAttribute("data-delay")) {
+          child.style.transitionDelay = `${index * 110}ms`;
         }
       });
-    }, observerOptions);
+    });
 
-    this.observeNewElements();
-  }
+    // 2. Aplicar data-delay individual personalizado si fue definido
+    const delayedElements = scope.querySelectorAll("[data-delay]");
+    delayedElements.forEach(el => {
+      const delay = parseInt(el.getAttribute("data-delay"), 10);
+      if (!isNaN(delay)) {
+        el.style.transitionDelay = `${delay}ms`;
+      }
+    });
 
-  observeNewElements() {
-    if (!this.observer) return;
-    const elementsToObserve = document.querySelectorAll(
-      ".scroll-reveal-group, .modern-stat-reveal, .scroll-reveal-card, .cold-chain-card, .philosophy-section"
-    );
-    elementsToObserve.forEach(el => {
-      if (!el.dataset.observed) {
+    // 3. Observar todos los elementos .reveal o [data-reveal]
+    const elements = scope.querySelectorAll(".reveal, [data-reveal]");
+    elements.forEach(el => {
+      if (!el.dataset.observed && !el.classList.contains("is-visible")) {
         el.dataset.observed = "true";
         this.observer.observe(el);
       }
     });
   }
 
-  setupResetOnTop() {
-    // Al volver al menú principal o inicio de la página, resetear para que al bajar todo vuelva a acomodarse
-    let lastScrollY = window.pageYOffset;
+  /**
+   * Requisito 10: Barra dorada fina de progreso de scroll en la parte superior
+   */
+  initScrollProgressBar() {
+    const bar = document.getElementById("scroll-progress-bar");
+    if (!bar) return;
+
+    let ticking = false;
     window.addEventListener("scroll", () => {
-      const currentY = window.pageYOffset;
-      if (currentY < 70 && lastScrollY >= 70) {
-        document.querySelectorAll(".scroll-reveal-group, .scroll-reveal-card, .cold-chain-card, .philosophy-section").forEach(el => {
-          this.animatedElements.delete(el);
-          this.resetContainer(el);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+          const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+          bar.style.width = `${Math.min(Math.max(scrolled, 0), 100)}%`;
+          ticking = false;
         });
+        ticking = true;
       }
-      lastScrollY = currentY;
     }, { passive: true });
+  }
+
+  /**
+   * Requisito 8: Header con fondo reactivo al scroll (backdrop-filter y sombra sutil sin saltos)
+   */
+  initHeaderScrollBlur() {
+    const header = document.querySelector(".site-header");
+    if (!header) return;
+
+    let ticking = false;
+    const handleScroll = () => {
+      const scrollY = window.pageYOffset;
+      if (scrollY > 35) {
+        header.classList.add("is-scrolled");
+      } else {
+        header.classList.remove("is-scrolled");
+      }
+      ticking = false;
+    };
+
+    window.addEventListener("scroll", () => {
+      if (!ticking) {
+        window.requestAnimationFrame(handleScroll);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    handleScroll();
   }
 }
 
@@ -1403,7 +1460,8 @@ document.addEventListener("DOMContentLoaded", () => {
   window.CartManager = new CartManager();
   window.PaymentGateway = new PaymentGateway();
   window.ProductCatalog = new ProductCatalog();
-  window.ScrollRevealEngine = new ScrollRevealEngine();
+  window.ScrollRevealController = new ScrollRevealController();
+  window.ScrollRevealEngine = window.ScrollRevealController;
 
   // Menú hamburguesa móvil
   const mobileToggle = document.getElementById("mobile-menu-toggle");

@@ -5351,48 +5351,180 @@ body {
 }
 
 /* ==========================================================================
-   SISTEMA MODERNO DE REVELADO, ACOMODO AL SCROLL & TELEMETRÍA (120Hz UI/UX)
+   SISTEMA DE ANIMACIÓN SCROLL REVEAL SENIOR DE ALTO RENDIMIENTO (60-120 FPS)
    ========================================================================== */
 
-/* 1. BENEFICIOS HERO REVELADO */
-.modern-stat-reveal {
-  opacity: 0;
-  transform: translateY(24px) scale(0.97);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.3s ease,
-              box-shadow 0.3s ease;
-  will-change: transform, opacity;
+/* 1. BARRA DE PROGRESO DE SCROLL SUPERIOR ULTRA FINA */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, #d4af37, #fef08a, #d4af37);
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.85), 0 0 4px #ffffff;
+  z-index: 99999;
+  pointer-events: none;
+  transition: width 0.08s linear;
 }
 
-.modern-stat-reveal.is-in-view {
+/* 2. NAVBAR REACTIVA AL SCROLL (BACKDROP-FILTER Y SOMBRA SUTIL SIN SALTOS) */
+.site-header {
+  transition: background-color 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+              backdrop-filter 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+              -webkit-backdrop-filter 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.site-header.is-scrolled {
+  background: rgba(10, 10, 14, 0.88) !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.25) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.75) !important;
+}
+
+/* 3. BASE SCROLL REVEAL (SOLO ACTIVO SI JAVASCRIPT ESTÁ DISPONIBLE) */
+html.js-enabled .reveal,
+html.js-enabled [data-reveal] {
+  opacity: 0;
+  transform: translateY(40px) scale(0.98);
+  transition-property: opacity, transform, clip-path;
+  transition-duration: 0.9s;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+/* Estado Visible / Revelado */
+html.js-enabled .reveal.is-visible,
+html.js-enabled [data-reveal].is-visible {
   opacity: 1;
   transform: translateY(0) scale(1);
 }
 
-/* 2. ACOMODO MODERNO DE LAS TARJETAS DE QUESO */
-.cheese-card.scroll-reveal-card {
+/* 4. VARIANTES DE DATA-REVEAL */
+html.js-enabled [data-reveal="up"] {
   opacity: 0;
-  transform: translateY(32px) scale(0.96);
-  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.35s ease,
+  transform: translateY(40px) scale(0.98);
+}
+html.js-enabled [data-reveal="up"].is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+html.js-enabled [data-reveal="left"] {
+  opacity: 0;
+  transform: translateX(-40px) scale(0.98);
+}
+html.js-enabled [data-reveal="left"].is-visible {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+html.js-enabled [data-reveal="right"] {
+  opacity: 0;
+  transform: translateX(40px) scale(0.98);
+}
+html.js-enabled [data-reveal="right"].is-visible {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+html.js-enabled [data-reveal="zoom"] {
+  opacity: 0;
+  transform: scale(0.92);
+}
+html.js-enabled [data-reveal="zoom"].is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+html.js-enabled [data-reveal="fade"] {
+  opacity: 0;
+  transform: none;
+}
+html.js-enabled [data-reveal="fade"].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* 5. TÍTULOS CON MÁSCARA Y DESPLAZAMIENTO POR LÍNEAS (MANTENIENDO DEGRADADO DORADO) */
+.title-line-mask {
+  display: block;
+  overflow: hidden;
+  line-height: 1.15;
+  padding-bottom: 0.05em;
+}
+
+.title-line {
+  display: inline-block;
+  transform: translateY(115%);
+  opacity: 0;
+  transition: transform 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+
+.reveal-title.is-visible .title-line {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.reveal-title.is-visible .title-line:nth-child(1) {
+  transition-delay: 0.12s;
+}
+
+.reveal-title.is-visible .title-line:nth-child(2) {
+  transition-delay: 0.28s;
+}
+
+.reveal-title.is-visible .title-line:nth-child(3) {
+  transition-delay: 0.44s;
+}
+
+/* 6. REVELADO FOTOGRÁFICO DE PRODUCTOS CON CLIP-PATH (ABAJO-ARRIBA) + ZOOM SUAVE (1.1 -> 1) */
+.cheese-card .card-media {
+  position: relative;
+  overflow: hidden;
+}
+
+.cheese-card .card-media .img-primary {
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+              clip-path 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.js-enabled .cheese-card:not(.is-visible) .card-media .img-primary {
+  clip-path: inset(100% 0 0 0);
+  transform: scale(1.1);
+  opacity: 0;
+}
+
+html.js-enabled .cheese-card.is-visible .card-media .img-primary {
+  clip-path: inset(0 0 0 0);
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Micro-interacciones táctiles y hover en tarjetas de queso */
+.cheese-card {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
               border-color 0.35s ease;
-  will-change: transform, opacity;
 }
 
-.cheese-card.scroll-reveal-card.is-in-view {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-
-.cheese-card.scroll-reveal-card:hover {
+.cheese-card:hover {
   transform: translateY(-8px) scale(1.015);
   box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8), 0 0 25px var(--gold-glow);
   border-color: var(--gold-primary);
 }
 
-/* 3. CADENA DE FRÍO: POSICIONAMIENTO MODERNO ESTILO PÁGINAS MODERNAS */
+.cheese-card:hover .card-media .img-primary {
+  transform: scale(1.06);
+}
+
+/* 7. CADENA DE FRÍO, HUD DE TELEMETRÍA Y AMBIENTACIÓN */
 .cold-chain-card.modern-positioning-card {
   position: relative;
   overflow: hidden;
@@ -5401,23 +5533,8 @@ body {
   border-radius: var(--radius-lg);
   padding: 3.5rem 3rem;
   box-shadow: var(--shadow-luxury);
-  opacity: 0;
-  transform: translateY(45px) scale(0.97);
-  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.85s ease,
-              border-color 0.85s ease;
-  will-change: transform, opacity;
 }
 
-.cold-chain-card.modern-positioning-card.is-in-view {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.9), 0 0 45px rgba(212, 175, 55, 0.1);
-  border-color: rgba(212, 175, 55, 0.35);
-}
-
-/* Malla ambiental sutil de refrigeración fría y oro */
 .cold-ambient-mesh {
   position: absolute;
   top: -120px;
@@ -5429,7 +5546,6 @@ body {
   filter: blur(50px);
 }
 
-/* Barra de Telemetría Térmica HUD */
 .cold-telemetry-hud {
   display: flex;
   flex-wrap: wrap;
@@ -5491,7 +5607,6 @@ body {
   font-size: 0.85rem;
 }
 
-/* Tarjetas de Features con Acomodo Escalonado Moderno */
 .cold-feature-item.modern-pos-item {
   position: relative;
   background: rgba(255, 255, 255, 0.02);
@@ -5500,38 +5615,7 @@ body {
   padding: 1.5rem 1.35rem;
   display: flex;
   flex-direction: column;
-  opacity: 0;
-  transform: translateY(35px) scale(0.95);
-  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-              background 0.3s ease,
-              border-color 0.3s ease,
-              box-shadow 0.3s ease;
-  will-change: transform, opacity;
-}
-
-.cold-chain-card.is-in-view .cold-feature-item.modern-pos-item[data-pos-delay="1"] {
-  transition-delay: 0.08s;
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-
-.cold-chain-card.is-in-view .cold-feature-item.modern-pos-item[data-pos-delay="2"] {
-  transition-delay: 0.16s;
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-
-.cold-chain-card.is-in-view .cold-feature-item.modern-pos-item[data-pos-delay="3"] {
-  transition-delay: 0.24s;
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-
-.cold-chain-card.is-in-view .cold-feature-item.modern-pos-item[data-pos-delay="4"] {
-  transition-delay: 0.32s;
-  opacity: 1;
-  transform: translateY(0) scale(1);
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .cold-feature-item.modern-pos-item:hover {
@@ -5579,34 +5663,7 @@ body {
   align-self: flex-end;
 }
 
-/* 4. MAESTRÍA & ORIGEN (#FILOSOFIA): ENTRADA Y EFECTO ELEGANTE */
-.philosophy-text.modern-pos-left {
-  opacity: 0;
-  transform: translateX(-40px);
-  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, opacity;
-}
-
-.philosophy-section.is-in-view .philosophy-text.modern-pos-left {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.philosophy-visual.modern-pos-right {
-  opacity: 0;
-  transform: translateX(40px) scale(0.96);
-  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, opacity;
-}
-
-.philosophy-section.is-in-view .philosophy-visual.modern-pos-right {
-  opacity: 1;
-  transform: translateX(0) scale(1);
-}
-
-/* Franja de Métricas de Maestría Artesanal */
+/* 8. MAESTRÍA & ORIGEN (#FILOSOFIA): MÉTRICAS Y BADGE CON GLOW */
 .craft-metrics-strip {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -5661,7 +5718,6 @@ body {
   transition: width 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Badge de Trazabilidad 100% en la Foto */
 .visual-badge-overlay.modern-badge-glow {
   position: absolute;
   bottom: -22px;
@@ -5704,10 +5760,43 @@ body {
   transition: width 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* ==========================================================================
-   ADAPTACIONES RESPONSIVAS MÓVILES (TELÉFONOS & TABLETS)
-   ========================================================================== */
+/* 9. PROGRESIVE ENHANCEMENT: FALLBACK SI JS ESTÁ DESHABILITADO */
+html:not(.js-enabled) .reveal,
+html:not(.js-enabled) [data-reveal],
+html:not(.js-enabled) .title-line,
+html:not(.js-enabled) .cheese-card .card-media .img-primary {
+  opacity: 1 !important;
+  transform: none !important;
+  clip-path: none !important;
+}
+
+/* 10. ADAPTACIONES MÓVILES (TELÉFONOS & TABLETS <= 768px) */
 @media (max-width: 768px) {
+  /* Reducción de desplazamiento a 24px en pantallas pequeñas para evitar saltos o scroll horizontal */
+  html.js-enabled .reveal,
+  html.js-enabled [data-reveal],
+  html.js-enabled [data-reveal="up"] {
+    transform: translateY(24px) scale(0.98);
+  }
+
+  html.js-enabled [data-reveal="left"] {
+    transform: translateX(-24px) scale(0.98);
+  }
+
+  html.js-enabled [data-reveal="right"] {
+    transform: translateX(24px) scale(0.98);
+  }
+
+  html.js-enabled .reveal.is-visible,
+  html.js-enabled [data-reveal].is-visible {
+    transform: translateY(0) scale(1);
+  }
+
+  html.js-enabled [data-reveal="left"].is-visible,
+  html.js-enabled [data-reveal="right"].is-visible {
+    transform: translateX(0) scale(1);
+  }
+
   .cold-chain-card.modern-positioning-card {
     padding: 2.2rem 1.35rem;
   }
@@ -5746,5 +5835,34 @@ body {
     right: -10px;
     padding: 1rem 1.2rem;
     min-width: 140px;
+  }
+}
+
+/* 11. ACCESIBILIDAD ESTRICTA: PREFERS-REDUCED-MOTION */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html.js-enabled .reveal,
+  html.js-enabled [data-reveal],
+  .title-line,
+  .cheese-card .card-media .img-primary,
+  .c-bar-fill,
+  .craft-fill,
+  .badge-fill {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    transition: none !important;
+  }
+
+  .scroll-progress-bar {
+    display: none !important;
   }
 }

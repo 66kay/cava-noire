@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <script>document.documentElement.classList.add('js-enabled');</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LA CAVA NOIRE // Quesería Gourmet de Autor & Afinación Exclusiva</title>
   <meta name="description" content="Fromagerie y cava de quesos exclusivos en Chile. Denominaciones de origen AOP/DOP, maduración de hasta 60 meses, asesoría quesera IA y pago seguro con Webpay Plus.">
@@ -20,6 +21,9 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="luxury-dark-theme">
+
+  <!-- Barra dorada fina de progreso de scroll -->
+  <div id="scroll-progress-bar" class="scroll-progress-bar" aria-hidden="true"></div>
 
   <!-- Top Announcement Bar -->
   <div class="announcement-bar">
@@ -105,21 +109,21 @@
       </div>
 
       <div class="container hero-content">
-        <div class="hero-badge animate-fade-in">
+        <div class="hero-badge reveal" data-reveal="up" data-delay="100">
           <span class="badge-emblem">✦</span>
           <span>QUESOS ARTESANALES & TABLAS GOURMET • SANTIAGO DE CHILE</span>
         </div>
 
-        <h1 class="hero-title animate-fade-in">
-          Quesos Seleccionados<br>
-          <span class="gold-gradient-text">para Momentos Únicos.</span>
+        <h1 class="hero-title reveal-title reveal" data-reveal="title">
+          <span class="title-line-mask"><span class="title-line">Quesos Seleccionados</span></span>
+          <span class="title-line-mask"><span class="title-line gold-gradient-text">para Momentos Únicos.</span></span>
         </h1>
 
-        <p class="hero-description animate-fade-in">
+        <p class="hero-description reveal" data-reveal="up" data-delay="260">
           Traemos a tu mesa quesos artesanales de Europa y del sur de Chile, empacados en frío para que lleguen en su punto perfecto. Déjate aconsejar por nuestro <strong>Maestro Quesero IA</strong> o arma tu tabla en minutos con despacho refrigerado a todo Chile.
         </p>
 
-        <div class="hero-actions animate-fade-in">
+        <div class="hero-actions reveal" data-reveal="up" data-delay="360">
           <a href="#catalogo" class="btn-hero-primary">
             <span>Ver Quesos Disponibles</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -133,21 +137,21 @@
           </button>
         </div>
 
-        <!-- Franja de Beneficios Clave -->
-        <div class="hero-stats-grid">
-          <div class="stat-card modern-stat-reveal">
+        <!-- Franja de Beneficios Clave con Stagger -->
+        <div class="hero-stats-grid reveal-stagger">
+          <div class="stat-card modern-stat-reveal reveal" data-reveal="up">
             <span class="stat-num"><strong class="counter-metric" data-target="4" data-suffix="°C Frío">0°C Frío</strong></span>
             <span class="stat-label">Empaque que cuida su sabor</span>
           </div>
-          <div class="stat-card modern-stat-reveal">
+          <div class="stat-card modern-stat-reveal reveal" data-reveal="up">
             <span class="stat-num">24–48 hrs</span>
             <span class="stat-label">Despacho en Santiago y regiones</span>
           </div>
-          <div class="stat-card modern-stat-reveal">
+          <div class="stat-card modern-stat-reveal reveal" data-reveal="up">
             <span class="stat-num">Webpay Plus</span>
             <span class="stat-label">Paga seguro en Pesos Chilenos</span>
           </div>
-          <div class="stat-card modern-stat-reveal">
+          <div class="stat-card modern-stat-reveal reveal" data-reveal="up">
             <span class="stat-num"><strong class="counter-metric text-gold" data-target="100" data-suffix="% Quesería">0% Quesería</strong></span>
             <span class="stat-label">Venta exclusiva de quesos de autor</span>
           </div>
@@ -158,12 +162,12 @@
     <!-- SECCIÓN 1: CATÁLOGO DE AFINACIONES EXCLUSIVAS -->
     <section id="catalogo" class="section-padding catalog-section scroll-reveal-group">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal" data-reveal="up">
           <div class="header-titles">
             <span class="gold-tag">SELECCIÓN DE LA CAVA PRIVADA</span>
             <h2 class="section-title">Quesos de Autor & Piezas de Colección</h2>
           </div>
-          <div class="catalog-search-wrap">
+          <div class="catalog-search-wrap reveal" data-reveal="up" data-delay="120">
             <div class="search-input-box">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="11" cy="11" r="8"></circle>
@@ -175,20 +179,20 @@
         </div>
 
         <!-- Filtros por Categoría -->
-        <div class="catalog-filters-scroll">
-          <div class="filters-row">
-            <button class="cat-filter-btn active" data-category="todas">Todas las Afinaciones</button>
-            <button class="cat-filter-btn" data-category="pasta-dura">Pasta Prensada Cocida</button>
-            <button class="cat-filter-btn" data-category="trufados">Quesos Trufados</button>
-            <button class="cat-filter-btn" data-category="corteza-enmohecida">Pasta Blanda Triple Crème</button>
-            <button class="cat-filter-btn" data-category="quesos-azules">Azules Nobles AOP</button>
-            <button class="cat-filter-btn" data-category="de-autor">De Autor Chileno</button>
-            <button class="cat-filter-btn" data-category="tablas-degustacion">Cofres & Tablas</button>
+        <div class="catalog-filters-scroll reveal" data-reveal="up" data-delay="180">
+          <div class="filters-row reveal-stagger">
+            <button class="cat-filter-btn active reveal" data-reveal="up" data-category="todas">Todas las Afinaciones</button>
+            <button class="cat-filter-btn reveal" data-reveal="up" data-category="pasta-dura">Pasta Prensada Cocida</button>
+            <button class="cat-filter-btn reveal" data-reveal="up" data-category="trufados">Quesos Trufados</button>
+            <button class="cat-filter-btn reveal" data-reveal="up" data-category="corteza-enmohecida">Pasta Blanda Triple Crème</button>
+            <button class="cat-filter-btn reveal" data-reveal="up" data-category="quesos-azules">Azules Nobles AOP</button>
+            <button class="cat-filter-btn reveal" data-reveal="up" data-category="de-autor">De Autor Chileno</button>
+            <button class="cat-filter-btn reveal" data-reveal="up" data-category="tablas-degustacion">Cofres & Tablas</button>
           </div>
         </div>
 
-        <!-- Grilla de Productos -->
-        <div id="cheese-catalog-grid" class="cheese-catalog-grid"></div>
+        <!-- Grilla de Productos con Stagger -->
+        <div id="cheese-catalog-grid" class="cheese-catalog-grid reveal-stagger"></div>
       </div>
     </section>
 
@@ -196,10 +200,10 @@
     <!-- SECCIÓN 3: CADENA DE FRÍO & LOGÍSTICA CHILENA -->
     <section id="cadena-frio" class="section-padding cold-chain-section scroll-reveal-group">
       <div class="container">
-        <div class="cold-chain-card modern-positioning-card">
+        <div class="cold-chain-card modern-positioning-card reveal" data-reveal="up">
           <div class="cold-ambient-mesh"></div>
           
-          <div class="cold-chain-header">
+          <div class="cold-chain-header reveal" data-reveal="up" data-delay="100">
             <div class="cold-seal-gold">
               <span class="seal-icon">❄️</span>
               <span class="seal-text">CADENA DE FRÍO <strong class="counter-metric text-gold" data-target="100" data-suffix="%">0%</strong> GARANTIZADA</span>
@@ -211,7 +215,7 @@
           </div>
 
           <!-- Barra de Telemetría Térmica Moderna Estilo UI/UX -->
-          <div class="cold-telemetry-hud">
+          <div class="cold-telemetry-hud reveal" data-reveal="up" data-delay="180">
             <div class="telemetry-pill">
               <span class="tele-dot"></span>
               <span class="tele-label">Sensor Interior:</span>
@@ -234,8 +238,8 @@
             </div>
           </div>
 
-          <div class="cold-features-grid">
-            <div class="cold-feature-item modern-pos-item" data-pos-delay="1">
+          <div class="cold-features-grid reveal-stagger">
+            <div class="cold-feature-item modern-pos-item reveal" data-reveal="up">
               <div class="feature-icon">🛡️</div>
               <h4>Caja Isotérmica de Alta Densidad</h4>
               <p>Barrera aluminizada reflectante de triple capa que bloquea el calor ambiental y mantiene la temperatura interna sin fluctuaciones.</p>
@@ -245,7 +249,7 @@
                 <strong class="c-metric-val counter-metric" data-target="100" data-suffix="%">0%</strong>
               </div>
             </div>
-            <div class="cold-feature-item modern-pos-item" data-pos-delay="2">
+            <div class="cold-feature-item modern-pos-item reveal" data-reveal="up">
               <div class="feature-icon">🧊</div>
               <h4>Geles Eutécticos Refrigerantes</h4>
               <p>Acumuladores criogénicos que aseguran un ambiente continuo entre 2°C y 6°C durante un trayecto de hasta 72 horas continuas.</p>
@@ -255,7 +259,7 @@
                 <strong class="c-metric-val counter-metric" data-target="98" data-suffix="%">0%</strong>
               </div>
             </div>
-            <div class="cold-feature-item modern-pos-item" data-pos-delay="3">
+            <div class="cold-feature-item modern-pos-item reveal" data-reveal="up">
               <div class="feature-icon">🚚</div>
               <h4>Logística Prioritaria Nacional</h4>
               <p>Despachos Same-Day en Santiago Oriente (Las Condes, Vitacura, Lo Barnechea, Providencia) y 24-48 hrs a Regiones vía Blue Express Frío y Chilexpress.</p>
@@ -265,7 +269,7 @@
                 <strong class="c-metric-val counter-metric" data-target="100" data-suffix="%">0%</strong>
               </div>
             </div>
-            <div class="cold-feature-item modern-pos-item" data-pos-delay="4">
+            <div class="cold-feature-item modern-pos-item reveal" data-reveal="up">
               <div class="feature-icon">💳</div>
               <h4>Transacción Certificada Webpay</h4>
               <p>Emisión inmediata de comprobante tributario y código de autorización bancario oficial Transbank.</p>
@@ -283,7 +287,7 @@
     <!-- SECCIÓN 5: FILOSOFÍA & CAVA DE MADURACIÓN -->
     <section id="filosofia" class="section-padding philosophy-section scroll-reveal-group">
       <div class="container philosophy-grid">
-        <div class="philosophy-text modern-pos-left">
+        <div class="philosophy-text modern-pos-left reveal" data-reveal="left">
           <span class="gold-tag">MAESTRÍA & ORIGEN</span>
           <h2 class="section-title">El Tiempo Como Ingrediente Principal</h2>
           <p class="body-p">
@@ -297,19 +301,19 @@
             <span>— Jean-Pierre, Maître Affineur de La Cava Noire</span>
           </div>
 
-          <!-- Métricas de Maestría & Trazabilidad Estilo UI/UX -->
-          <div class="craft-metrics-strip">
-            <div class="craft-metric-card">
+          <!-- Métricas de Maestría & Trazabilidad Estilo UI/UX con Stagger -->
+          <div class="craft-metrics-strip reveal-stagger">
+            <div class="craft-metric-card reveal" data-reveal="up">
               <span class="craft-num counter-metric text-gold" data-target="100" data-suffix="%">0%</span>
               <span class="craft-lbl">Leche Cruda de Pastoreo</span>
               <div class="craft-bar"><div class="craft-fill" data-target="100" style="width: 0%;"></div></div>
             </div>
-            <div class="craft-metric-card">
+            <div class="craft-metric-card reveal" data-reveal="up">
               <span class="craft-num counter-metric text-gold" data-target="60" data-suffix=" Meses">0 Meses</span>
               <span class="craft-lbl">Maduración Máxima en Cava</span>
               <div class="craft-bar"><div class="craft-fill" data-target="100" style="width: 0%;"></div></div>
             </div>
-            <div class="craft-metric-card">
+            <div class="craft-metric-card reveal" data-reveal="up">
               <span class="craft-num counter-metric text-gold" data-target="100" data-suffix="%">0%</span>
               <span class="craft-lbl">Pureza Artesanal Sin Aditivos</span>
               <div class="craft-bar"><div class="craft-fill" data-target="100" style="width: 0%;"></div></div>
@@ -317,10 +321,10 @@
           </div>
         </div>
 
-        <div class="philosophy-visual modern-pos-right">
+        <div class="philosophy-visual modern-pos-right reveal" data-reveal="right">
           <div class="visual-stack">
-            <img class="img-front" src="img/products/tabla-degustacion.jpg" alt="Tabla de quesos artesanales de autor" loading="lazy" decoding="async" width="600" height="400">
-            <div class="visual-badge-overlay modern-badge-glow">
+            <img class="img-front reveal" data-reveal="zoom" src="img/products/tabla-degustacion.jpg" alt="Tabla de quesos artesanales de autor" loading="lazy" decoding="async" width="600" height="400">
+            <div class="visual-badge-overlay modern-badge-glow reveal" data-reveal="zoom" data-delay="200">
               <div class="badge-ring-pulse"></div>
               <span class="badge-num counter-metric text-gold" data-target="100" data-suffix="%">0%</span>
               <span class="badge-txt">Trazabilidad de Cava</span>
@@ -415,8 +419,8 @@
 
   <!-- FOOTER PRINCIPAL -->
   <footer class="site-footer">
-    <div class="container footer-grid">
-      <div class="footer-col brand-col">
+    <div class="container footer-grid reveal-stagger">
+      <div class="footer-col brand-col reveal" data-reveal="up">
         <a href="#" class="footer-logo">
           <span class="logo-emblem">⚜</span>
           <span class="logo-title">LA CAVA NOIRE</span>
@@ -430,7 +434,7 @@
         </div>
       </div>
 
-      <div class="footer-col">
+      <div class="footer-col reveal" data-reveal="up">
         <h4 class="footer-heading">Afinaciones</h4>
         <ul class="footer-links">
           <li><a href="#catalogo">Pasta Prensada Cocida</a></li>
@@ -441,7 +445,7 @@
         </ul>
       </div>
 
-      <div class="footer-col">
+      <div class="footer-col reveal" data-reveal="up">
         <h4 class="footer-heading">Experiencias</h4>
         <ul class="footer-links">
           <li><a href="#catalogo">Catálogo de Afinaciones</a></li>
@@ -450,7 +454,7 @@
         </ul>
       </div>
 
-      <div class="footer-col">
+      <div class="footer-col reveal" data-reveal="up">
         <h4 class="footer-heading">Medios de Pago & Envíos</h4>
         <div class="payment-methods-strip">
           <span class="pay-pill">Webpay Plus</span>
@@ -464,7 +468,7 @@
       </div>
     </div>
 
-    <div class="footer-bottom">
+    <div class="footer-bottom reveal" data-reveal="fade">
       <div class="container footer-bottom-inner">
         <p>© 2026 LA CAVA NOIRE GOURMET SPA. Todos los derechos reservados.</p>
         <div class="bottom-links">
