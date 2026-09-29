@@ -1160,9 +1160,8 @@ class ScrollRevealController {
    * Requisito 1: IntersectionObserver con threshold 0.15 y rootMargin "0px 0px -8% 0px"
    */
   initObserver() {
-    // Accesibilidad: Si el usuario tiene activo "prefers-reduced-motion", mostrar todo de inmediato
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+    // Fallback solo para navegadores antiguos sin soporte nativo de IntersectionObserver
+    if (!("IntersectionObserver" in window)) {
       document.querySelectorAll(".reveal, [data-reveal]").forEach(el => {
         el.classList.add("is-visible");
         this.triggerCounters(el);
@@ -1202,10 +1201,18 @@ class ScrollRevealController {
     // Activar transición CSS (0.9s cubic-bezier(0.22, 1, 0.36, 1))
     el.classList.add("is-visible");
 
-    // Limpieza de GPU: retirar will-change al finalizar la transición
-    el.addEventListener("transitionend", () => {
+    // Al llegar a su lugar: liberar GPU y activar el modo "asentado" (hover rápido)
+    // Se ignoran los transitionend que burbujean desde hijos (imágenes, barras, etc.)
+    const settle = () => {
       el.style.willChange = "auto";
-    }, { once: true });
+      el.classList.add("is-settled");
+      el.removeEventListener("transitionend", onEnd);
+    };
+    const onEnd = (e) => {
+      if (e.target === el && e.propertyName === "transform") settle();
+    };
+    el.addEventListener("transitionend", onEnd);
+    setTimeout(settle, 3200); // respaldo por si el navegador no dispara transitionend
 
     // Activar contadores numéricos y barras de progreso internas
     this.triggerCounters(el);
@@ -1241,6 +1248,14 @@ class ScrollRevealController {
    */
   animateNumberCounter(element, targetVal, duration = 1800, suffix = "%", prefix = "") {
     if (!element) return;
+    
+    // Si el usuario prefiere movimiento reducido, mostrar el valor final sin animación
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) {
+      element.textContent = `${prefix}${targetVal}${suffix}`;
+      return;
+    }
+
     let startTime = null;
     const startVal = 0;
 
@@ -1275,6 +1290,9 @@ class ScrollRevealController {
   observeElements(scope = document) {
     if (!this.observer) return;
 
+    // 0. Direcciones tipo Wix: izquierda -> derecha convergiendo hacia el centro
+    this.assignDirections(scope);
+
     // 1. Stagger para hijos directos en contenedores .reveal-stagger
     const staggerContainers = scope.querySelectorAll(".reveal-stagger");
     staggerContainers.forEach(container => {
@@ -1302,6 +1320,43 @@ class ScrollRevealController {
         el.dataset.observed = "true";
         this.observer.observe(el);
       }
+    });
+  }
+
+  /**
+   * Efecto "converger al centro" (estilo Wix): dentro de cada grupo [data-reveal-group="converge"]
+   * los elementos de la izquierda entran desde la izquierda, los de la derecha desde la derecha
+   * y los del centro suben desde abajo. Se calcula por fila según el layout real (responsive).
+   */
+  assignDirections(scope = document) {
+    const groups = [];
+    if (scope.matches && scope.matches('[data-reveal-group="converge"]')) groups.push(scope);
+    scope.querySelectorAll('[data-reveal-group="converge"]').forEach(g => groups.push(g));
+
+    groups.forEach(group => {
+      const items = Array.from(group.querySelectorAll(":scope > .reveal, :scope > [data-reveal]"))
+        .filter(el => !el.classList.contains("is-visible") && el.offsetParent !== null);
+
+      // Agrupar por fila visual
+      const rows = [];
+      items.forEach(el => {
+        const top = el.offsetTop;
+        let row = rows.find(r => Math.abs(r.top - top) < 12);
+        if (!row) { row = { top, els: [] }; rows.push(row); }
+        row.els.push(el);
+      });
+
+      rows.forEach((row, rIdx) => {
+        const n = row.els.length;
+        const mid = (n - 1) / 2;
+        row.els.forEach((el, c) => {
+          let dir;
+          if (n === 1) dir = rIdx % 2 === 0 ? "left" : "right"; // 1 columna: alterna lados
+          else dir = c < mid ? "left" : c > mid ? "right" : "up";
+          el.setAttribute("data-reveal", dir);
+          el.setAttribute("data-delay", String(c * 130)); // escalonado por columna, no por total
+        });
+      });
     });
   }
 

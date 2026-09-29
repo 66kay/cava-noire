@@ -53,6 +53,8 @@ html {
   font-size: 16px;
   background-color: var(--bg-primary);
   color: var(--text-primary);
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 body {
@@ -5324,20 +5326,7 @@ body {
   100% { outline: 1px solid rgba(212, 175, 55, 0); box-shadow: none; }
 }
 
-/* Animación fluida de aparición de las tarjetas de queso al filtrar */
-.cheese-catalog-grid.animating-filter .cheese-card {
-  animation: cheeseCardEntrance 0.48s cubic-bezier(0.16, 1, 0.3, 1) backwards;
-}
-
-.cheese-catalog-grid.animating-filter .cheese-card:nth-child(1) { animation-delay: 0.02s; }
-.cheese-catalog-grid.animating-filter .cheese-card:nth-child(2) { animation-delay: 0.06s; }
-.cheese-catalog-grid.animating-filter .cheese-card:nth-child(3) { animation-delay: 0.10s; }
-.cheese-catalog-grid.animating-filter .cheese-card:nth-child(4) { animation-delay: 0.14s; }
-.cheese-catalog-grid.animating-filter .cheese-card:nth-child(5) { animation-delay: 0.18s; }
-.cheese-catalog-grid.animating-filter .cheese-card:nth-child(6) { animation-delay: 0.22s; }
-.cheese-catalog-grid.animating-filter .cheese-card:nth-child(7) { animation-delay: 0.26s; }
-.cheese-catalog-grid.animating-filter .cheese-card:nth-child(8) { animation-delay: 0.30s; }
-.cheese-catalog-grid.animating-filter .cheese-card:nth-child(9) { animation-delay: 0.34s; }
+/* (La entrada de tarjetas ahora la maneja el sistema scroll reveal; se eliminó la animación duplicada) */
 
 @keyframes cheeseCardEntrance {
   from {
@@ -5385,68 +5374,53 @@ body {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.75) !important;
 }
 
-/* 3. BASE SCROLL REVEAL (SOLO ACTIVO SI JAVASCRIPT ESTÁ DISPONIBLE) */
+/* 3. BASE SCROLL REVEAL — ESTILO WIX: los elementos VIAJAN desde su lado hasta su lugar natural */
 html.js-enabled .reveal,
 html.js-enabled [data-reveal] {
+  --reveal-x: 0px;
+  --reveal-y: 70px;
+  --reveal-s: 0.96;
   opacity: 0;
-  transform: translateY(40px) scale(0.98);
-  transition-property: opacity, transform, clip-path;
-  transition-duration: 0.9s;
-  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translate3d(var(--reveal-x), var(--reveal-y), 0) scale(var(--reveal-s));
+  transition-property: opacity, transform;
+  transition-duration: 1.1s;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   transition-delay: var(--reveal-delay, 0ms);
 }
 
-/* Estado Visible / Revelado */
+/* Estado visible: llegó a su posición natural */
 html.js-enabled .reveal.is-visible,
 html.js-enabled [data-reveal].is-visible {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translate3d(0, 0, 0) scale(1);
 }
 
-/* 4. VARIANTES DE DATA-REVEAL */
-html.js-enabled [data-reveal="up"] {
-  opacity: 0;
-  transform: translateY(40px) scale(0.98);
-}
-html.js-enabled [data-reveal="up"].is-visible {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
+/* 4. VARIANTES DE DIRECCIÓN (recorrido largo para que se note el movimiento) */
+html.js-enabled [data-reveal="up"]    { --reveal-x: 0px;    --reveal-y: 70px; --reveal-s: 0.96; }
+html.js-enabled [data-reveal="left"]  { --reveal-x: -140px; --reveal-y: 0px;  --reveal-s: 0.97; }
+html.js-enabled [data-reveal="right"] { --reveal-x: 140px;  --reveal-y: 0px;  --reveal-s: 0.97; }
+html.js-enabled [data-reveal="zoom"]  { --reveal-x: 0px;    --reveal-y: 0px;  --reveal-s: 0.85; }
+html.js-enabled [data-reveal="title"] { --reveal-x: 0px;    --reveal-y: 0px;  --reveal-s: 1; }
+html.js-enabled [data-reveal="fade"]  { --reveal-x: 0px;    --reveal-y: 0px;  --reveal-s: 1; }
 
-html.js-enabled [data-reveal="left"] {
-  opacity: 0;
-  transform: translateX(-40px) scale(0.98);
-}
-html.js-enabled [data-reveal="left"].is-visible {
-  opacity: 1;
-  transform: translateX(0) scale(1);
-}
-
-html.js-enabled [data-reveal="right"] {
-  opacity: 0;
-  transform: translateX(40px) scale(0.98);
-}
-html.js-enabled [data-reveal="right"].is-visible {
-  opacity: 1;
-  transform: translateX(0) scale(1);
-}
-
-html.js-enabled [data-reveal="zoom"] {
-  opacity: 0;
-  transform: scale(0.92);
-}
-html.js-enabled [data-reveal="zoom"].is-visible {
-  opacity: 1;
-  transform: scale(1);
-}
-
-html.js-enabled [data-reveal="fade"] {
-  opacity: 0;
+/* Ya asentado: se liberan las transiciones lentas para que el hover responda al instante */
+html.js-enabled .reveal.is-settled,
+html.js-enabled [data-reveal].is-settled {
   transform: none;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.35s ease,
+              opacity 0.35s ease;
+  transition-delay: 0s !important;
 }
-html.js-enabled [data-reveal="fade"].is-visible {
-  opacity: 1;
-  transform: none;
+html.js-enabled .cheese-card.is-settled:hover {
+  transform: translateY(-8px) scale(1.015);
+}
+
+/* Evita scroll horizontal mientras los elementos entran desde los costados */
+main,
+.site-footer {
+  overflow-x: clip;
 }
 
 /* 5. TÍTULOS CON MÁSCARA Y DESPLAZAMIENTO POR LÍNEAS (MANTENIENDO DEGRADADO DORADO) */
@@ -5772,29 +5746,13 @@ html:not(.js-enabled) .cheese-card .card-media .img-primary {
 
 /* 10. ADAPTACIONES MÓVILES (TELÉFONOS & TABLETS <= 768px) */
 @media (max-width: 768px) {
-  /* Reducción de desplazamiento a 24px en pantallas pequeñas para evitar saltos o scroll horizontal */
+  /* En móvil el recorrido se acorta (sin scroll horizontal) pero sigue notándose */
+  html.js-enabled [data-reveal="up"]    { --reveal-y: 44px; }
+  html.js-enabled [data-reveal="left"]  { --reveal-x: -70px; }
+  html.js-enabled [data-reveal="right"] { --reveal-x: 70px; }
   html.js-enabled .reveal,
-  html.js-enabled [data-reveal],
-  html.js-enabled [data-reveal="up"] {
-    transform: translateY(24px) scale(0.98);
-  }
-
-  html.js-enabled [data-reveal="left"] {
-    transform: translateX(-24px) scale(0.98);
-  }
-
-  html.js-enabled [data-reveal="right"] {
-    transform: translateX(24px) scale(0.98);
-  }
-
-  html.js-enabled .reveal.is-visible,
-  html.js-enabled [data-reveal].is-visible {
-    transform: translateY(0) scale(1);
-  }
-
-  html.js-enabled [data-reveal="left"].is-visible,
-  html.js-enabled [data-reveal="right"].is-visible {
-    transform: translateX(0) scale(1);
+  html.js-enabled [data-reveal] {
+    transition-duration: 0.9s;
   }
 
   .cold-chain-card.modern-positioning-card {
