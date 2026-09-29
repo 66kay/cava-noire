@@ -1493,16 +1493,42 @@ window.glideToSection = function(selectorOrElement, extraOffset = 15, duration =
     return;
   }
 
-  const target = typeof selectorOrElement === "string" 
-    ? document.querySelector(selectorOrElement) 
-    : selectorOrElement;
+  let targetSelector = selectorOrElement;
+  let targetOffset = extraOffset;
+
+  // Centrado exacto solicitado para alineación visual óptima
+  if (selectorOrElement === "#catalogo" || selectorOrElement === ".btn-hero-primary") {
+    // Centrar directo donde empieza <h2 class="section-title">Quesos de Autor & Piezas de Colección</h2>
+    targetSelector = "#catalogo .section-title, #catalogo .section-header";
+    targetOffset = 25;
+  } else if (selectorOrElement === "#cadena-frio") {
+    // Centrar directamente con <div class="cold-chain-card modern-positioning-card">
+    targetSelector = "#cadena-frio .cold-chain-card, .cold-chain-card";
+    targetOffset = 20;
+  } else if (selectorOrElement === "#filosofia") {
+    // Centrar directo en <section id="filosofia">
+    targetSelector = "#filosofia";
+    targetOffset = 15;
+  }
+
+  const target = typeof targetSelector === "string" 
+    ? document.querySelector(targetSelector) || (typeof selectorOrElement === "string" ? document.querySelector(selectorOrElement) : null)
+    : targetSelector;
 
   if (!target) return;
 
   const header = document.querySelector(".site-header");
-  const headerHeight = header ? header.getBoundingClientRect().height : 80;
-  const elementPosition = target.getBoundingClientRect().top;
-  const targetY = Math.max(0, elementPosition + window.pageYOffset - headerHeight - extraOffset);
+  const stickyHeaderHeight = header ? (header.offsetHeight || 80) : 80;
+  
+  // Medir posición natural en el documento sin interferencia de transformaciones CSS (translateY)
+  let targetDocTop = 0;
+  let curr = target;
+  while (curr) {
+    targetDocTop += curr.offsetTop;
+    curr = curr.offsetParent;
+  }
+  
+  const targetY = Math.max(0, targetDocTop - stickyHeaderHeight - targetOffset);
 
   window.smoothGlideTo(targetY, duration, () => {
     target.classList.remove("section-glide-highlight");
