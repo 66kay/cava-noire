@@ -5242,23 +5242,67 @@ body {
 }
 
 .footer-admin-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.32rem 0.85rem;
+  background: rgba(212, 175, 55, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  border-radius: var(--radius-full);
   color: var(--gold-light) !important;
+  font-size: 0.74rem;
   font-weight: 600;
-  opacity: 0.8;
-  transition: opacity var(--transition-fast);
+  letter-spacing: 0.02em;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .footer-admin-link:hover {
-  opacity: 1;
-  text-decoration: underline;
+  background: rgba(212, 175, 55, 0.22);
+  border-color: var(--gold-primary);
+  color: #fff !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(212, 175, 55, 0.25);
+  text-decoration: none;
 }
 
-@media (max-width: 600px) {
+.footer-admin-link .footer-admin-icon {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+/* En teléfonos y tablets: ocultar el botón flotante del panel admin para que SOLO flote el chatbot */
+@media (max-width: 768px) {
   .admin-direct-trigger {
-    bottom: 15px;
-    left: 15px;
-    padding: 0.42rem 0.75rem;
-    font-size: 0.7rem;
+    display: none !important;
+  }
+
+  .site-footer {
+    padding-bottom: 7rem;
+  }
+
+  .footer-bottom-inner {
+    flex-direction: column;
+    gap: 1.25rem;
+    text-align: center;
+    padding-bottom: 2rem;
+  }
+
+  .bottom-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.85rem 1.25rem;
+  }
+
+  .footer-admin-link {
+    margin-top: 0.5rem;
+    padding: 0.45rem 1.15rem;
+    font-size: 0.78rem;
+    border-color: rgba(212, 175, 55, 0.45);
+    background: rgba(212, 175, 55, 0.12);
   }
 }
 
