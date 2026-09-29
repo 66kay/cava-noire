@@ -658,6 +658,8 @@ h3, h4, h5, h6 {
   margin-bottom: 2.5rem;
   overflow-x: auto;
   scrollbar-width: none;
+  padding: 10px 4px 14px 4px;
+  margin-top: -10px;
 }
 
 .catalog-filters-scroll::-webkit-scrollbar {
@@ -668,6 +670,26 @@ h3, h4, h5, h6 {
   display: flex;
   gap: 0.65rem;
   white-space: nowrap;
+}
+
+/* Recorrido fluido y armónico para botones de filtro de categorías (Wix converge) */
+.filters-row .cat-filter-btn[data-reveal="up"],
+.cat-filter-btn[data-reveal="up"] {
+  --reveal-x: 0px;
+  --reveal-y: 28px;
+  --reveal-s: 0.96;
+}
+.filters-row .cat-filter-btn[data-reveal="left"],
+.cat-filter-btn[data-reveal="left"] {
+  --reveal-x: -60px;
+  --reveal-y: 0px;
+  --reveal-s: 0.97;
+}
+.filters-row .cat-filter-btn[data-reveal="right"],
+.cat-filter-btn[data-reveal="right"] {
+  --reveal-x: 60px;
+  --reveal-y: 0px;
+  --reveal-s: 0.97;
 }
 
 .cat-filter-btn {

@@ -1216,6 +1216,19 @@ class ScrollRevealController {
 
     // Activar contadores numéricos y barras de progreso internas
     this.triggerCounters(el);
+
+    // Revelado solidario de grupos de filtros o contenedores con stagger horizontal
+    if (el.classList.contains("catalog-filters-scroll") || el.classList.contains("filters-row")) {
+      const btns = el.querySelectorAll(".cat-filter-btn");
+      btns.forEach(btn => this.revealElement(btn));
+    } else if (el.classList.contains("cat-filter-btn")) {
+      const row = el.closest(".filters-row");
+      if (row && !row._staggerTriggered) {
+        row._staggerTriggered = true;
+        const allBtns = row.querySelectorAll(".cat-filter-btn");
+        allBtns.forEach(btn => this.revealElement(btn));
+      }
+    }
   }
 
   /**
@@ -1322,8 +1335,8 @@ class ScrollRevealController {
       }
     });
 
-    // 3. Observar todos los elementos .reveal o [data-reveal]
-    const elements = scope.querySelectorAll(".reveal, [data-reveal]");
+    // 3. Observar todos los elementos .reveal o [data-reveal] y contenedores de filtro
+    const elements = scope.querySelectorAll(".reveal, [data-reveal], .catalog-filters-scroll, .filters-row");
     elements.forEach(el => {
       if (!el.dataset.observed && !el.classList.contains("is-visible")) {
         el.dataset.observed = "true";
