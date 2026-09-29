@@ -5,7 +5,7 @@
   <script>document.documentElement.classList.add('js-enabled');</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LA CAVA NOIRE // Quesería Gourmet de Autor & Afinación Exclusiva</title>
-  <meta name="description" content="Fromagerie y cava de quesos exclusivos en Chile. Denominaciones de origen AOP/DOP, maduración de hasta 60 meses, asesoría quesera IA y pago seguro con Webpay Plus.">
+  <meta name="description" content="Fromagerie y cava de quesos exclusivos en Chile. Denominaciones de origen AOP/DOP, maduración de hasta 60 meses, asesoría directa de nuestro Maître Fromager y pago seguro con Webpay Plus.">
   
   <!-- Preconexión rápida a fuentes y CDN de imágenes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,7 +16,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Preload prioritario de la imagen Hero para eliminar parpadeo inicial -->
-  <link rel="preload" as="image" href="https://images.unsplash.com/photo-1527515862127-a4fc05baf7a5?w=1200&auto=format&fit=crop&q=75" fetchpriority="high">
+  <link rel="preload" as="image" href="img/hero-cheese-cave.jpg" fetchpriority="high">
   
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -62,10 +62,10 @@
 
       <!-- Botones de Acción para Clientes -->
       <div class="header-actions">
-        <!-- Disparador Asistente Quesero IA -->
-        <button class="btn-header-sommelier" onclick="window.SommelierBot.openChat()" title="Consultar a Jean-Pierre Maestro Quesero">
+        <!-- Asesoría Maestro Quesero -->
+        <button class="btn-header-sommelier" onclick="window.SommelierBot.openChat()" title="Consultar a Jean-Pierre, Maestro Quesero">
           <span class="gold-sparkle">🧀</span>
-          <span class="label-text">Asistente Quesero</span>
+          <span class="label-text">Maestro Quesero</span>
         </button>
 
         <!-- Carrito de Compras -->
@@ -120,7 +120,7 @@
         </h1>
 
         <p class="hero-description reveal" data-reveal="up" data-delay="260">
-          Traemos a tu mesa quesos artesanales de Europa y del sur de Chile, empacados en frío para que lleguen en su punto perfecto. Déjate aconsejar por nuestro <strong>Maestro Quesero IA</strong> o arma tu tabla en minutos con despacho refrigerado a todo Chile.
+          Traemos a tu mesa quesos artesanales de Europa y del sur de Chile, empacados en frío para que lleguen en su punto perfecto. Déjate aconsejar por nuestro <strong>Maestro Quesero</strong> o arma tu tabla en minutos con despacho refrigerado a todo Chile.
         </p>
 
         <div class="hero-actions reveal" data-reveal="up" data-delay="360">
@@ -132,7 +132,7 @@
             </svg>
           </a>
           <button class="btn-hero-secondary" onclick="window.SommelierBot.openChat()">
-            <span class="bot-icon">🧀</span>
+            <span class="gold-sparkle">🧀</span>
             <span>Preguntar al Maestro Quesero</span>
           </button>
         </div>
@@ -144,12 +144,12 @@
             <span class="stat-label">Empaque que cuida su sabor</span>
           </div>
           <div class="stat-card modern-stat-reveal reveal" data-reveal="up">
-            <span class="stat-num">24–48 hrs</span>
-            <span class="stat-label">Despacho en Santiago y regiones</span>
+            <span class="stat-num"><strong class="counter-metric text-gold" data-target="12" data-prefix="+" data-suffix=" Años">+0 Años</strong></span>
+            <span class="stat-label">Tradición y maestría artesanal</span>
           </div>
           <div class="stat-card modern-stat-reveal reveal" data-reveal="up">
-            <span class="stat-num">Webpay Plus</span>
-            <span class="stat-label">Paga seguro en Pesos Chilenos</span>
+            <span class="stat-num"><strong class="counter-metric text-gold" data-target="2000" data-prefix="+" data-suffix=" Clientes">+0 Clientes</strong></span>
+            <span class="stat-label">Clientes felices en todo Chile</span>
           </div>
           <div class="stat-card modern-stat-reveal reveal" data-reveal="up">
             <span class="stat-num"><strong class="counter-metric text-gold" data-target="100" data-suffix="% Quesería">0% Quesería</strong></span>
@@ -366,7 +366,7 @@
     <div id="cart-empty-state" class="cart-empty-state" style="display: none;">
       <span class="empty-icon">🧀</span>
       <h4>Su carrito está vacío</h4>
-      <p>Aún no ha seleccionado afinaciones de autor. Explore nuestro catálogo o consulte a nuestro Maestro Quesero IA para una recomendación a su medida.</p>
+      <p>Aún no ha seleccionado afinaciones de autor. Explore nuestro catálogo o consulte a nuestro Maestro Quesero para una recomendación a su medida.</p>
       <div class="empty-cart-actions">
         <button class="btn-empty-shop" onclick="window.CartManager.exploreCatalog()">
           Ver Quesos Disponibles
@@ -426,7 +426,7 @@
           <span class="logo-title">LA CAVA NOIRE</span>
         </a>
         <p class="footer-desc">
-          Boutique privada de quesos de autor, afinación noble y gastronomía enológica. Proveedor de alta gama para los amantes del buen vivir en Chile.
+          Boutique privada de quesos de autor, afinación noble y tradición artesanal. Proveedor de alta gama para los amantes del buen vivir en Chile.
         </p>
         <div class="legal-merchant">
           <span>Razón Social: La Cava Noire Gourmet SpA</span><br>
@@ -449,7 +449,7 @@
         <h4 class="footer-heading">Experiencias</h4>
         <ul class="footer-links">
           <li><a href="#catalogo">Catálogo de Afinaciones</a></li>
-          <li><a href="#" onclick="window.SommelierBot.openChat(); return false;">Asistente Quesero IA</a></li>
+          <li><a href="#" onclick="window.SommelierBot.openChat(); return false;">Consultar al Maestro Quesero</a></li>
           <li><a href="#cadena-frio">Protocolo de Cadena de Frío (4°C)</a></li>
         </ul>
       </div>

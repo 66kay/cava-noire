@@ -1,12 +1,12 @@
 /**
- * LA CAVA NOIRE // Jean-Pierre - Maître Sommelier & Affineur IA
+ * LA CAVA NOIRE // Jean-Pierre - Maître Sommelier & Affineur
  * Motor de asesoría gastronómica, cata en vivo y checkout directo con Webpay Plus.
  */
 
 class SommelierAI {
   constructor() {
     this.botName = "Jean-Pierre";
-    this.botTitle = "Maître Fromager & Sommelier IA";
+    this.botTitle = "Maître Fromager & Affineur de Cava";
     this.isOpen = false;
     this.history = [];
     this.isTyping = false;
@@ -22,7 +22,7 @@ class SommelierAI {
     const widgetHTML = `
       <div id="sommelier-widget" class="sommelier-widget">
         <!-- Botón flotante disparador -->
-        <button id="sommelier-toggle-btn" class="sommelier-toggle-btn" aria-label="Abrir Sommelier IA">
+        <button id="sommelier-toggle-btn" class="sommelier-toggle-btn" aria-label="Consultar al Maestro Quesero">
           <div class="toggle-pulse"></div>
           <div class="toggle-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
@@ -34,7 +34,7 @@ class SommelierAI {
           </div>
           <div class="toggle-badge">
             <span class="badge-dot"></span>
-            <span>Sommelier IA</span>
+            <span>Maestro Quesero</span>
           </div>
         </button>
 

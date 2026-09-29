@@ -1,5 +1,5 @@
 /**
- * LA CAVA NOIRE // Jean-Pierre - Maître Fromager & Asesor Quesero IA
+ * LA CAVA NOIRE // Jean-Pierre - Maître Fromager & Concierge de Cava
  * Asesoría gastronómica especializada 100% en quesos de autor, afinación y checkout Webpay Plus.
  * Exclusivamente quesos y afinaciones artesanales (sin comercialización de vinos).
  */
@@ -7,7 +7,7 @@
 class FromagerAI {
   constructor() {
     this.botName = "Jean-Pierre";
-    this.botTitle = "Maître Fromager & Asesor Quesero IA";
+    this.botTitle = "Maître Fromager & Concierge de Cava";
     this.isOpen = false;
     this.history = [];
     this.isTyping = false;
@@ -22,7 +22,7 @@ class FromagerAI {
     const widgetHTML = `
       <div id="sommelier-widget" class="sommelier-widget">
         <!-- Botón flotante disparador -->
-        <button id="sommelier-toggle-btn" class="sommelier-toggle-btn" aria-label="Abrir Asistente Quesero IA">
+        <button id="sommelier-toggle-btn" class="sommelier-toggle-btn" aria-label="Consultar a Jean-Pierre, Maestro Quesero">
           <div class="toggle-pulse"></div>
           <div class="toggle-icon">
             <span style="font-size: 1.35rem; line-height: 1;">🧀</span>

@@ -1266,6 +1266,13 @@ class ScrollRevealController {
       element._animRaf = null;
     }
 
+    function formatNumber(val) {
+      if (targetVal >= 1000) {
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      }
+      return val.toString();
+    }
+
     function step(currentTime) {
       if (!startTime) startTime = currentTime;
       const elapsed = currentTime - startTime;
@@ -1273,12 +1280,12 @@ class ScrollRevealController {
       const ease = 1 - Math.pow(1 - progress, 2);
       const current = Math.round(startVal + (targetVal - startVal) * ease);
 
-      element.textContent = `${prefix}${current}${suffix}`;
+      element.textContent = `${prefix}${formatNumber(current)}${suffix}`;
 
       if (progress < 1) {
         element._animRaf = requestAnimationFrame(step);
       } else {
-        element.textContent = `${prefix}${targetVal}${suffix}`;
+        element.textContent = `${prefix}${formatNumber(targetVal)}${suffix}`;
         element._animRaf = null;
       }
     }
