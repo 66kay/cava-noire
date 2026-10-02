@@ -3,6 +3,8 @@
  * Motor de asesoría gastronómica, cata en vivo y checkout directo con Webpay Plus.
  */
 
+const icon = (name, extra = 'inline-svg') => (window.CavaIcons ? window.CavaIcons.get(name, extra) : '');
+
 class SommelierAI {
   constructor() {
     this.botName = "Jean-Pierre";
@@ -70,9 +72,9 @@ class SommelierAI {
 
           <!-- Subheader con garantía de despacho y Webpay -->
           <div class="sommelier-ribbon">
-            <span>🛡️ Cadena de Frío Certificada (4°C)</span>
+            <span>${icon('shield')} Cadena de Frío Certificada (4°C)</span>
             <span class="ribbon-sep">•</span>
-            <span>💳 Pago Oficial Webpay Plus</span>
+            <span>${icon('card')} Pago Oficial Webpay Plus</span>
           </div>
 
           <!-- Contenedor de Mensajes -->
@@ -83,12 +85,12 @@ class SommelierAI {
           <!-- Chips de Acciones Rápidas -->
           <div class="sommelier-chips-scroll">
             <div id="sommelier-quick-chips" class="sommelier-quick-chips">
-              <button class="chip-btn" data-query="¿Venden vino o solo quesos de autor?">🧀 ¿Venden vino o solo quesos?</button>
-              <button class="chip-btn" data-query="¿Qué queso marida con vino Carménère o Cabernet que tengo en casa?">🍷 Maridaje con mi Vino</button>
-              <button class="chip-btn" data-query="Recomiéndame una tabla gourmet para 4 personas">🧀 Tabla para 4 personas</button>
-              <button class="chip-btn" data-query="¿Tienen quesos exclusivos con trufa negra?">✨ Queso Trufado</button>
-              <button class="chip-btn" data-query="¿Qué opciones tienen sin lactosa natural?">🥛 Sin Lactosa</button>
-              <button class="chip-btn chip-highlight" data-query="Quiero proceder con la compra y pagar vía Webpay">💳 Proceder a Pagar con Webpay</button>
+              <button class="chip-btn" data-query="¿Venden vino o solo quesos de autor?">${icon('cheese')} ¿Venden vino o solo quesos?</button>
+              <button class="chip-btn" data-query="¿Qué queso marida con vino Carménère o Cabernet que tengo en casa?">${icon('wine')} Maridaje con mi Vino</button>
+              <button class="chip-btn" data-query="Recomiéndame una tabla gourmet para 4 personas">${icon('cheese')} Tabla para 4 personas</button>
+              <button class="chip-btn" data-query="¿Tienen quesos exclusivos con trufa negra?">${icon('sparkles')} Queso Trufado</button>
+              <button class="chip-btn" data-query="¿Qué opciones tienen sin lactosa natural?">${icon('milk')} Sin Lactosa</button>
+              <button class="chip-btn chip-highlight" data-query="Quiero proceder con la compra y pagar vía Webpay">${icon('card')} Proceder a Pagar con Webpay</button>
             </div>
           </div>
 
@@ -187,9 +189,9 @@ class SommelierAI {
     `;
 
     this.addBotMessage(greetingText, [
-      { text: "🍷 Asesoría con mi Vino de Casa", query: "¿Qué queso marida con vino Carménère o Cabernet que tengo en casa?" },
-      { text: "🧀 Ver Cofre Grand Affineur", query: "Háblame del Cofre Degustación Grand Affineur" },
-      { text: "💳 Finalizar Compra de Quesos", query: "Quiero proceder con la compra y pagar vía Webpay" }
+      { text: `${icon('wine')} Asesoría con mi Vino de Casa`, query: "¿Qué queso marida con vino Carménère o Cabernet que tengo en casa?" },
+      { text: `${icon('cheese')} Ver Cofre Grand Affineur`, query: "Háblame del Cofre Degustación Grand Affineur" },
+      { text: `${icon('card')} Finalizar Compra de Quesos`, query: "Quiero proceder con la compra y pagar vía Webpay" }
     ]);
   }
 
@@ -358,9 +360,9 @@ class SommelierAI {
 
       const card = this.renderProductRecommendationCard([comte, pecorino]);
       this.addBotMessage(reply, [
-        { text: "🛒 Añadir Comté 36M ($29.990)", query: "Agrega el Comté 36M al carrito" },
-        { text: "🛒 Añadir Pecorino Trufado ($34.990)", query: "Agrega el Pecorino Trufado al carrito" },
-        { text: "💳 Proceder al Pago Webpay", query: "Quiero pagar con Webpay" }
+        { text: `${icon('cart')} Añadir Comté 36M ($29.990)`, query: "Agrega el Comté 36M al carrito" },
+        { text: `${icon('cart')} Añadir Pecorino Trufado ($34.990)`, query: "Agrega el Pecorino Trufado al carrito" },
+        { text: `${icon('card')} Proceder al Pago Webpay`, query: "Quiero pagar con Webpay" }
       ], card);
       return;
     }
@@ -379,8 +381,8 @@ class SommelierAI {
 
       const card = this.renderProductRecommendationCard([brillat, parmigiano]);
       this.addBotMessage(reply, [
-        { text: "🛒 Añadir Brillat-Savarin ($24.990)", query: "Agrega el Brillat-Savarin al carrito" },
-        { text: "💳 Proceder con la Compra", query: "Quiero pagar con Webpay" }
+        { text: `${icon('cart')} Añadir Brillat-Savarin ($24.990)`, query: "Agrega el Brillat-Savarin al carrito" },
+        { text: `${icon('card')} Proceder con la Compra`, query: "Quiero pagar con Webpay" }
       ], card);
       return;
     }
@@ -399,8 +401,8 @@ class SommelierAI {
 
       const card = this.renderProductRecommendationCard([pecorino]);
       this.addBotMessage(reply, [
-        { text: "🛒 Añadir Pecorino Trufado ($34.990)", query: "Agrega el Pecorino Trufado al carrito" },
-        { text: "💳 Pagar con Webpay", query: "Quiero proceder a pagar con Webpay" }
+        { text: `${icon('cart')} Añadir Pecorino Trufado ($34.990)`, query: "Agrega el Pecorino Trufado al carrito" },
+        { text: `${icon('card')} Pagar con Webpay`, query: "Quiero proceder a pagar con Webpay" }
       ], card);
       return;
     }
@@ -421,8 +423,8 @@ class SommelierAI {
 
       const card = this.renderProductRecommendationCard([grandAffineur]);
       this.addBotMessage(reply, [
-        { text: "🛒 Añadir Cofre Grand Affineur ($89.990)", query: "Agrega el Cofre Grand Affineur al carrito" },
-        { text: "💳 Proceder al Pago Webpay Directo", query: "Quiero pagar con Webpay" }
+        { text: `${icon('cart')} Añadir Cofre Grand Affineur ($89.990)`, query: "Agrega el Cofre Grand Affineur al carrito" },
+        { text: `${icon('card')} Proceder al Pago Webpay Directo`, query: "Quiero pagar con Webpay" }
       ], card);
       return;
     }
@@ -441,9 +443,9 @@ class SommelierAI {
 
       const card = this.renderProductRecommendationCard([roquefort, gouda]);
       this.addBotMessage(reply, [
-        { text: "🛒 Añadir Roquefort ($26.990)", query: "Agrega el Roquefort al carrito" },
-        { text: "🛒 Añadir Gouda 5 Años ($33.990)", query: "Agrega el Gouda al carrito" },
-        { text: "💳 Ir a Pagar con Webpay", query: "Quiero pagar con Webpay" }
+        { text: `${icon('cart')} Añadir Roquefort ($26.990)`, query: "Agrega el Roquefort al carrito" },
+        { text: `${icon('cart')} Añadir Gouda 5 Años ($33.990)`, query: "Agrega el Gouda al carrito" },
+        { text: `${icon('card')} Ir a Pagar con Webpay`, query: "Quiero pagar con Webpay" }
       ], card);
       return;
     }
@@ -467,8 +469,8 @@ class SommelierAI {
 
       const card = this.renderProductRecommendationCard([comte, parmigiano]);
       this.addBotMessage(reply, [
-        { text: "🛒 Añadir Comté 36M al Carrito", query: "Agrega el Comté 36M al carrito" },
-        { text: "💳 Proceder al Pago", query: "Quiero pagar con Webpay" }
+        { text: `${icon('cart')} Añadir Comté 36M al Carrito`, query: "Agrega el Comté 36M al carrito" },
+        { text: `${icon('card')} Proceder al Pago`, query: "Quiero pagar con Webpay" }
       ], card);
       return;
     }
@@ -498,9 +500,9 @@ class SommelierAI {
           ¿Desea agregar algún acompañamiento o prefiere proceder al pago con Webpay Plus de inmediato?
         `;
         this.addBotMessage(reply, [
-          { text: "💳 Proceder con la Compra (Webpay)", query: "Quiero proceder con la compra y pagar vía Webpay" },
-          { text: "🍯 Ver Acompañamientos", query: "¿Tienen miel con trufa o crackers artesanales?" },
-          { text: "🍷 Consultar otro maridaje", query: "¿Qué queso marida con vino tinto?" }
+          { text: `${icon('card')} Proceder con la Compra (Webpay)`, query: "Quiero proceder con la compra y pagar vía Webpay" },
+          { text: `${icon('honey')} Ver Acompañamientos`, query: "¿Tienen miel con trufa o crackers artesanales?" },
+          { text: `${icon('wine')} Consultar otro maridaje`, query: "¿Qué queso marida con vino tinto?" }
         ]);
         return;
       }
@@ -518,9 +520,9 @@ class SommelierAI {
     `;
 
     this.addBotMessage(generalReply, [
-      { text: "🍷 Ver Maridajes con Vino", query: "¿Qué queso marida con vino Carménère o Cabernet?" },
-      { text: "🧀 Ver Cofre Degustación", query: "Recomiéndame una tabla gourmet para 4 personas" },
-      { text: "💳 Proceder al Pago con Webpay", query: "Quiero pagar con Webpay" }
+      { text: `${icon('wine')} Ver Maridajes con Vino`, query: "¿Qué queso marida con vino Carménère o Cabernet?" },
+      { text: `${icon('cheese')} Ver Cofre Degustación`, query: "Recomiéndame una tabla gourmet para 4 personas" },
+      { text: `${icon('card')} Proceder al Pago con Webpay`, query: "Quiero pagar con Webpay" }
     ]);
   }
 
@@ -586,7 +588,7 @@ class SommelierAI {
         </div>
 
         <div class="checkout-security-notice">
-          <span>🔒 Transacción cifrada TLS 256-bit • Débito Redcompra y Crédito</span>
+          <span>${icon('lock')} Transacción cifrada TLS 256-bit • Débito Redcompra y Crédito</span>
         </div>
 
         <div class="checkout-actions">

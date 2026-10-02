@@ -102,9 +102,9 @@ function startServer(port) {
 
   server.listen(port, () => {
     console.log('\n============================================================');
-    console.log('  ⚜️  LA CAVA NOIRE // Quesería Gourmet & Afinación');
+    console.log('  [LA CAVA NOIRE] Quesería Gourmet & Afinación');
     console.log('============================================================');
-    console.log(`  🌐 Servidor local activo en:`);
+    console.log(`  Servidor local activo en:`);
     console.log(`     > Local:    http://localhost:${port}`);
     console.log(`     > Network:  http://127.0.0.1:${port}`);
     console.log('============================================================\n');

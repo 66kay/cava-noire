@@ -385,7 +385,7 @@ class PaymentGateway {
                   <div class="delivery-options-grid">
                     <div class="delivery-card-option active" id="opt-delivery" onclick="window.PaymentGateway.setDeliveryMethod('delivery')">
                       <div class="del-card-header">
-                        <span class="del-icon">🚚</span>
+                        <span class="del-icon">${window.CavaIcons ? window.CavaIcons.get('truck') : ''}</span>
                         <div class="del-info">
                           <strong>Despacho Refrigerado a Domicilio</strong>
                           <span class="del-sub">Caja isotérmica 4°C • Blue Express Frío</span>
@@ -396,7 +396,7 @@ class PaymentGateway {
 
                     <div class="delivery-card-option" id="opt-pickup" onclick="window.PaymentGateway.setDeliveryMethod('pickup')">
                       <div class="del-card-header">
-                        <span class="del-icon">🏪</span>
+                        <span class="del-icon">${window.CavaIcons ? window.CavaIcons.get('store') : ''}</span>
                         <div class="del-info">
                           <strong>Retiro en Tienda / Cava Central</strong>
                           <span class="del-sub">Av. Vitacura 3565, Santiago • Sin costo</span>
@@ -468,7 +468,7 @@ class PaymentGateway {
                 </button>
 
                 <div class="tbk-trust-strip">
-                  <span>🔒 Pasarela Oficial Transbank • Certificación SSL 256-bit • Protocolo 3D-Secure</span>
+                  <span>${window.CavaIcons ? window.CavaIcons.get('lock', 'inline-svg') : ''}Pasarela Oficial Transbank • Certificación SSL 256-bit • Protocolo 3D-Secure</span>
                 </div>
               </form>
             </div>
@@ -748,20 +748,20 @@ class PaymentGateway {
         </div>
 
         <div class="receipt-cold-chain-stamp">
-          <span>❄️ CERTIFICADO DE CADENA DE FRÍO 4°C: Lote empacado bajo atmósfera termocontrolada con gel criogénico.</span>
+          <span>${window.CavaIcons ? window.CavaIcons.get('snowflake', 'inline-svg') : ''}CERTIFICADO DE CADENA DE FRÍO 4°C: Lote empacado bajo atmósfera termocontrolada con gel criogénico.</span>
         </div>
 
         <!-- Botones de Acción de Boleta -->
         <div class="chk-receipt-actions">
           <button class="btn-chk-print" onclick="window.print()">
-            <span>🖨️ Descargar Boleta (PDF / Imprimir)</span>
+            <span>${window.CavaIcons ? window.CavaIcons.get('printer', 'inline-svg') : ''}Descargar Boleta (PDF / Imprimir)</span>
           </button>
           <button class="btn-chk-email" onclick="window.PaymentGateway.sendReceiptEmail()">
-            <span>✉️ Enviar a mi Correo</span>
+            <span>${window.CavaIcons ? window.CavaIcons.get('mail', 'inline-svg') : ''}Enviar a mi Correo</span>
           </button>
           ${order.trackingCode ? `
             <button class="btn-chk-track" onclick="window.PaymentGateway.closeWebpayModal(); window.OrdersApp.trackBlueExpress('${order.trackingCode}', '${order.id}')">
-              <span>🚚 Ver Seguimiento Blue Express</span>
+              <span>${window.CavaIcons ? window.CavaIcons.get('truck', 'inline-svg') : ''}Ver Seguimiento Blue Express</span>
             </button>
           ` : ''}
           <button class="btn-chk-done" onclick="window.PaymentGateway.finishOrder()">
@@ -881,7 +881,7 @@ class ProductCatalog {
             </button>
           </div>
           <div class="modal-cold-guarantee">
-            <span>❄️ Despacho a 4°C garantizado en caja térmica con Blue Express</span>
+            <span>${window.CavaIcons ? window.CavaIcons.get('snowflake', 'inline-svg') : ''}Despacho a 4°C garantizado en caja térmica con Blue Express</span>
           </div>
         </div>
 
@@ -902,7 +902,7 @@ class ProductCatalog {
           <!-- Cuadro de Explicación Práctica para Todo Público -->
           <div class="cheese-easy-box">
             <div class="easy-box-header">
-              <span class="easy-icon">🧀</span>
+              <span class="easy-icon">${window.CavaIcons ? window.CavaIcons.get('cheese') : ''}</span>
               <strong>En Palabras Simples (Guía Rápida):</strong>
             </div>
             <p class="easy-text">${product.easyGuide || product.description}</p>
@@ -911,12 +911,12 @@ class ProductCatalog {
           <!-- Gráfico Dinámico Animado de Acidez y Sensorial -->
           <div class="cheese-visual-chart">
             <div class="chart-header">
-              <span class="chart-title">📊 Perfil Sensorial & Acidez (Punto Real de Afinación):</span>
+              <span class="chart-title">${window.CavaIcons ? window.CavaIcons.get('chart', 'inline-svg') : ''}Perfil Sensorial & Acidez (Punto Real de Afinación):</span>
             </div>
             <div class="chart-bars-list">
               <div class="chart-bar-item">
                 <div class="chart-bar-labels">
-                  <span class="bar-name">🍋 Nivel Real de Acidez:</span>
+                  <span class="bar-name">${window.CavaIcons ? window.CavaIcons.get('lemon', 'inline-svg') : ''}Nivel Real de Acidez:</span>
                   <strong class="bar-score text-gold modal-counter-val" data-target="${product.acidity}" data-suffix="%">0%</strong>
                 </div>
                 <div class="chart-track">
@@ -926,7 +926,7 @@ class ProductCatalog {
 
               <div class="chart-bar-item">
                 <div class="chart-bar-labels">
-                  <span class="bar-name">⭐ Intensidad de Sabor:</span>
+                  <span class="bar-name">${window.CavaIcons ? window.CavaIcons.get('sparkles', 'inline-svg') : ''}Intensidad de Sabor:</span>
                   <strong class="bar-score modal-counter-val" data-target="${product.intensityScore}" data-suffix="%">0%</strong>
                 </div>
                 <div class="chart-track">
@@ -936,7 +936,7 @@ class ProductCatalog {
 
               <div class="chart-bar-item">
                 <div class="chart-bar-labels">
-                  <span class="bar-name">🧈 Nivel de Cremosidad:</span>
+                  <span class="bar-name">${window.CavaIcons ? window.CavaIcons.get('butter', 'inline-svg') : ''}Nivel de Cremosidad:</span>
                   <strong class="bar-score modal-counter-val" data-target="${product.creaminess}" data-suffix="%">0%</strong>
                 </div>
                 <div class="chart-track">
@@ -946,7 +946,7 @@ class ProductCatalog {
 
               <div class="chart-bar-item">
                 <div class="chart-bar-labels">
-                  <span class="bar-name">🧂 Punto Salino:</span>
+                  <span class="bar-name">${window.CavaIcons ? window.CavaIcons.get('salt', 'inline-svg') : ''}Punto Salino:</span>
                   <strong class="bar-score modal-counter-val" data-target="${product.salinity}" data-suffix="%">0%</strong>
                 </div>
                 <div class="chart-track">
@@ -973,7 +973,7 @@ class ProductCatalog {
           </div>
 
           <div class="modal-pairing-card">
-            <strong>🥖 Acompañamiento sugerido en mesa:</strong>
+            <strong>${window.CavaIcons ? window.CavaIcons.get('bread', 'inline-svg') : ''}Acompañamiento sugerido en mesa:</strong>
             <p>${product.accompaniment || product.pairing}</p>
           </div>
 
@@ -985,10 +985,10 @@ class ProductCatalog {
                 <circle cx="20" cy="21" r="1"></circle>
                 <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
               </svg>
-              <span>🛒 Agregar al Carrito (${formatCLP(product.price)})</span>
+              <span>${window.CavaIcons ? window.CavaIcons.get('cart', 'inline-svg') : ''}Agregar al Carrito (${formatCLP(product.price)})</span>
             </button>
             <button class="btn-modal-ask-bot" onclick="window.ProductCatalog.closeProductModal(); (window.FromagerBot || window.SommelierBot).openChat(); (window.FromagerBot || window.SommelierBot).handleUserMessage('Hola Jean-Pierre, cuéntame sobre el queso ${product.name} y cómo servirlo.');" title="Consultar al Maestro Quesero">
-              <span>🧀 Consultar al Maestro Quesero</span>
+              <span>${window.CavaIcons ? window.CavaIcons.get('cheese', 'inline-svg') : ''}Consultar al Maestro Quesero</span>
             </button>
           </div>
         </div>
@@ -1085,7 +1085,7 @@ class ProductCatalog {
           <div class="card-quick-metrics">
             <div class="card-metric-pill" title="Nivel Real de Acidez: ${item.acidity}%">
               <div class="metric-head">
-                <span class="m-label">🍋 Acidez</span>
+                <span class="m-label">${window.CavaIcons ? window.CavaIcons.get('lemon', 'inline-svg') : ''}Acidez</span>
                 <strong class="m-val counter-card-metric text-gold" data-target="${item.acidity}" data-suffix="%">0%</strong>
               </div>
               <div class="metric-track">
@@ -1095,7 +1095,7 @@ class ProductCatalog {
 
             <div class="card-metric-pill" title="Intensidad de Sabor: ${item.intensityScore}%">
               <div class="metric-head">
-                <span class="m-label">⭐ Sabor</span>
+                <span class="m-label">${window.CavaIcons ? window.CavaIcons.get('sparkles', 'inline-svg') : ''}Sabor</span>
                 <strong class="m-val counter-card-metric" data-target="${item.intensityScore}" data-suffix="%">0%</strong>
               </div>
               <div class="metric-track">
@@ -1105,7 +1105,7 @@ class ProductCatalog {
 
             <div class="card-metric-pill" title="Nivel de Cremosidad: ${item.creaminess}%">
               <div class="metric-head">
-                <span class="m-label">🧈 Crema</span>
+                <span class="m-label">${window.CavaIcons ? window.CavaIcons.get('butter', 'inline-svg') : ''}Crema</span>
                 <strong class="m-val counter-card-metric" data-target="${item.creaminess}" data-suffix="%">0%</strong>
               </div>
               <div class="metric-track">

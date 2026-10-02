@@ -4,6 +4,8 @@
  * Exclusivamente quesos y afinaciones artesanales (sin comercialización de vinos).
  */
 
+const icon = (name, extra = 'inline-svg') => (window.CavaIcons ? window.CavaIcons.get(name, extra) : '');
+
 class FromagerAI {
   constructor() {
     this.botName = "Jean-Pierre";
@@ -25,7 +27,7 @@ class FromagerAI {
         <button id="sommelier-toggle-btn" class="sommelier-toggle-btn" aria-label="Consultar a Jean-Pierre, Maestro Quesero">
           <div class="toggle-pulse"></div>
           <div class="toggle-icon">
-            <span style="font-size: 1.35rem; line-height: 1;">🧀</span>
+            ${icon('cheese', '')}
           </div>
           <div class="toggle-badge">
             <span class="badge-dot"></span>
@@ -65,9 +67,9 @@ class FromagerAI {
 
           <!-- Subheader con garantía de despacho y Webpay -->
           <div class="sommelier-ribbon">
-            <span>🛡️ Cadena de Frío Certificada (4°C)</span>
+            <span>${icon('shield')} Cadena de Frío Certificada (4°C)</span>
             <span class="ribbon-sep">•</span>
-            <span>💳 Pago Oficial Webpay Plus</span>
+            <span>${icon('card')} Pago Oficial Webpay Plus</span>
           </div>
 
           <!-- Contenedor de Mensajes -->
@@ -78,12 +80,12 @@ class FromagerAI {
           <!-- Chips de Acciones Rápidas -->
           <div class="sommelier-chips-scroll">
             <div id="sommelier-quick-chips" class="sommelier-quick-chips">
-              <button class="chip-btn" data-query="Recomiéndame una tabla gourmet para 4 personas">🧀 Tabla para 4 personas</button>
-              <button class="chip-btn" data-query="¿Tienen quesos exclusivos con trufa negra?">✨ Queso Trufado</button>
-              <button class="chip-btn" data-query="¿Qué opciones tienen sin lactosa natural?">🥛 Sin Lactosa</button>
-              <button class="chip-btn" data-query="¿Cuáles son los quesos más intensos de la cava?">🏔️ Quesos Fuertes</button>
-              <button class="chip-btn" data-query="¿Cómo funciona el despacho en frío a 4°C?">❄️ Envío Refrigerado</button>
-              <button class="chip-btn chip-highlight" data-query="Quiero proceder con la compra y pagar vía Webpay">💳 Proceder a Pagar con Webpay</button>
+              <button class="chip-btn" data-query="Recomiéndame una tabla gourmet para 4 personas">${icon('cheese')} Tabla para 4 personas</button>
+              <button class="chip-btn" data-query="¿Tienen quesos exclusivos con trufa negra?">${icon('sparkles')} Queso Trufado</button>
+              <button class="chip-btn" data-query="¿Qué opciones tienen sin lactosa natural?">${icon('milk')} Sin Lactosa</button>
+              <button class="chip-btn" data-query="¿Cuáles son los quesos más intensos de la cava?">${icon('mountain')} Quesos Fuertes</button>
+              <button class="chip-btn" data-query="¿Cómo funciona el despacho en frío a 4°C?">${icon('snowflake')} Envío Refrigerado</button>
+              <button class="chip-btn chip-highlight" data-query="Quiero proceder con la compra y pagar vía Webpay">${icon('card')} Proceder a Pagar con Webpay</button>
             </div>
           </div>
 
@@ -212,10 +214,10 @@ class FromagerAI {
     `;
 
     this.addBotMessage(greetingText, [
-      { text: "🧀 Tabla para Picoteo", query: "Recomiéndame una tabla gourmet para 4 personas" },
-      { text: "✨ Queso Trufado", query: "¿Tienen quesos exclusivos con trufa negra?" },
-      { text: "🥛 Sin Lactosa", query: "¿Qué opciones tienen sin lactosa natural?" },
-      { text: "💳 Pagar con Webpay", query: "Quiero proceder con la compra y pagar vía Webpay" }
+      { text: `${icon('cheese')} Tabla para Picoteo`, query: "Recomiéndame una tabla gourmet para 4 personas" },
+      { text: `${icon('sparkles')} Queso Trufado`, query: "¿Tienen quesos exclusivos con trufa negra?" },
+      { text: `${icon('milk')} Sin Lactosa`, query: "¿Qué opciones tienen sin lactosa natural?" },
+      { text: `${icon('card')} Pagar con Webpay`, query: "Quiero proceder con la compra y pagar vía Webpay" }
     ]);
   }
 
@@ -256,7 +258,7 @@ class FromagerAI {
         <div class="bot-inline-actions">
           ${quickActions.map(act => `
             <button class="inline-action-pill" data-query="${this.escapeHTML(act.query)}">
-              ${act.text}
+              ${window.CavaIcons ? window.CavaIcons.replaceTextEmojis(act.text) : act.text}
             </button>
           `).join("")}
         </div>
@@ -266,7 +268,7 @@ class FromagerAI {
     msgEl.innerHTML = `
       <div class="bot-message-wrapper">
         <div class="bot-avatar-small">
-          <span>🧀</span>
+          ${icon('cheese', '')}
         </div>
         <div class="message-content">
           <div class="message-bubble bot-bubble">
@@ -294,7 +296,7 @@ class FromagerAI {
     typingEl.innerHTML = `
       <div class="bot-message-wrapper">
         <div class="bot-avatar-small">
-          <span>🧀</span>
+          ${icon('cheese', '')}
         </div>
         <div class="message-bubble bot-bubble typing-bubble">
           <span class="dot"></span>
@@ -370,9 +372,9 @@ class FromagerAI {
         No vendemos vinos ni alcohol. Con gusto le asesoro en nuestras piezas de colección: pastas duras, cremosos, trufados o cofres de cata.
       `;
       this.addBotMessage(reply, [
-        { text: "🧀 Ver Cofre Degustación", query: "Háblame del Cofre Degustación Grand Affineur" },
-        { text: "✨ Quesos Trufados", query: "¿Tienen quesos exclusivos con trufa negra?" },
-        { text: "🧈 Quesos Cremosos", query: "¿Qué queso suave y cremoso tienen?" }
+        { text: `${icon('cheese')} Ver Cofre Degustación`, query: "Háblame del Cofre Degustación Grand Affineur" },
+        { text: `${icon('sparkles')} Quesos Trufados`, query: "¿Tienen quesos exclusivos con trufa negra?" },
+        { text: `${icon('butter')} Quesos Cremosos`, query: "¿Qué queso suave y cremoso tienen?" }
       ]);
       return;
     }
@@ -418,9 +420,9 @@ class FromagerAI {
           Se despacha en empaque isotérmico con gel refrigerante a 4°C. ¿Desea sumar otro queso o prefiere pagar directamente?
         `;
         this.addBotMessage(reply, [
-          { text: "💳 Proceder al Pago (Webpay)", query: "Quiero proceder con la compra y pagar vía Webpay" },
-          { text: "🍯 Ver Acompañamientos", query: "¿Tienen miel con trufa o crackers artesanales?" },
-          { text: "🧀 Ver otro queso artesanal", query: "¿Qué queso suave y cremoso tienen?" }
+          { text: `${icon('card')} Proceder al Pago (Webpay)`, query: "Quiero proceder con la compra y pagar vía Webpay" },
+          { text: `${icon('honey')} Ver Acompañamientos`, query: "¿Tienen miel con trufa o crackers artesanales?" },
+          { text: `${icon('cheese')} Ver otro queso artesanal`, query: "¿Qué queso suave y cremoso tienen?" }
         ]);
         return;
       }
@@ -439,8 +441,8 @@ class FromagerAI {
 
       const card = this.renderProductRecommendationCard([pecorino]);
       this.addBotMessage(reply, [
-        { text: "🛒 Añadir Pecorino al Carrito", query: "Agrega el Pecorino Trufado al carrito" },
-        { text: "💳 Pagar con Webpay", query: "Quiero proceder a pagar con Webpay" }
+        { text: `${icon('cart')} Añadir Pecorino al Carrito`, query: "Agrega el Pecorino Trufado al carrito" },
+        { text: `${icon('card')} Pagar con Webpay`, query: "Quiero proceder a pagar con Webpay" }
       ], card);
       return;
     }
@@ -457,8 +459,8 @@ class FromagerAI {
 
       const card = this.renderProductRecommendationCard([grandAffineur]);
       this.addBotMessage(reply, [
-        { text: "🛒 Añadir Cofre al Carrito", query: "Agrega el Cofre Grand Affineur al carrito" },
-        { text: "💳 Pagar con Webpay", query: "Quiero pagar con Webpay" }
+        { text: `${icon('cart')} Añadir Cofre al Carrito`, query: "Agrega el Cofre Grand Affineur al carrito" },
+        { text: `${icon('card')} Pagar con Webpay`, query: "Quiero pagar con Webpay" }
       ], card);
       return;
     }
@@ -476,9 +478,9 @@ class FromagerAI {
 
       const card = this.renderProductRecommendationCard([roquefort, gouda]);
       this.addBotMessage(reply, [
-        { text: "🛒 Añadir Roquefort ($26.990)", query: "Agrega el Roquefort al carrito" },
-        { text: "🛒 Añadir Gouda 5 Años ($33.990)", query: "Agrega el Gouda al carrito" },
-        { text: "💳 Pagar con Webpay", query: "Quiero pagar con Webpay" }
+        { text: `${icon('cart')} Añadir Roquefort ($26.990)`, query: "Agrega el Roquefort al carrito" },
+        { text: `${icon('cart')} Añadir Gouda 5 Años ($33.990)`, query: "Agrega el Gouda al carrito" },
+        { text: `${icon('card')} Pagar con Webpay`, query: "Quiero pagar con Webpay" }
       ], card);
       return;
     }
@@ -496,8 +498,8 @@ class FromagerAI {
 
       const card = this.renderProductRecommendationCard([brillat, morbier]);
       this.addBotMessage(reply, [
-        { text: "🛒 Añadir Brillat-Savarin ($24.990)", query: "Agrega el Brillat-Savarin al carrito" },
-        { text: "🛒 Añadir Morbier ($22.990)", query: "Agrega el Morbier al carrito" }
+        { text: `${icon('cart')} Añadir Brillat-Savarin ($24.990)`, query: "Agrega el Brillat-Savarin al carrito" },
+        { text: `${icon('cart')} Añadir Morbier ($22.990)`, query: "Agrega el Morbier al carrito" }
       ], card);
       return;
     }
@@ -516,8 +518,8 @@ class FromagerAI {
 
       const card = this.renderProductRecommendationCard([comte, parmigiano]);
       this.addBotMessage(reply, [
-        { text: "🛒 Añadir Comté 36M al Carrito", query: "Agrega el Comté 36M al carrito" },
-        { text: "💳 Proceder al Pago", query: "Quiero pagar con Webpay" }
+        { text: `${icon('cart')} Añadir Comté 36M al Carrito`, query: "Agrega el Comté 36M al carrito" },
+        { text: `${icon('card')} Proceder al Pago`, query: "Quiero pagar con Webpay" }
       ], card);
       return;
     }
@@ -531,8 +533,8 @@ class FromagerAI {
         • **Envío GRATIS** en compras sobre $65.000 ($4.990 tarifa plana en Santiago).
       `;
       this.addBotMessage(reply, [
-        { text: "🧀 Ver Tablas Gourmet", query: "Recomiéndame una tabla gourmet para 4 personas" },
-        { text: "💳 Pagar con Webpay", query: "Quiero proceder con la compra y pagar vía Webpay" }
+        { text: `${icon('cheese')} Ver Tablas Gourmet`, query: "Recomiéndame una tabla gourmet para 4 personas" },
+        { text: `${icon('card')} Pagar con Webpay`, query: "Quiero proceder con la compra y pagar vía Webpay" }
       ]);
       return;
     }
@@ -562,9 +564,9 @@ class FromagerAI {
       const card = this.renderProductRecommendationCard([matchedCheese]);
       const shortName = matchedCheese.name.split(" ")[0];
       this.addBotMessage(reply, [
-        { text: `🛒 Añadir ${shortName} al Carrito`, query: `Agrega el ${shortName} al carrito` },
-        { text: "💳 Pagar con Webpay", query: "Quiero proceder con la compra y pagar vía Webpay" },
-        { text: "🧀 Ver otro queso artesanal", query: "¿Qué queso suave y cremoso tienen?" }
+        { text: `${icon('cart')} Añadir ${shortName} al Carrito`, query: `Agrega el ${shortName} al carrito` },
+        { text: `${icon('card')} Pagar con Webpay`, query: "Quiero proceder con la compra y pagar vía Webpay" },
+        { text: `${icon('cheese')} Ver otro queso artesanal`, query: "¿Qué queso suave y cremoso tienen?" }
       ], card);
       return;
     }
@@ -578,8 +580,8 @@ class FromagerAI {
         • **Cuchillo Maestro Fromager Laguiole** ($42.990)
       `;
       this.addBotMessage(reply, [
-        { text: "🧀 Ver Tablas Gourmet", query: "Recomiéndame una tabla gourmet para 4 personas" },
-        { text: "💳 Pagar con Webpay", query: "Quiero proceder con la compra y pagar vía Webpay" }
+        { text: `${icon('cheese')} Ver Tablas Gourmet`, query: "Recomiéndame una tabla gourmet para 4 personas" },
+        { text: `${icon('card')} Pagar con Webpay`, query: "Quiero proceder con la compra y pagar vía Webpay" }
       ]);
       return;
     }
@@ -592,8 +594,8 @@ class FromagerAI {
         Ofrecemos despacho refrigerado express a domicilio o retiro privado previa coordinación al momento de pagar en Webpay Plus.
       `;
       this.addBotMessage(reply, [
-        { text: "🧀 Ver Catálogo", query: "Recomiéndame una tabla gourmet para 4 personas" },
-        { text: "❄️ Cadena de Frío", query: "¿Cómo funciona el despacho en frío?" }
+        { text: `${icon('cheese')} Ver Catálogo`, query: "Recomiéndame una tabla gourmet para 4 personas" },
+        { text: `${icon('snowflake')} Cadena de Frío`, query: "¿Cómo funciona el despacho en frío?" }
       ]);
       return;
     }
@@ -606,10 +608,10 @@ class FromagerAI {
         ¿En qué afinación o tabla puedo orientarle hoy? Disponemos de quesos con maduración de hasta 60 meses, piezas trufadas, opciones sin lactosa y despacho en frío a 4°C.
       `;
       this.addBotMessage(reply, [
-        { text: "🧀 Tabla para Picoteo", query: "Recomiéndame una tabla gourmet para 4 personas" },
-        { text: "✨ Quesos Trufados", query: "¿Tienen quesos exclusivos con trufa negra?" },
-        { text: "🏔️ Quesos Fuertes", query: "¿Cuáles son los quesos más intensos de la cava?" },
-        { text: "💳 Pagar con Webpay", query: "Quiero proceder con la compra y pagar vía Webpay" }
+        { text: `${icon('cheese')} Tabla para Picoteo`, query: "Recomiéndame una tabla gourmet para 4 personas" },
+        { text: `${icon('sparkles')} Quesos Trufados`, query: "¿Tienen quesos exclusivos con trufa negra?" },
+        { text: `${icon('mountain')} Quesos Fuertes`, query: "¿Cuáles son los quesos más intensos de la cava?" },
+        { text: `${icon('card')} Pagar con Webpay`, query: "Quiero proceder con la compra y pagar vía Webpay" }
       ]);
       return;
     }
@@ -622,9 +624,9 @@ class FromagerAI {
     `;
 
     this.addBotMessage(generalReply, [
-      { text: "🧀 Tabla para Picoteo", query: "Recomiéndame una tabla gourmet para 4 personas" },
-      { text: "✨ Quesos Trufados", query: "¿Tienen quesos exclusivos con trufa negra?" },
-      { text: "💳 Pagar con Webpay", query: "Quiero proceder con la compra y pagar vía Webpay" }
+      { text: `${icon('cheese')} Tabla para Picoteo`, query: "Recomiéndame una tabla gourmet para 4 personas" },
+      { text: `${icon('sparkles')} Quesos Trufados`, query: "¿Tienen quesos exclusivos con trufa negra?" },
+      { text: `${icon('card')} Pagar con Webpay`, query: "Quiero proceder con la compra y pagar vía Webpay" }
     ]);
   }
 
@@ -639,9 +641,9 @@ class FromagerAI {
       `;
       const card = this.renderProductRecommendationCard([CHEESE_PRODUCTS[0], CHEESE_PRODUCTS[1]]);
       this.addBotMessage(reply, [
-        { text: "🛒 Añadir Comté 36M", query: "Agrega el Comté 36M al carrito" },
-        { text: "🛒 Añadir Pecorino", query: "Agrega el Pecorino al carrito" },
-        { text: "📦 Ver Cofre Degustación", query: "Háblame del Cofre Degustación Grand Affineur" }
+        { text: `${icon('cart')} Añadir Comté 36M`, query: "Agrega el Comté 36M al carrito" },
+        { text: `${icon('cart')} Añadir Pecorino`, query: "Agrega el Pecorino al carrito" },
+        { text: `${icon('box')} Ver Cofre Degustación`, query: "Háblame del Cofre Degustación Grand Affineur" }
       ], card);
       return;
     }
@@ -672,7 +674,7 @@ class FromagerAI {
           <strong>${formatCLP(subtotal)} CLP</strong>
         </div>
         <button class="btn-chat-webpay" onclick="window.SommelierBot.launchWebpayCheckout()">
-          <span>💳 Continuar al Pago Oficial Webpay Plus</span>
+          <span>${icon('card')} Continuar al Pago Oficial Webpay Plus</span>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="9 18 15 12 9 6"></polyline>
           </svg>

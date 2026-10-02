@@ -136,7 +136,7 @@ class OrdersManager {
             <div class="admin-form-group">
               <label for="admin-user-input" class="admin-input-label">Usuario Administrador</label>
               <div class="admin-input-wrap">
-                <span class="admin-input-icon">👤</span>
+                <span class="admin-input-icon">${window.CavaIcons ? window.CavaIcons.get('user') : ''}</span>
                 <input 
                   type="text" 
                   id="admin-user-input" 
@@ -151,7 +151,7 @@ class OrdersManager {
             <div class="admin-form-group">
               <label for="admin-pass-input" class="admin-input-label">Contraseña de Seguridad</label>
               <div class="admin-input-wrap">
-                <span class="admin-input-icon">🔑</span>
+                <span class="admin-input-icon">${window.CavaIcons ? window.CavaIcons.get('key') : ''}</span>
                 <input 
                   type="password" 
                   id="admin-pass-input" 
@@ -167,13 +167,13 @@ class OrdersManager {
 
             <div class="admin-login-buttons">
               <button type="submit" class="btn-admin-submit">
-                <span>🔒 Iniciar Sesión de Administrador</span>
+                <span>${window.CavaIcons ? window.CavaIcons.get('lock', 'inline-svg') : ''}Iniciar Sesión de Administrador</span>
               </button>
             </div>
           </form>
 
           <div class="admin-login-footer">
-            <span class="admin-security-badge">🛡️ Sesión Segura SSL 256-bit • Auditoría Cava Noire</span>
+            <span class="admin-security-badge">${window.CavaIcons ? window.CavaIcons.get('shield', 'inline-svg') : ''}Sesión Segura SSL 256-bit • Auditoría Cava Noire</span>
           </div>
         </div>
       </div>
@@ -415,7 +415,7 @@ class OrdersManager {
     const notif = document.createElement("div");
     notif.className = "sale-live-popup animate-slide-up";
     notif.innerHTML = `
-      <div class="sale-popup-icon">💰</div>
+      <div class="sale-popup-icon">${window.CavaIcons ? window.CavaIcons.get('coins') : ''}</div>
       <div class="sale-popup-content">
         <span class="sale-popup-tag">¡NUEVA VENTA WEBPAY PLUS CONFIRMADA!</span>
         <h4 class="sale-popup-title">${order.id} • ${formatCLP(order.total)}</h4>
@@ -485,12 +485,12 @@ class OrdersManager {
                 <span class="btn-text-short">+ Venta</span>
               </button>
               <button class="btn-export-orders" onclick="window.OrdersApp.exportCSV()" title="Descargar registro en CSV">
-                <span class="btn-text-full">📥 Exportar CSV</span>
-                <span class="btn-text-short">📥 CSV</span>
+                <span class="btn-text-full">${window.CavaIcons ? window.CavaIcons.get('download', 'inline-svg') : ''}Exportar CSV</span>
+                <span class="btn-text-short">${window.CavaIcons ? window.CavaIcons.get('download', 'inline-svg') : ''}CSV</span>
               </button>
               <button class="btn-admin-logout" onclick="window.OrdersApp.adminLogout()" title="Cerrar sesión de administrador">
-                <span class="btn-text-full">🔒 Salir</span>
-                <span class="btn-text-short">🔒 Salir</span>
+                <span class="btn-text-full">${window.CavaIcons ? window.CavaIcons.get('lock', 'inline-svg') : ''}Salir</span>
+                <span class="btn-text-short">${window.CavaIcons ? window.CavaIcons.get('lock', 'inline-svg') : ''}Salir</span>
               </button>
               <button class="orders-close-btn" onclick="window.OrdersApp.closeModal()">×</button>
             </div>
@@ -525,7 +525,7 @@ class OrdersManager {
             <button class="order-tab active" data-filter="todos" onclick="window.OrdersApp.setFilter('todos', this)" title="Pedidos activos pendientes de entrega">Todos / Activos (<span id="tab-count-todos">0</span>)</button>
             <button class="order-tab" data-filter="preparacion" onclick="window.OrdersApp.setFilter('preparacion', this)" title="Pedidos en preparación en cava fría">Por Despachar (<span id="tab-count-prep">0</span>)</button>
             <button class="order-tab" data-filter="despachado" onclick="window.OrdersApp.setFilter('despachado', this)" title="Pedidos con guía Blue Express en tránsito">Despachados (<span id="tab-count-disp">0</span>)</button>
-            <button class="order-tab tab-delivered" data-filter="entregado" onclick="window.OrdersApp.setFilter('entregado', this)" title="Pedidos entregados exitosamente al cliente">✅ Entregados (<span id="tab-count-deliv">0</span>)</button>
+            <button class="order-tab tab-delivered" data-filter="entregado" onclick="window.OrdersApp.setFilter('entregado', this)" title="Pedidos entregados exitosamente al cliente">${window.CavaIcons ? window.CavaIcons.get('checkCircle', 'inline-svg') : ''}Entregados (<span id="tab-count-deliv">0</span>)</button>
             <button class="order-tab tab-history" data-filter="historico" onclick="window.OrdersApp.setFilter('historico', this)" title="Historial completo de todas las compras">Historial Total (<span id="tab-count-hist">0</span>)</button>
           </div>
 
@@ -539,7 +539,7 @@ class OrdersManager {
           <!-- Pie del Panel (Completamente Despejado y Sin Tapar el Último Pedido) -->
           <div class="orders-panel-footer">
             <div class="orders-footer-note">
-              <span>🔒 Sistema sincronizado con pasarela oficial Webpay Plus (Transbank). Datos persistidos localmente.</span>
+              <span>${window.CavaIcons ? window.CavaIcons.get('lock', 'inline-svg') : ''}Sistema sincronizado con pasarela oficial Webpay Plus (Transbank). Datos persistidos localmente.</span>
             </div>
           </div>
         </div>
@@ -586,7 +586,7 @@ class OrdersManager {
 
     const statusBadgeText = isDelivered 
       ? "● Entregado al Cliente (Recepción Conforme)" 
-      : (isDispatched ? "● En Tránsito Refrigerado" : "🟡 En Preparación en Cava Fría");
+      : (isDispatched ? "● En Tránsito Refrigerado" : "En Preparación en Cava Fría");
 
     bodyEl.innerHTML = `
       <div class="tracking-summary-strip">
@@ -601,7 +601,7 @@ class OrdersManager {
       </div>
 
       <div class="tracking-cold-badge">
-        <span>${isDelivered ? '✓ Protocolo Térmico 4°C Cumplido Sin Quiebres de Temperatura' : '❄️ Carga Termocontrolada: Temperatura Cava 4.1°C • Empaque Isotérmico Sellado'}</span>
+        <span>${isDelivered ? '✓ Protocolo Térmico 4°C Cumplido Sin Quiebres de Temperatura' : (window.CavaIcons ? window.CavaIcons.get('snowflake', 'inline-svg') : '') + ' Carga Termocontrolada: Temperatura Cava 4.1°C • Empaque Isotérmico Sellado'}</span>
       </div>
 
       <!-- Barra de Progreso de 4 Etapas -->
@@ -650,7 +650,7 @@ class OrdersManager {
 
       <div class="tracking-actions-row">
         <button class="btn-copy-tracking" onclick="navigator.clipboard.writeText('https://www.bluex.cl/seguimiento?n=${trackingCode}'); alert('Enlace de seguimiento de Blue Express copiado al portapapeles para enviar al cliente.');">
-          <span>🔗 Copiar Enlace para el Cliente</span>
+          <span>${window.CavaIcons ? window.CavaIcons.get('link', 'inline-svg') : ''}Copiar Enlace para el Cliente</span>
         </button>
         <button class="btn-close-tracking" onclick="window.OrdersApp.closeTrackingModal()">
           <span>Cerrar</span>
@@ -749,12 +749,12 @@ class OrdersManager {
         </div>
 
         <div class="receipt-cold-chain-stamp">
-          <span>❄️ CERTIFICADO DE CADENA DE FRÍO 4°C: Lote despachado bajo protocolo isotérmico con gel refrigerante.</span>
+          <span>${window.CavaIcons ? window.CavaIcons.get('snowflake', 'inline-svg') : ''}CERTIFICADO DE CADENA DE FRÍO 4°C: Lote despachado bajo protocolo isotérmico con gel refrigerante.</span>
         </div>
 
         <div class="receipt-actions-row">
           <button class="btn-print-receipt" onclick="window.print()">
-            <span>🖨️ Imprimir Boleta</span>
+            <span>${window.CavaIcons ? window.CavaIcons.get('printer', 'inline-svg') : ''}Imprimir Boleta</span>
           </button>
           <button class="btn-close-receipt" onclick="window.OrdersApp.closeReceiptModal()">
             <span>Volver al Panel</span>
@@ -928,7 +928,7 @@ class OrdersManager {
 
       listEl.innerHTML = `
         <div class="empty-orders-view">
-          <span class="e-icon">📦</span>
+          <span class="e-icon">${window.CavaIcons ? window.CavaIcons.get('box', 'cava-svg-xl') : ''}</span>
           <h4>${emptyTitle}</h4>
           <p>${emptyMsg}</p>
         </div>
@@ -953,7 +953,7 @@ class OrdersManager {
           <div class="order-customer">
             <span class="cust-name">${order.customer.name}</span>
             <span class="cust-address">${order.customer.address}, ${order.customer.commune}</span>
-            <span class="cust-contact">📞 ${order.customer.phone} • ✉️ ${order.customer.email}</span>
+            <span class="cust-contact">${window.CavaIcons ? window.CavaIcons.get('phone', 'inline-svg') : ''}${order.customer.phone} • ${window.CavaIcons ? window.CavaIcons.get('mail', 'inline-svg') : ''}${order.customer.email}</span>
           </div>
         </div>
 
@@ -976,7 +976,7 @@ class OrdersManager {
         <!-- Columna 3: Pago y Webpay -->
         <div class="order-col-payment">
           <div class="tbk-paid-tag">
-            <span class="shield">🛡️</span>
+            <span class="shield">${window.CavaIcons ? window.CavaIcons.get('shield') : ''}</span>
             <span>Webpay Plus Aprobado</span>
           </div>
           <div class="payment-specs">
@@ -996,9 +996,9 @@ class OrdersManager {
             class="status-select ${statusClass}" 
             onchange="window.OrdersApp.updateOrderStatus('${order.id}', this.value)"
           >
-            <option value="En Cava (Preparación Fría)" ${order.status.includes('Cava') ? 'selected' : ''}>🟡 En Cava (Preparación Fría)</option>
-            <option value="Despachado (Blue Express)" ${isDispatched ? 'selected' : ''}>🚚 Despachado (Blue Express Frío)</option>
-            <option value="Entregado al Cliente" ${isDelivered ? 'selected' : ''}>✅ Entregado al Cliente</option>
+            <option value="En Cava (Preparación Fría)" ${order.status.includes('Cava') ? 'selected' : ''}>En Cava (Preparación Fría)</option>
+            <option value="Despachado (Blue Express)" ${isDispatched ? 'selected' : ''}>Despachado (Blue Express Frío)</option>
+            <option value="Entregado al Cliente" ${isDelivered ? 'selected' : ''}>Entregado al Cliente</option>
           </select>
 
           <div class="order-row-action-btns">
@@ -1008,7 +1008,7 @@ class OrdersManager {
               onclick="window.OrdersApp.trackBlueExpress('${order.trackingCode}', '${order.id}')"
               title="Ver seguimiento en vivo de Blue Express"
             >
-              <span>🚚 Seguimiento Blue Express</span>
+              <span>${window.CavaIcons ? window.CavaIcons.get('truck', 'inline-svg') : ''}Seguimiento Blue Express</span>
             </button>
 
             <!-- Botón de Boleta / Comprobante -->
@@ -1017,7 +1017,7 @@ class OrdersManager {
               onclick="window.OrdersApp.viewSalesReceipt('${order.id}')"
               title="Ver Boleta Electrónica y Detalle Tributario"
             >
-              <span>🧾 Ver Boleta / Factura</span>
+              <span>${window.CavaIcons ? window.CavaIcons.get('receipt', 'inline-svg') : ''}Ver Boleta / Factura</span>
             </button>
           </div>
         </div>

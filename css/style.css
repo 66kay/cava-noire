@@ -6373,3 +6373,93 @@ html:not(.js-enabled) .cheese-card .card-media .img-primary {
   }
 }
 
+/* ============================================================== */
+/* ESTILOS DE ICONOGRAFÍA VECTORIAL SVG (DARK LUXURY)             */
+/* ============================================================== */
+.cava-svg {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1.15em;
+  height: 1.15em;
+  stroke-width: 1.8;
+  stroke: currentColor;
+  fill: none;
+  flex-shrink: 0;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), stroke 0.25s ease;
+}
+
+.cava-svg.inline-svg {
+  width: 1.05em;
+  height: 1.05em;
+  margin-right: 0.35em;
+  position: relative;
+  top: -0.06em;
+}
+
+.cava-svg-lg {
+  width: 1.6em;
+  height: 1.6em;
+}
+
+.cava-svg-xl {
+  width: 2.4em;
+  height: 2.4em;
+}
+
+.feature-icon .cava-svg {
+  width: 38px;
+  height: 38px;
+  stroke: var(--color-gold-champagne, #d4af37);
+  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+}
+
+.seal-icon .cava-svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--color-gold-champagne, #d4af37);
+}
+
+.admin-input-icon .cava-svg {
+  width: 16px;
+  height: 16px;
+  stroke: rgba(255, 255, 255, 0.7);
+}
+
+.sale-popup-icon .cava-svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--color-gold-champagne, #d4af37);
+}
+
+.del-icon .cava-svg {
+  width: 20px;
+  height: 20px;
+}
+
+.empty-icon .cava-svg {
+  width: 64px;
+  height: 64px;
+  stroke: var(--color-gold-champagne, #d4af37);
+  opacity: 0.85;
+}
+
+.bot-avatar-small .cava-svg {
+  width: 18px;
+  height: 18px;
+  stroke: var(--color-gold-champagne, #d4af37);
+}
+
+.chip-btn .cava-svg {
+  width: 14px;
+  height: 14px;
+  margin-right: 6px;
+  stroke: currentColor;
+}
+
+.inline-action-pill .cava-svg {
+  width: 13px;
+  height: 13px;
+  margin-right: 5px;
+  stroke: currentColor;
+}
+
