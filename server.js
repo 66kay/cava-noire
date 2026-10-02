@@ -38,7 +38,7 @@ function startServer(port) {
       return;
     }
 
-    const parsedUrl = url.parse(req.url);
+    const parsedUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
     let pathname = decodeURIComponent(parsedUrl.pathname);
 
     // Default route
