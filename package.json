@@ -1,0 +1,21 @@
+{
+  "name": "cava-noire",
+  "version": "1.0.0",
+  "description": "LA CAVA NOIRE // Quesería Gourmet de Autor & Afinación Exclusiva",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "serve": "node server.js"
+  },
+  "keywords": [
+    "cava-noire",
+    "fromagerie",
+    "gourmet",
+    "webpay",
+    "chile"
+  ],
+  "author": "LA CAVA NOIRE GOURMET SPA",
+  "license": "ISC"
+}
